@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('agt.utils.brazil.cpf');
 agt.utils.brazil.cpf.regex = /^(?!000\.000\.000\-00)(\d{3}\.\d{3}\.\d{3}\-\d{2})$/;
 agt.utils.brazil.cpf.validate = function (frm, cpf_field) {
@@ -47,5 +49,4 @@ agt.utils.brazil.cpf.format = function (frm, cpf_field) {
         frm.set_value(cpf_field, cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
     }
 };
-export {};
 //# sourceMappingURL=cpf.js.map

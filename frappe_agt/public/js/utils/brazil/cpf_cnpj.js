@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('frappe_agt.utils.brazil');
 agt.utils.brazil.format_cnpj_or_cpf = function (frm, field, documentType) {
     if (documentType === 'cpf') {
@@ -31,5 +33,4 @@ agt.utils.brazil.validate_cnpj_or_cpf = function (frm, field, documentType) {
         agt.utils.brazil.cnpj.validate(frm, field);
     }
 };
-export {};
 //# sourceMappingURL=cpf_cnpj.js.map

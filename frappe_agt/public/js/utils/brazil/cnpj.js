@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('agt.utils.brazil.cnpj');
 agt.utils.brazil.cnpj.regex = /^(?!00\.000\.000\/0000\-00)(\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2})$/;
 agt.utils.brazil.cnpj.validate = function (frm, cnpj_field) {
@@ -53,5 +55,4 @@ agt.utils.brazil.cnpj.format = function (frm, cnpj_field) {
         frm.set_value(cnpj_field, cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5'));
     }
 };
-export {};
 //# sourceMappingURL=cnpj.js.map

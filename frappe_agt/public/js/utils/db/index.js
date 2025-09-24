@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('agt.db');
 agt.db.filter_join = async function (steps) {
     let results = [];
@@ -7,10 +9,6 @@ agt.db.filter_join = async function (steps) {
             continue;
         const filters = { ...step.filters };
         if (i > 0 && step.joinOn && results.length > 0) {
-            if (!step.joinOn) {
-                console.warn(`Join step ${i + 1} is missing joinOn details. Skipping join.`);
-                continue;
-            }
             const joinOn = step.joinOn;
             const joinValues = results.map(item => item[joinOn.sourceField]);
             filters[joinOn.targetField] = ["in", joinValues];
@@ -23,13 +21,12 @@ agt.db.filter_join = async function (steps) {
             method: "backend_get_all",
             args: {
                 doctype: step.doctype,
-                filters: filters,
+                filters,
                 fields: step.fields,
             }
         });
-        results = response.message.data || [];
+        results = (response.message.data || []);
     }
     return results;
 };
-export {};
 //# sourceMappingURL=index.js.map
