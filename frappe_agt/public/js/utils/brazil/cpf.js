@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('agt.utils.brazil.cpf');
 agt.utils.brazil.cpf.regex = /^(?!000\.000\.000\-00)(\d{3}\.\d{3}\.\d{3}\-\d{2})$/;
 agt.utils.brazil.cpf.validate = function (frm, cpf_field) {

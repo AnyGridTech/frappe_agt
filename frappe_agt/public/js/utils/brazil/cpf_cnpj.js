@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('frappe_agt.utils.brazil');
 agt.utils.brazil.format_cnpj_or_cpf = function (frm, field, documentType) {
     if (documentType === 'cpf') {

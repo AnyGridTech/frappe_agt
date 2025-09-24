@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 frappe.provide('agt.db');
 agt.db.filter_join = async function (steps) {
     let results = [];

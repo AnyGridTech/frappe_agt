@@ -2,9 +2,11 @@
   "compilerOptions": {
     "rootDir": "./ts",
     "outDir": "./js",
-    "module": "none",
+    "module": "preserve",
     "target": "ESNext",
-    "moduleResolution": "Node10",
+    "esModuleInterop": false,
+    "importHelpers": false,
+    "noEmitHelpers": true,
     "verbatimModuleSyntax": false,
     "types": [
       "jquery",
@@ -21,7 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "removeComments": true,
-    "esModuleInterop": true,
     "strict": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
@@ -32,5 +33,10 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval",
+    "watchDirectory": "fixedPollingInterval",
+    "fallbackPolling": "dynamicPriority"
+  }
 }
