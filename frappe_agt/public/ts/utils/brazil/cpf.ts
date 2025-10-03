@@ -48,7 +48,7 @@ agt.utils.brazil.cpf.validate = function(frm, cpf_field) {
     return;
   }
 
-  // If valid, format the CPF
+  // If valid, format the CPF!
   agt.utils.brazil.cpf.format(frm, cpf_field);
 }
 
