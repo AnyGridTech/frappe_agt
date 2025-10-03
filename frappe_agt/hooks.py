@@ -28,7 +28,9 @@ app_license = "mit"
 # app_include_css = "/assets/frappe_agt/css/frappe_agt.css"
 app_include_js = [ 
   "assets/frappe_agt/js/frappe_agt.bundle.js",
-  "assets/frappe_agt/js/utils/brazil/cnpj.js"
+  "assets/frappe_agt/js/utils/brazil/cnpj.js",
+  "assets/frappe_agt/js/utils/brazil/cpf.js",
+  "assets/frappe_agt/js/utils/brazil/cpf_cnpj.js"
 ]
 
 # include js, css files in header of web template
