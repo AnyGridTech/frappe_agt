@@ -50,7 +50,7 @@ agt.utils.form.field.validate_js_visible_fields = function(form: any, workflow_s
   function validate_js_visible_fields_msg(fields: any[]) {
     const throw_html: string[] = [];
     for (let field of fields as any[]) {
-      throw_html.push(`<li>${field.df.label}<li>`);
+      throw_html.push(`<li>${field.df.label}</li>`);
     }
     const msg = `<p>${__('⚠️ Os campos abaixo são obrigatórios: ')}</p>` + `<ul>${throw_html.join('')}</ul>`;
     return msg;
