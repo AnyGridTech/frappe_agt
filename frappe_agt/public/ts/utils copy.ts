@@ -16,9 +16,6 @@ declare const __: (text: string) => string;
 
 frappe.provide('agt.utils');
 
-// Import all utility modules
-import './utils/index';
-
 agt.utils = {
   normalize_text: function(text: string): string {
     return (text || '')
