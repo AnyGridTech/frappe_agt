@@ -1,8 +1,15 @@
+import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
+
 frappe.provide('agt.utils.brazil.cpf');
 
 agt.utils.brazil.cpf.regex = /^(?!000\.000\.000\-00)(\d{3}\.\d{3}\.\d{3}\-\d{2})$/;
 
-agt.utils.brazil.cpf.validate = function(frm, cpf_field) {
+/**
+ * Validates a CPF number.
+ * @param frm - The Frappe form instance
+ * @param cpf_field - The field containing the CPF number
+ */
+agt.utils.brazil.cpf.validate = function(frm: FrappeForm, cpf_field: string): void {
   let cpf = frm.doc[cpf_field] || '';
   cpf = cpf.replace(/\D/g, '');
 
@@ -52,7 +59,12 @@ agt.utils.brazil.cpf.validate = function(frm, cpf_field) {
   agt.utils.brazil.cpf.format(frm, cpf_field);
 }
 
-agt.utils.brazil.cpf.format = function(frm, cpf_field) {
+/**
+ * Formats a CPF number field to the standard format (xxx.xxx.xxx-xx).
+ * @param frm - The Frappe form instance
+ * @param cpf_field - The field containing the CPF number
+ */
+agt.utils.brazil.cpf.format = function(frm: FrappeForm, cpf_field: string): void {
   let cpf = frm.doc[cpf_field] || '';
   cpf = cpf.replace(/\D/g, '');
 

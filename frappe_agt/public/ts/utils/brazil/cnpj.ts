@@ -1,8 +1,16 @@
+import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
+
 frappe.provide('agt.utils.brazil.cnpj');
 
 agt.utils.brazil.cnpj.regex = /^(?!00\.000\.000\/0000\-00)(\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2})$/;
 
-agt.utils.brazil.cnpj.validate = function (frm, cnpj_field) {
+/**
+ * Validates a CNPJ number.
+ * @param frm - The Frappe form instance
+ * @param cnpj_field - The field containing the CNPJ number
+ * @returns `true` if the CNPJ number is valid, otherwise `false`.
+ */
+agt.utils.brazil.cnpj.validate = function (frm: FrappeForm, cnpj_field: string): void {
   let cnpj = frm.doc[cnpj_field] || '';
   cnpj = cnpj.replace(/\D/g, '');
 
@@ -59,7 +67,12 @@ agt.utils.brazil.cnpj.validate = function (frm, cnpj_field) {
   agt.utils.brazil.cnpj.format(frm, cnpj_field);
 }
 
-agt.utils.brazil.cnpj.format = function (frm, cnpj_field) {
+/**
+ * Formats a CNPJ number field to the standard format (xx.xxx.xxx/xxxx-xx).
+ * @param frm - The Frappe form instance
+ * @param cnpj_field - The field containing the CNPJ number
+ */
+agt.utils.brazil.cnpj.format = function (frm: FrappeForm, cnpj_field: string): void {
   let cnpj = frm.doc[cnpj_field] || '';
   cnpj = cnpj.replace(/\D/g, '');
 
@@ -67,3 +80,33 @@ agt.utils.brazil.cnpj.format = function (frm, cnpj_field) {
     frm.set_value(cnpj_field, cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5'));
   }
 }
+
+/**
+ * Checks if a CNPJ exists by making an API call to validate it.
+ * @param frm - The Frappe form instance
+ * @param cnpj_field - The field containing the CNPJ number
+ */
+agt.utils.brazil.cnpj.validate_existence = async function (frm: FrappeForm, cnpj_field: string): Promise<void> {
+  const cnpj = frm.doc[cnpj_field]?.replace(/\D/g, '') || '';
+  
+  if (cnpj.length !== 14) {
+    frappe.msgprint(__('CNPJ must have 14 digits to check existence.'));
+    return;
+  }
+
+  try {
+    const response = await frappe.call({
+      method: 'check_cnpj_existence',
+      args: { cnpj }
+    });
+    
+    if (response.message && response.message.exists) {
+      frappe.msgprint(__('CNPJ exists and is valid.'));
+    } else {
+      frappe.msgprint(__('CNPJ not found in official records.'));
+    }
+  } catch (err) {
+    console.error('Error checking CNPJ existence:', err);
+    frappe.msgprint(__('Error checking CNPJ existence. Please try again.'));
+  }
+};
