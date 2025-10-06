@@ -77,7 +77,7 @@ agt.utils.form.field.turn_into_link = function(frm: any, fieldName: string, docT
     $wrapper.css("position", "relative");
     $wrapper.find(".serial-link-mask").remove();
     $wrapper.append(
-      `<a class="serial-link-mask" href="/app/${docType}/${frm.doc[fieldName]}" target="_blank"
+      `<a class="serial-link-mask" href="/app/${docType}/${encodeURIComponent(frm.doc[fieldName])}" target="_blank"
         style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;z-index:10;cursor:pointer;"></a>`
     );
   }
