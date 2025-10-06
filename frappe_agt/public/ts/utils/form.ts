@@ -115,7 +115,7 @@ agt.utils.form.mirror_checklist_table = async function(form: any, doctype: strin
   });
   form.dirty();
   form.refresh_field(tableField);
-  form.save();
+  await form.save();
   console.log(`Tabela '${tableField}' sincronizada.`);
 };
 
