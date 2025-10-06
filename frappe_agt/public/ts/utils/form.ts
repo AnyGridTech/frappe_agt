@@ -187,6 +187,18 @@ agt.utils.form.render_doc_fields_table = async function(
     const doctype = isTable && arr.length > 0 ? arr[0]?.['doctype'] : (docOrRows as any)?.['doctype'];
     if (doctype) meta = await frappe.get_meta?.(doctype as string);
   }
+  // HTML escape helper to prevent XSS
+  const escapeHtml = (value: unknown): string => {
+    if (value === null || value === undefined) return '';
+    const str = String(value);
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
+  };
+
   const getFieldMeta = (field: { fieldname: string; label?: string }) => {
     const metaField = meta?.fields?.find((f: any) => f.fieldname === field.fieldname);
     return {
@@ -201,22 +213,25 @@ agt.utils.form.render_doc_fields_table = async function(
       case 'Link':
         if (options && value != null) {
           const slug = String(options).toLowerCase().replace(/\s+/g, '-');
-          return `<a href="/app/${slug}/${encodeURIComponent(String(value))}" target="_blank">${String(value)}</a>`;
+          const escapedValue = escapeHtml(value);
+          return `<a href="/app/${escapeHtml(slug)}/${encodeURIComponent(String(value))}" target="_blank">${escapedValue}</a>`;
         }
-        return String(value);
+        return escapeHtml(value);
       case 'Select':
-        return `<span class="badge badge-light">${value}</span>`;
+        return `<span class="badge badge-light">${escapeHtml(value)}</span>`;
       case 'Date':
       case 'Datetime':
-        return frappe?.datetime?.str_to_user ? frappe.datetime.str_to_user(value as string) : String(value);
+        const dateValue = frappe?.datetime?.str_to_user ? frappe.datetime.str_to_user(value as string) : String(value);
+        return escapeHtml(dateValue);
       case 'Currency':
       case 'Float':
       case 'Int':
-        return (window as any).frappe?.format_value ? (window as any).frappe.format_value(value, { fieldtype }) : String(value);
+        const formattedValue = (window as any).frappe?.format_value ? (window as any).frappe.format_value(value, { fieldtype }) : String(value);
+        return escapeHtml(formattedValue);
       case 'Check':
         return value ? '<span class="text-success">✓ Sim</span>' : '<span class="text-danger">✗ Não</span>';
       default:
-        return String(value);
+        return escapeHtml(value);
     }
   };
   let rows = '';
@@ -235,7 +250,8 @@ agt.utils.form.render_doc_fields_table = async function(
       ).join('');
       thead = '<tr>' + fields.map(field => {
         const metaF = getFieldMeta(field);
-        return `<th class="text-muted">${field.label || metaF.label || field.fieldname}</th>`;
+        const label = field.label || metaF.label || field.fieldname;
+        return `<th class="text-muted">${escapeHtml(label)}</th>`;
       }).join('') + '</tr>';
     }
   } else {
@@ -243,7 +259,8 @@ agt.utils.form.render_doc_fields_table = async function(
       const metaF = getFieldMeta(field);
       const value = (docOrRows as Record<string, unknown>)[field.fieldname];
       const displayValue = field.formatter ? field.formatter(value, docOrRows as Record<string, unknown>, metaF) : autoFormat(value, metaF.fieldtype, metaF.options);
-      return `<tr><td>${field.label || metaF.label || field.fieldname}</td><td>${displayValue}</td></tr>`;
+      const label = field.label || metaF.label || field.fieldname;
+      return `<tr><td>${escapeHtml(label)}</td><td>${displayValue}</td></tr>`;
     }).join('');
   }
   const table_html = `<div class="form-section" style="margin-bottom: 16px;">
@@ -295,6 +312,6 @@ agt.utils.form.transport_values = function(targetForm: any, field: string) {
     console.log(`Setting ${key} to ${field.value}`);
     targetForm.set_value(key, field.value);
   });
-  targetForm.set_value([field], agt.src_frm.docname);
+  targetForm.set_value(field, agt.src_frm.docname);
   targetForm.save();
 };

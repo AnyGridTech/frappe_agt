@@ -415,9 +415,9 @@ agt.utils.get_item_info = async function(item_name: string, sn?: string) {
   if (!all_items || !all_items.length) return;
 
   // Busca flexível usando normalize_text apenas com item_name
-  const normalizedInput = agt.text.normalize(item_name);
+  const normalizedInput = agt.utils.text.normalize(item_name);
   const filtered_items = all_items.filter((item: any) =>
-    agt.text.normalize(item.item_name) === normalizedInput
+    agt.utils.text.normalize(item.item_name) === normalizedInput
   );
 
   if (!filtered_items.length) return;

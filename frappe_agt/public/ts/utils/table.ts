@@ -1,8 +1,11 @@
 frappe.provide('agt.utils.table');
 frappe.provide('agt.utils.table.row');
 
+// Temporary fix for TypeScript issues - use any type for agt.utils
+declare const agt: any;
+
 agt.utils.table.row.add_one = async function<T>(form: any, child_doctype: string, fields_record: T): Promise<T> {
-  const snake_child_doctype = agt.text.to_snake_case(child_doctype);
+  const snake_child_doctype = agt.utils.text.to_snake_case(child_doctype);
   const child = form.add_child(snake_child_doctype, fields_record);
   form.dirty(); // Mark as dirty to make sure the changes will be saved
   form.refresh_field(snake_child_doctype);
@@ -11,7 +14,7 @@ agt.utils.table.row.add_one = async function<T>(form: any, child_doctype: string
 };
 
 agt.utils.table.row.add_many = async function<T>(form: any, child_doctype: string, fields_record_arr: T[]): Promise<T[]> {
-  const snake_child_doctype = agt.text.to_snake_case(child_doctype);
+  const snake_child_doctype = agt.utils.text.to_snake_case(child_doctype);
   const children: T[] = [];
   fields_record_arr.forEach((fields_record: T) => {
     const child = form.add_child(snake_child_doctype, fields_record);
@@ -38,7 +41,7 @@ agt.utils.table.row.delete_one = async function(_form: any, child_doctype: strin
 };
 
 agt.utils.table.row.get_one = function<T>(form: any, child_doctype: string, filters: Record<string, any>): T | undefined {
-  const snake_case_doctype = agt.text.to_snake_case(child_doctype);
+  const snake_case_doctype = agt.utils.text.to_snake_case(child_doctype);
   const childTable = form.doc[snake_case_doctype] as unknown as Array<Record<string, any>>;
   if (!childTable) return;
   return childTable.find(row => {
@@ -51,7 +54,7 @@ agt.utils.table.row.get_one = function<T>(form: any, child_doctype: string, filt
 
 agt.utils.table.row.get_last = function<T>(form: any, child_doctype: string): T | undefined {
   // Convert to snake_case if not already in that format
-  const snake_case_doctype = agt.text.to_snake_case(child_doctype);
+  const snake_case_doctype = agt.utils.text.to_snake_case(child_doctype);
 
   const childTable = form.doc[snake_case_doctype];
   if (!childTable) return;
@@ -64,7 +67,7 @@ agt.utils.table.row.find = function(
   child_doctype: string,
   filters: { or?: Record<string, any>; and?: Record<string, any> }
 ) {
-  const snake_case_doctype = agt.text.to_snake_case(child_doctype);
+  const snake_case_doctype = agt.utils.text.to_snake_case(child_doctype);
   const childTable = form.doc[snake_case_doctype] as unknown as Array<Record<string, any>>;
   if (!childTable) return [];
   return childTable.filter(row => {
