@@ -26,9 +26,11 @@ agt.utils.table.row.add_many = async function<T>(form: any, child_doctype: strin
 agt.utils.table.row.update_one = async function(frm: any, fields_record: Record<string, string | number | null>) {
   // For child table rows, use the doctype directly, fallback to parenttype if doctype is not available
   const doctype_to_use = frm.doctype || frm.parenttype || 'Unknown';
-  for (const [fieldname, value] of Object.entries(fields_record)) {
-    await frappe.model.set_value(doctype_to_use, frm.name, fieldname, value);
-  }
+  await Promise.all(
+    Object.entries(fields_record).map(([fieldname, value]) =>
+      frappe.model.set_value(doctype_to_use, frm.name, fieldname, value)
+    )
+  );
 };
 
 agt.utils.table.row.delete_one = async function(_form: any, child_doctype: string, docname: string) {
