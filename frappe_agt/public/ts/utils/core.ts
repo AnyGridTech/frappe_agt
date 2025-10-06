@@ -9,7 +9,7 @@ agt.utils.workflow_transition = async function(
   callback?: ((f: any) => void) | ((f: any) => Promise<void>)
 ) {
   if (!form || !form.states?.frm || !action) {
-    console.error('workflow_transition: Parâmetros inválidos');
+    console.error('workflow_transition: Parâmetros inválidos.');
     return;
   }
   

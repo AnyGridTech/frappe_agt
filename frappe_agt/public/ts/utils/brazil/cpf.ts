@@ -14,14 +14,14 @@ agt.utils.brazil.cpf.validate = function(frm: FrappeForm, cpf_field: string): vo
   cpf = cpf.replace(/\D/g, '');
 
   if (cpf.length !== 11) {
-    frappe.msgprint(__('CPF must have 11 digits.'));
+    frappe.msgprint(__('CPF must have 11 digits...'));
     frm.set_value(cpf_field, '');
     return;
   }
   
   // Eliminate known invalid CPFs
   if (agt.utils.brazil.cpf.regex.test(cpf)) {
-    frappe.msgprint(__('Invalid CPF number.'));
+    frappe.msgprint(__('Invalid CPF number...'));
     frm.set_value(cpf_field, '');
     return;
   }

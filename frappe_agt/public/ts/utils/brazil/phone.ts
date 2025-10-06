@@ -32,7 +32,7 @@ agt.utils.brazil.phone.format = function(frm: FrappeForm, phone_field: string): 
 };
 
 /**
- * Validates and formats phone numbers with real-time masking.
+ * Validates and formats phone numbers with real-time masking...
  * Applies validation based on Brazilian phone number standards.
  * 
  * @param frm - The Frappe form containing the phone field
