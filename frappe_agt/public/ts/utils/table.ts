@@ -97,7 +97,7 @@ agt.utils.table.row.find = function(
         }
       }
     } else {
-      orPassed = true; // Se não há filtros OR, considera como verdadeiro
+      orPassed = true; // If there are no OR filters, consider as true
     }
     
     return andPassed && orPassed;
