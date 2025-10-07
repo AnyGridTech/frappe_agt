@@ -96,7 +96,6 @@ async function approveCorrections(form: FrappeForm, rows: CorrectionsTracker[], 
       doctype: form.doctype,
       docname: form.docname,
       workflow_state: STATUS.WORKFLOW.AWAITING_ACTION,
-      ignore_workflow_validation: true,
       callback: async () => {
         frappe.msgprint({ title: "Correções aprovadas", message: `Todas as pendências foram marcadas como concluídas.`, indicator: "green" });
         form.dirty();
