@@ -173,7 +173,7 @@ agt.utils.table.set_custom_properties = async function(frm: any, options: any, f
     }
   };
 
-  // Função para aplicar as configurações de visibilidade
+  // Function to apply visibility settings
   const applyVisibilitySettings = () => {
     Object.entries(elementsToHide).forEach(([option, selector]) => {
       if (options[option as keyof typeof options] && field.grid && field.grid.wrapper) {
