@@ -165,7 +165,7 @@ agt.utils.table.set_custom_properties = async function(frm: any, options: any, f
       // Aplica os valores padrão ao documento da linha
       if (defaultSet) {
         Object.entries(defaultSet).forEach(([key, value]) => {
-          if (!Object.prototype.hasOwnProperty.call(rowDoc, key) || rowDoc[key] === undefined) {
+          if (!(key in rowDoc) || rowDoc[key] === undefined) {
             rowDoc[key] = value;
           }
         });
