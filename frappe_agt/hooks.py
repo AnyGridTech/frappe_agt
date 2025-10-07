@@ -30,7 +30,15 @@ app_include_js = [
   "assets/frappe_agt/js/frappe_agt.bundle.js",
   "assets/frappe_agt/js/utils/brazil/cnpj.js",
   "assets/frappe_agt/js/utils/brazil/cpf.js",
-  "assets/frappe_agt/js/utils/brazil/cpf_cnpj.js"
+  "assets/frappe_agt/js/utils/brazil/cpf_cnpj.js",
+  "assets/frappe_agt/js/utils/brazil/cep.js",
+  "assets/frappe_agt/js/utils/brazil/phone.js",
+  "assets/frappe_agt/js/utils/core.js",
+  "assets/frappe_agt/js/utils/dialog.js",
+  "assets/frappe_agt/js/utils/doc.js",
+  "assets/frappe_agt/js/utils/form.js",
+  "assets/frappe_agt/js/utils/table.js",
+  "assets/frappe_agt/js/utils/text.js",
 ]
 
 # include js, css files in header of web template

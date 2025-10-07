@@ -1,3 +1,9 @@
 import "./brazil";
+import "./core";
 import "./db";
+import "./dialog";
+import "./doc";
+import "./form";
+import "./table";
+import "./text";
 //# sourceMappingURL=index.js.map
