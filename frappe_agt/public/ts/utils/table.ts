@@ -152,7 +152,7 @@ agt.utils.table.set_custom_properties = async function(frm: any, options: any, f
   const field = frm.fields_dict[fieldname];
   if (!field?.grid?.wrapper) return;
 
-  // Função para aplicar valores padrão a uma nova linha
+  // Function to apply default values to a new row
   const applyDefaultValues = (rowDoc: any, rowIndex: number) => {
     if (!default_values || !Array.isArray(default_values)) return;
 
