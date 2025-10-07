@@ -21,7 +21,7 @@ agt.utils.brazil.cpf.validate = function(frm: FrappeForm, cpf_field: string): vo
   
   // Eliminate known invalid CPFs
   if (agt.utils.brazil.cpf.regex.test(cpf)) {
-    frappe.msgprint(__('Invalid CPF number...'));
+    frappe.msgprint(__('Invalid CPF number.'));
     frm.set_value(cpf_field, '');
     return;
   }
