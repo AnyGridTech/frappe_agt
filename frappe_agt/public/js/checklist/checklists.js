@@ -1,6 +1,6 @@
 frappe.provide("agt.checklist");
 agt.checklist = {
-    table: {
+    tables: {
         all: { setup: async () => { } },
         inverter: { setup: async () => { } },
         ev_charger: { setup: async () => { } },

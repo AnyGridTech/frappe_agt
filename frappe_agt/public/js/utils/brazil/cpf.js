@@ -4,12 +4,12 @@ agt.utils.brazil.cpf.validate = function (frm, cpf_field) {
     let cpf = frm.doc[cpf_field] || '';
     cpf = cpf.replace(/\D/g, '');
     if (cpf.length !== 11) {
-        frappe.msgprint(__('CPF must have 11 digits...'));
+        frappe.msgprint(__('CPF must have 11 digits.'));
         frm.set_value(cpf_field, '');
         return;
     }
     if (agt.utils.brazil.cpf.regex.test(cpf)) {
-        frappe.msgprint(__('Invalid CPF number...'));
+        frappe.msgprint(__('Invalid CPF number.'));
         frm.set_value(cpf_field, '');
         return;
     }

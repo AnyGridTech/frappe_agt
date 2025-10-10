@@ -1,1 +1,1 @@
-frappe.require("assets/frappe_agt/js/utils");
+import "./utils";

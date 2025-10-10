@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../apps/frappe_agt/frappe_agt/public/ts/frappe_agt.bundle.ts"],
-  "sourcesContent": ["frappe.require(\"assets/frappe_agt/js/utils\");"],
-  "mappings": ";;;AAAA,SAAO,QAAQ,4BAA4B;",
-  "names": []
-}

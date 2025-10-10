@@ -8,7 +8,7 @@ frappe.provide("agt.checklist");
 
 // Implementa a interface Checklist definida nas tipagens
 agt.checklist = {
-  table: {
+  tables: {
     all: { setup: async () => {} },
     inverter: { setup: async () => {} },
     ev_charger: { setup: async () => {} },

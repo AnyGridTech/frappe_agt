@@ -128,7 +128,7 @@ agt.utils.table.set_custom_properties = async function (frm, options, fieldname,
             const defaultSet = default_values[Math.min(rowIndex, default_values.length - 1)] || default_values[0];
             if (defaultSet) {
                 Object.entries(defaultSet).forEach(([key, value]) => {
-                    if (!Object.prototype.hasOwnProperty.call(rowDoc, key) || rowDoc[key] === undefined) {
+                    if (!(key in rowDoc) || rowDoc[key] === undefined) {
                         rowDoc[key] = value;
                     }
                 });
