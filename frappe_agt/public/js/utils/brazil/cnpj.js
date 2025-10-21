@@ -53,4 +53,27 @@ agt.utils.brazil.cnpj.format = function (frm, cnpj_field) {
         frm.set_value(cnpj_field, cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5'));
     }
 };
+agt.utils.brazil.cnpj.validate_existence = async function (frm, cnpj_field) {
+    const cnpj = frm.doc[cnpj_field]?.replace(/\D/g, '') || '';
+    if (cnpj.length !== 14) {
+        frappe.msgprint(__('CNPJ must have 14 digits to check existence.'));
+        return;
+    }
+    try {
+        const response = await frappe.call({
+            method: 'check_cnpj_existence',
+            args: { cnpj }
+        });
+        if (response.message && response.message.exists) {
+            frappe.msgprint(__('CNPJ exists and is valid.'));
+        }
+        else {
+            frappe.msgprint(__('CNPJ not found in official records.'));
+        }
+    }
+    catch (err) {
+        console.error('Error checking CNPJ existence:', err);
+        frappe.msgprint(__('Error checking CNPJ existence. Please try again.'));
+    }
+};
 //# sourceMappingURL=cnpj.js.map
