@@ -1,0 +1,49 @@
+[
+  {
+    "doctype": "Custom Field",
+    "name": "User-extended_info_section",
+    "dt": "User",
+    "fieldname": "extended_info_section",
+    "label": "Extended Info",
+    "fieldtype": "Section Break",
+    "insert_after": "user_category"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_id",
+    "dt": "User",
+    "fieldname": "internal_id",
+    "label": "ID",
+    "fieldtype": "Data",
+    "insert_after": "extended_info_section"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_department",
+    "dt": "User",
+    "fieldname": "internal_department",
+    "label": "Department",
+    "fieldtype": "Link",
+    "options": "Department",
+    "insert_after": "internal_id"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_manager",
+    "dt": "User",
+    "fieldname": "internal_manager",
+    "label": "Immediate Manager",
+    "fieldtype": "Link",
+    "options": "User",
+    "insert_after": "internal_department"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-taxid",
+    "dt": "User",
+    "fieldname": "taxid",
+    "label": "CPF/CNPJ",
+    "fieldtype": "Data",
+    "insert_after": "internal_manager"
+  }
+]
