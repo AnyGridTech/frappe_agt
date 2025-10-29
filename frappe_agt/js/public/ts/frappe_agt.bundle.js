@@ -1,5 +1,3 @@
-// Copyright (c) 2025, AnyGridTech and contributors
-// For license information, please see license.txt
 import "./checklist/checklists";
 import "./child_tracker_table/setup";
 import "./namespace/namespaces";

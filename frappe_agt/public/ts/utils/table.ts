@@ -1,9 +1,6 @@
 frappe.provide('agt.utils.table');
 frappe.provide('agt.utils.table.row');
 
-// Temporary fix for TypeScript issues - use any type for agt.utils
-declare const agt: any;
-
 agt.utils.table.row.add_one = async function<T>(form: any, child_doctype: string, fields_record: T): Promise<T> {
   const snake_child_doctype = agt.utils.text.to_snake_case(child_doctype);
   const child = form.add_child(snake_child_doctype, fields_record);

@@ -1,8 +1,5 @@
 frappe.provide('agt.utils.text');
 
-// Temporary fix for TypeScript issues - use any type for agt.utils
-declare const agt: any;
-
 agt.utils.text.normalize = function(text: string): string {
   return (text || '')
     .toLowerCase()

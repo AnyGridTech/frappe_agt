@@ -1,8 +1,5 @@
 frappe.provide('agt.utils');
 
-// Temporary fix for TypeScript issues - use any type for agt.utils
-declare const agt: any;
-
 agt.utils.workflow_transition = async function(
   form: any,
   action: string,
