@@ -1,22 +1,12 @@
 import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
-import type { CepApiResponse, ValidationStatus } from "@anygridtech/frappe-agt-types/agt/client/utils/brazil";
-
-frappe.provide('agt.utils.brazil');
-frappe.provide('agt.utils.brazil.cep');
 
 // CEP functions
 agt.utils.brazil.cep.regex = /^\d{5}-?\d{3}$/;
 
-/**
- * Formats a Brazilian ZIP code (CEP) to the standard format (xxxxx-xxx).
- * @param frm - The Frappe form instance
- * @param cep_field - The field containing the ZIP code
- * @returns The formatted ZIP code.
- */
-agt.utils.brazil.cep.format = function(frm: FrappeForm, cep_field: string): string {
+agt.utils.brazil.cep.format = function (frm: FrappeForm, cep_field: string): string {
   let cep = frm.doc[cep_field] || '';
   cep = cep.replace(/\D/g, '');
-  
+
   if (cep.length === 8) {
     const formatted = `${cep.slice(0, 5)}-${cep.slice(5)}`;
     frm.set_value(cep_field, formatted);
@@ -25,16 +15,6 @@ agt.utils.brazil.cep.format = function(frm: FrappeForm, cep_field: string): stri
   return cep;
 };
 
-/**
- * Validates a Brazilian ZIP code (CEP) and auto-fills address fields.
- * Makes an API call to check the ZIP code and update related fields.
- * @param frm - The Frappe form instance
- * @param field - The field containing the ZIP code
- * @param addr - The field to store the address
- * @param neigh - The field to store the neighborhood
- * @param town - The field to store the city
- * @param state - The field to store the state
- */
 agt.utils.brazil.cep.validate = async function (
   frm: FrappeForm,
   field: string,
@@ -50,7 +30,7 @@ agt.utils.brazil.cep.validate = async function (
   /**
    * Sets visual style icon based on validation status
    */
-  const setVisualStyle = (status: ValidationStatus): string => {
+  const setVisualStyle = (status: 'warning' | 'error' | 'success' | 'default') => {
     switch (status) {
       case 'warning':
         return `<i class="fa fa-exclamation-circle" style="color:#f1c40f"></i> `;
@@ -67,7 +47,7 @@ agt.utils.brazil.cep.validate = async function (
    * Updates UI with validation feedback
    */
   const updateUI = (color: string, message: string): void => {
-    let status: ValidationStatus = 'default';
+    let status: 'warning' | 'error' | 'success' | 'default' = 'default';
     if (color === '#f1c40f') status = 'warning';
     else if (color === 'red' || color === '#e74c3c') status = 'error';
     else if (color === 'green' || color === '#27ae60') status = 'success';
@@ -81,7 +61,7 @@ agt.utils.brazil.cep.validate = async function (
   /**
    * Fetches CEP data from server
    */
-  const fetchCepData = async (cep: string): Promise<CepApiResponse | null> => {
+  const fetchCepData = async (cep: string) => {
     try {
       const response = await frappe.call({
         method: 'check_cep',
@@ -110,14 +90,14 @@ agt.utils.brazil.cep.validate = async function (
       return;
     }
 
-    // Quando tiver 8 dígitos -> consulta
+    // When it has 8 digits -> query
     const data = await fetchCepData(digits);
     if (!data || data.message === 'CEP não encontrado') {
       updateUI('red', 'CEP não encontrado');
       return;
     }
 
-    // CEP válido → preenche campos
+    // Valid CEP → fill fields
     frm.set_value(addr, data.street || '');
     frm.set_value(neigh, data.neighborhood || '');
     frm.set_value(town, data.city || '');
@@ -135,10 +115,10 @@ agt.utils.brazil.cep.validate = async function (
     const cursorBefore = input.selectionStart || 0;
     const digitsBeforeCursor = originalValue.slice(0, cursorBefore).replace(/\D/g, '').length;
 
-    // Apenas números
+    // Only numbers
     let digits = originalValue.replace(/\D/g, '').slice(0, 8);
 
-    // Detecta se é adição (digitando) ou remoção
+    // Detect if it's an addition (typing) or removal
     const currentFieldValue = frm.doc[field as keyof typeof frm.doc]?.toString() || '';
     const isAdding = digits.length > currentFieldValue.replace(/\D/g, '').length;
 
@@ -146,7 +126,7 @@ agt.utils.brazil.cep.validate = async function (
     if (isAdding && digits.length > 5) {
       formatted = `${digits.slice(0, 5)}-${digits.slice(5)}`;
     } else if (!isAdding) {
-      // Se está apagando, não forçar traço
+      // If deleting, don't force hyphen
       if (digits.length > 5 && originalValue.includes('-')) {
         formatted = `${digits.slice(0, 5)}-${digits.slice(5)}`;
       } else {
@@ -158,7 +138,7 @@ agt.utils.brazil.cep.validate = async function (
       input.value = formatted;
       frm.doc[field as keyof typeof frm.doc] = formatted;
 
-      // Ajusta cursor
+      // Adjust cursor
       let newCursor = 0;
       let countDigits = 0;
       for (const ch of formatted) {
@@ -172,14 +152,14 @@ agt.utils.brazil.cep.validate = async function (
       input.setSelectionRange(newCursor, newCursor);
     }
 
-    // Validação dinâmica
+    // Dynamic validation
     await validateAndStyle(formatted);
   };
 
-  // Remove eventos anteriores e adiciona novos
+  // Remove previous events and add new ones
   $input.off('.zipcode').on('input.zipcode', formatOnInput);
 
-  // Se já tiver valor ao carregar
+  // If it already has a value when loading
   const currentValue = frm.doc[field as keyof typeof frm.doc]?.toString();
   if (currentValue) {
     $input.trigger('input.zipcode');

@@ -1,5 +1,4 @@
 import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
-import type { PhoneValidationResult, ValidationStatus } from "@anygridtech/frappe-agt-types/agt/client/utils/brazil";
 
 frappe.provide('agt.utils.brazil');
 frappe.provide('agt.utils.brazil.phone');
@@ -7,15 +6,10 @@ frappe.provide('agt.utils.brazil.phone');
 // Phone functions
 agt.utils.brazil.phone.regex = /^\(\d{2}\)\s\d{4,5}\-\d{4}$/;
 
-/**
- * Formats a phone number field to a standard format.
- * @param frm - The Frappe form instance.
- * @param phone_field - The field containing the phone number.
- */
-agt.utils.brazil.phone.format = function(frm: FrappeForm, phone_field: string): void {
+agt.utils.brazil.phone.format = function (frm: FrappeForm, phone_field: string): void {
   let phone = frm.doc[phone_field] || '';
   const digits = phone.replace(/\D/g, '').slice(0, 11);
-  
+
   if (digits.length <= 2) {
     frm.set_value(phone_field, digits);
     return;
@@ -31,19 +25,7 @@ agt.utils.brazil.phone.format = function(frm: FrappeForm, phone_field: string): 
   frm.set_value(phone_field, `(${digits.substring(0, 2)}) ${digits.substring(2, 7)}-${digits.substring(7)}`);
 };
 
-/**
- * Validates and formats phone numbers with real-time masking.
- * Applies validation based on Brazilian phone number standards.
- * 
- * @param frm - The Frappe form containing the phone field
- * @param phoneField - The name of the field containing the phone number
- * @returns Promise that resolves when validation setup is complete
- * 
- * @example
- * // Basic usage with just the phone field
- * agt.utils.brazil.phone.validate(frm, 'phone_field');
- */
-agt.utils.brazil.phone.validate = function(frm: FrappeForm, phoneField: string): Promise<void> {
+agt.utils.brazil.phone.validate = function (frm: FrappeForm, phoneField: string): Promise<void> {
   return new Promise<void>(resolve => {
     const field = frm.fields_dict[phoneField];
     if (!field?.$input) {
@@ -56,7 +38,7 @@ agt.utils.brazil.phone.validate = function(frm: FrappeForm, phoneField: string):
     /**
      * Sets visual style icon based on validation status
      */
-    const setVisualStyle = (status: ValidationStatus): string => {
+    const setVisualStyle = (status: 'default' | 'warning' | 'error' | 'success') => {
       let icon = '';
       switch (status) {
         case 'warning':
@@ -78,7 +60,7 @@ agt.utils.brazil.phone.validate = function(frm: FrappeForm, phoneField: string):
      * Updates UI with validation feedback
      */
     const updateUI = (color: string, message: string): void => {
-      let status: ValidationStatus = 'default';
+      let status: 'default' | 'warning' | 'error' | 'success' = 'default';
       if (color === '#f1c40f') status = 'warning';
       else if (color === 'red' || color === '#e74c3c') status = 'error';
       else if (color === 'green' || color === '#27ae60') status = 'success';
@@ -89,7 +71,7 @@ agt.utils.brazil.phone.validate = function(frm: FrappeForm, phoneField: string):
     /**
      * Validates Brazilian phone number format
      */
-    const validatePhoneFormat = (phoneNumber: string): PhoneValidationResult => {
+    const validatePhoneFormat = (phoneNumber: string): { isValid: boolean; type: 'fixo' | 'celular' | 'invalido' } => {
       // Remover todos os caracteres não numéricos
       const digits = phoneNumber.replace(/\D/g, '');
 
