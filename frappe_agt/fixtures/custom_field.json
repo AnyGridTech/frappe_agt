@@ -45,5 +45,68 @@
     "label": "CPF/CNPJ",
     "fieldtype": "Data",
     "insert_after": "internal_manager"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Mppt",
+    "dt": "Item",
+    "fieldname": "mppt",
+    "label": "MPPT",
+    "fieldtype": "Int",
+    "insert_after": "item_name"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Ncm",
+    "dt": "Item",
+    "fieldname": "ncm",
+    "label": "NCM",
+    "fieldtype": "Data",
+    "insert_after": "mppt"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-phase",
+    "dt": "Item",
+    "fieldname": "phase",
+    "label": "Phase",
+    "fieldtype": "Data",
+    "insert_after": "ncm"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_dimensions_section",
+    "dt": "Item",
+    "fieldname": "package_dimensions_section",
+    "label": "Package Dimensions",
+    "fieldtype": "Section Break",
+    "insert_after": "phase"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_height",
+    "dt": "Item",
+    "fieldname": "package_height",
+    "label": "Package Height (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_dimensions_section"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_width",
+    "dt": "Item",
+    "fieldname": "package_width",
+    "label": "Package Width (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_height"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_depth",
+    "dt": "Item",
+    "fieldname": "package_depth",
+    "label": "Package Depth (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_width"
   }
 ]
