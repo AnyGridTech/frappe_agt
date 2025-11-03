@@ -1,8 +1,8 @@
 import { JoinStep } from "@anygridtech/frappe-agt-types/agt/client/utils/db";
 
-frappe.provide('agt.db');
+frappe.provide('agt.utils.db');
 
-agt.db.filter_join = async function <Steps extends readonly JoinStep[]>(
+agt.utils.db.filter_join = async function <Steps extends readonly JoinStep[]>(
   steps: Steps
 ): Promise<
   Steps extends [...any, infer Last]

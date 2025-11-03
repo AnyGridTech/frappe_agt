@@ -1,7 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("agt.db");
-agt.db.filter_join = async function(steps) {
+frappe.provide("agt.utils.db");
+agt.utils.db.filter_join = async function(steps) {
   let results = [];
   for (let i = 0; i < steps.length; i++) {
     const step = steps[i];
