@@ -61,7 +61,7 @@
     "dt": "Item",
     "fieldname": "ncm",
     "label": "NCM",
-    "fieldtype": "Data",
+    "fieldtype": "Float",
     "insert_after": "mppt"
   },
   {
@@ -109,4 +109,26 @@
     "fieldtype": "Float",
     "insert_after": "package_width"
   }
+  ,
+    {
+      "doctype": "Custom Field",
+      "name": "Family",
+      "dt": "Item",
+      "fieldname": "family",
+      "label": "Family",
+      "fieldtype": "Link",
+      "options": "Item Group",
+      "insert_after": "package_depth"
+    }
+    ,
+      {
+        "doctype": "Custom Field",
+        "name": "Equipment Type",
+        "dt": "Item",
+        "fieldname": "equipment_type",
+        "label": "Equipment Type",
+        "fieldtype": "Link",
+        "options": "Item Group",
+        "insert_after": "family"
+      }
 ]
