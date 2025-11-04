@@ -1,6 +1,10 @@
 import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
 
+frappe.provide('agt.utils.brazil.cep');
+
 // CEP functions
+
+// RegExp for Brazilian CEP (Código de Endereçamento Postal)
 agt.utils.brazil.cep.regex = /^\d{5}-?\d{3}$/;
 
 agt.utils.brazil.cep.format = function (frm: FrappeForm, cep_field: string): string {

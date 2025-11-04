@@ -1,5 +1,6 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
+frappe.provide("agt.utils.brazil.cep");
 agt.utils.brazil.cep.regex = /^\d{5}-?\d{3}$/;
 agt.utils.brazil.cep.format = function(frm, cep_field) {
   let cep = frm.doc[cep_field] || "";
