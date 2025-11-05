@@ -37,7 +37,7 @@ agt.utils.db.filter_join = async function <Steps extends readonly JoinStep[]>(
     }
 
     const response = await frappe.call({
-      method: "backend_get_all",
+      method: "frappe_agt.api.backend_get_all",
       args: {
         doctype: step.doctype,
         filters,
