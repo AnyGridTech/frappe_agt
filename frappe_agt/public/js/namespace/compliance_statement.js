@@ -1,60 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("growatt.namespace");
-if (typeof window.growatt === "undefined") {
-  window.growatt = {};
-}
-window.growatt.namespace.service_protocol = {
-  workflow_action: {
-    request_revision: {
-      name: "Solicitar Revis\xE3o",
-      id: 1
-    },
-    request_checklist: {
-      name: "Solicitar Checklist",
-      id: 2
-    },
-    request_correction: {
-      name: "Solicitar Proposta de Envio",
-      id: 3
-    },
-    reject: {
-      name: "Rejeitar",
-      id: 4
-    },
-    cancel: {
-      name: "Cancelar",
-      id: 5
-    },
-    finish_correction: {
-      name: "Aprovar Corre\xE7\xE3o",
-      id: 6
-    }
-  },
-  workflow_state: {
-    holding_action: {
-      name: "Aguardando A\xE7\xE3o",
-      id: 1
-    },
-    growatt_review: {
-      name: "Revis\xE3o",
-      id: 2
-    },
-    finished: {
-      name: "Conclu\xEDdo",
-      id: 3
-    },
-    rejected: {
-      name: "Rejeitado",
-      id: 4
-    },
-    cancelled: {
-      name: "Cancelado",
-      id: 5
-    }
-  }
-};
-window.growatt.namespace.compliance_statement = {
+frappe.provide("agt.namespace");
+const compliance_statement = {
   workflow_action: {
     approve: {
       name: "Aprovar",
@@ -164,77 +111,7 @@ window.growatt.namespace.compliance_statement = {
     }
   }
 };
-window.growatt.namespace.checklist = {
-  workflow_state: {
-    pre_analysis: {
-      name: "An\xE1lise Preliminar",
-      id: 1
-    },
-    customer_fix_info: {
-      name: "Cliente: Corrigir Informa\xE7\xF5es",
-      id: 2
-    },
-    growatt_review: {
-      name: "Revis\xE3o",
-      id: 3
-    },
-    finished: {
-      name: "Conclu\xEDdo",
-      id: 4
-    },
-    rejected: {
-      name: "Rejeitado",
-      id: 5
-    },
-    cancelled: {
-      name: "Cancelado",
-      id: 6
-    }
-  }
-};
-window.growatt.namespace.ticket = {
-  workflow_action: {
-    approve: {
-      name: "Aprovar",
-      id: 1
-    },
-    finish: {
-      name: "Concluir",
-      id: 2
-    },
-    reject: {
-      name: "Rejeitar",
-      id: 3
-    },
-    cancel: {
-      name: "Cancelar",
-      id: 4
-    },
-    reactive: {
-      name: "Reativar",
-      id: 5
-    }
-  },
-  workflow_state: {
-    draft: {
-      name: "Rascunho",
-      id: 1
-    },
-    active: {
-      name: "Ativo",
-      id: 2
-    },
-    finished: {
-      name: "Concluido",
-      id: 3
-    },
-    rejected: {
-      name: "Rejeitado",
-      id: 4
-    },
-    cancelled: {
-      name: "Cancelado",
-      id: 5
-    }
-  }
+agt.namespace.compliance_statement = compliance_statement;
+export {
+  compliance_statement
 };

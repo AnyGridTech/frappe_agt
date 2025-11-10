@@ -14,13 +14,13 @@ agt.utils.doc.create_doc = async function(doctype, fields_target, fields_dict) {
     return acc;
   }, {});
   const valid_fields = meta.fields.map((field) => field.fieldname);
-  for (const targetField of fields_target) {
+  for (const [targetField, sourceField] of Object.entries(fields_target)) {
     if (!valid_fields.includes(targetField)) continue;
     let value;
-    if (targetField === "docname" && cur_frm?.docname) {
+    if (sourceField === "docname" && cur_frm?.docname) {
       value = cur_frm.docname;
-    } else if (cur_frm?.doc && targetField in cur_frm.doc) {
-      value = cur_frm.doc[targetField];
+    } else if (cur_frm?.doc && sourceField in cur_frm.doc) {
+      value = cur_frm.doc[sourceField];
     }
     if (value !== void 0) {
       fields_record[targetField] = value;
