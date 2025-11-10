@@ -1,6 +1,6 @@
 import type { Ticket } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/ticket.d.ts";
 
-frappe.provide("agt.namespace");
+frappe.provide("agt.namespace.ticket");
 
 export const ticket: Ticket = {
   workflow_action: {
@@ -48,6 +48,3 @@ export const ticket: Ticket = {
     },
   }
 };
-
-// Atribui ao namespace global
-agt.namespace.ticket = ticket;
