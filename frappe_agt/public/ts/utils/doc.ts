@@ -1,8 +1,8 @@
 frappe.provide('agt.utils.doc');
 
-agt.utils.doc.create_doc = async function(
+agt.utils.doc.create_doc = async function (
   doctype: string,
-  fields_target: string[],
+  fields_target: Record<string, string>,
   fields_dict: Record<string, any>
 ): Promise<string | undefined> {
   const meta = await agt.utils.doc.get_doc_meta(doctype);
@@ -20,15 +20,15 @@ agt.utils.doc.create_doc = async function(
 
   const valid_fields = meta.fields.map((field: any) => field.fieldname);
 
-  // Novo formato obrigatório: fields_target é um array de nomes de campos a copiar do cur_frm.doc
-  for (const targetField of fields_target) {
+  // fields_target é um Record<string, string> que mapeia campo de destino -> campo de origem no cur_frm.doc
+  for (const [targetField, sourceField] of Object.entries(fields_target)) {
     if (!valid_fields.includes(targetField)) continue;
 
     let value: any;
-    if (targetField === "docname" && cur_frm?.docname) {
+    if (sourceField === "docname" && cur_frm?.docname) {
       value = cur_frm.docname;
-    } else if (cur_frm?.doc && targetField in cur_frm.doc) {
-      value = (cur_frm.doc as any)[targetField];
+    } else if (cur_frm?.doc && sourceField in cur_frm.doc) {
+      value = (cur_frm.doc as any)[sourceField];
     }
 
     if (value !== undefined) {
@@ -64,7 +64,7 @@ agt.utils.doc.create_doc = async function(
   return r1?.name;
 };
 
-agt.utils.doc.update_doc = async function(
+agt.utils.doc.update_doc = async function (
   doctype: string,
   docname: string,
   fields_record: Record<string, any>,
@@ -134,7 +134,7 @@ agt.utils.doc.update_doc = async function(
   }
 };
 
-agt.utils.doc.get_doc = async function(doctype: string, docname: string) {
+agt.utils.doc.get_doc = async function (doctype: string, docname: string) {
   return await frappe
     .call({
       method: 'frappe.client.get',
@@ -149,7 +149,7 @@ agt.utils.doc.get_doc = async function(doctype: string, docname: string) {
     });
 };
 
-agt.utils.doc.share_doc = async function(doctype: string, docname: string, users: any[]) {
+agt.utils.doc.share_doc = async function (doctype: string, docname: string, users: any[]) {
   const shared_users = (await frappe
     .call({
       method: 'frappe.share.get_users',
@@ -179,7 +179,7 @@ agt.utils.doc.share_doc = async function(doctype: string, docname: string, users
   }
 };
 
-agt.utils.doc.get_doc_meta = async function(doctype: string) {
+agt.utils.doc.get_doc_meta = async function (doctype: string) {
   await frappe.model.with_doctype(doctype);
   return frappe.get_meta(doctype);
 };
