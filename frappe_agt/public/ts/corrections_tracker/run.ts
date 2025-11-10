@@ -1,45 +1,17 @@
+import { CorrectionsTrackerDoc } from "@anygridtech/frappe-agt-types/agt/doctype";
+import { DocField, FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
 
-import type { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
-
-// Tipo local para CorrectionsTracker
-interface CorrectionsTracker {
-  correction_label?: string;
-  correction_text?: string;
-  status: string;
-  finished_by?: string;
-  finished_date?: string;
-  name?: string;
-  doctype?: string;
-  owner?: string;
-  creation?: string;
-  modified?: string;
-  modified_by?: string;
-  workflow_state?: string;
-}
-
-frappe.provide('agt.child_tracker_table');
-
-// Implementa a interface ChildTrackerTable definida nas tipagens
-(agt as any).child_tracker_table = {
-  mirror: async (frm: FrappeForm, doctypes: string[], field: string): Promise<void> => {
-    // Implementação do mirror conforme a tipagem
-    for (const doctype of doctypes) {
-      try {
-        await agt.utils.form.mirror_checklist_table(frm, doctype, field, 'parent_docname', 'child_tracker_docname', 'child_tracker_workflow_state');
-      } catch (error) {
-        console.error(`Erro ao espelhar tabela para doctype ${doctype}:`, error);
-      }
-    }
-  },
-  setup: async (): Promise<void> => {
-    // Função principal de setup será implementada abaixo
-    await setupChildTrackerTable();
-  }
-};
+frappe.provide('agt.corrections_tracker');
 
 const STATUS = {
-  WORKFLOW: { AWAITING_ACTION: "Aguardando Ação", REVIEW: "Revisão" },
-  ROW: { PENDING: "Pendente", FINISHED: "Concluído" }
+  WORKFLOW: { 
+    AWAITING_ACTION: "Aguardando Ação", 
+    REVIEW: "Revisão" 
+  },
+  ROW: { 
+    PENDING: "Pendente", 
+    FINISHED: "Concluído" 
+  }
 };
 const ACTION = {
   REQUEST_REVIEW: "Solicitar Revisão",
@@ -47,17 +19,21 @@ const ACTION = {
   NEW_CORRECTION: "Novo Pedido"
 };
 
-function getPending(rows: CorrectionsTracker[]) {
+// Expose status/action through the CorrectionsTracker.run object so it
+// matches the exported typings (CorrectionsTracker.run.status/action)
+// and keeps the runtime structure available for older callers.
+
+function getPending(rows: CorrectionsTrackerDoc[]) {
   return rows.filter(row => row.status === STATUS.ROW.PENDING);
 }
-function getCorrectionsHtml(rows: CorrectionsTracker[]) {
+function getCorrectionsHtml(rows: CorrectionsTrackerDoc[]) {
   return getPending(rows).map(row => {
     const label = row.correction_label;
     const text = row.correction_text;
     return `<li>⚠️ ${label || ""}${label && text ? ": " : ""}${text || ""}</li>`;
   }).join("");
 }
-function getDialogFields(rows: CorrectionsTracker[]) {
+function getDialogFields(rows: CorrectionsTrackerDoc[]) {
   return getPending(rows).map((row, idx) => ({
     fieldname: `chk_${idx}`,
     fieldtype: 'Check',
@@ -65,7 +41,7 @@ function getDialogFields(rows: CorrectionsTracker[]) {
     default: 0
   }));
 }
-async function approveCorrections(form: FrappeForm, rows: CorrectionsTracker[], onDone?: () => void) {
+async function approveCorrections(form: FrappeForm, rows: CorrectionsTrackerDoc[], onDone?: () => void) {
   const pending = getPending(rows);
   if (!pending.length) {
     frappe.msgprint("Não existem pendências para aprovar.");
@@ -83,7 +59,7 @@ async function approveCorrections(form: FrappeForm, rows: CorrectionsTracker[], 
       frappe.msgprint({ title: "Atenção", message: `Para aprovar a correção, marque todas as pendências como corrigidas.`, indicator: "orange" });
       return;
     }
-    await Promise.all(pending.map(row => agt.utils.table.row.update_one(row as any, {
+    await Promise.all(pending.map(row => agt.utils.table.row.update_one(row, {
       status: STATUS.ROW.FINISHED,
       finished_by: frappe.boot.user.email,
       finished_date: frappe.datetime.now_datetime()
@@ -96,6 +72,7 @@ async function approveCorrections(form: FrappeForm, rows: CorrectionsTracker[], 
       doctype: form.doctype,
       docname: form.docname,
       workflow_state: STATUS.WORKFLOW.AWAITING_ACTION,
+      ignore_workflow_validation: true,
       callback: async () => {
         frappe.msgprint({ title: "Correções aprovadas", message: `Todas as pendências foram marcadas como concluídas.`, indicator: "green" });
         form.dirty();
@@ -122,12 +99,15 @@ function loadAdminButtons() {
   });
 }
 
-async function setupChildTrackerTable() {
+(agt.corrections_tracker as any).run = {
+  status: STATUS,
+  action: ACTION,
+  run: async () => {
   if (cur_frm.doc.__islocal || !cur_frm.fields_dict?.['corrections_tracker']) return;
   const meta = await agt.utils.doc.get_doc_meta('Corrections Tracker');
   if (!meta) return;
-  const correctionLabelFields: Record<string, any> = {};
-  meta.fields.forEach((field: any) => {
+  const correctionLabelFields: Record<string, DocField> = {};
+  meta.fields.forEach(field => {
     if (field.fieldname === 'correction_label') correctionLabelFields[field.fieldname] = field;
   });
   const labels = Object.values(cur_frm.fields_dict)
@@ -165,7 +145,7 @@ async function setupChildTrackerTable() {
       // if (ws === STATUS.WORKFLOW.REVIEW && action === ACTION.APPROVE_CORRECTION) {
       //   if (!getPending(rows).length) frappe.throw(`Não há pedidos pendentes para aprovar.`);
       //   await approveCorrections(form, rows);
-      //   return false;
+      //   return;
       // }
       return true;
     },
@@ -219,8 +199,8 @@ async function setupChildTrackerTable() {
         form.add_custom_button('Aprovar Correção', async () => approveCorrections(form, rows));
         form.add_custom_button(ACTION.NEW_CORRECTION, async () => {
           const confirmDiag = frappe.confirm("Tem certeza que deseja criar um novo pedido de correção?", async () => {
-            const finishedRows = (form.doc['corrections_tracker'] || []).filter((row: CorrectionsTracker) => row.status === STATUS.ROW.FINISHED);
-            await Promise.all(finishedRows.map((row: CorrectionsTracker) => agt.utils.table.row.update_one(row as any, {
+            const finishedRows = (form.doc['corrections_tracker'] || []).filter((row: CorrectionsTrackerDoc) => row.status === STATUS.ROW.FINISHED);
+            await Promise.all(finishedRows.map((row: CorrectionsTrackerDoc) => agt.utils.table.row.update_one(row, {
               status: STATUS.ROW.FINISHED,
               finished_by: frappe.boot.user.email,
               finished_date: frappe.datetime.now_datetime()
@@ -243,4 +223,5 @@ async function setupChildTrackerTable() {
       frappe.msgprint({ title: "Pedidos de Correção Pendentes", message: msg, indicator: "orange" });
     },
   });
-}
+  }
+};
