@@ -98,7 +98,7 @@ agt.checklist = {
         if (freshDispatches && freshDispatches.length > 0) return;
 
         // Cria a Proposta de Envio
-        const docname = await agt.utils.doc.create_doc(dt_name, ["ticket_docname"], frm.fields_dict);
+        const docname = await agt.utils.doc.create_doc(dt_name, { ticket_docname: "ticket_docname" }, frm.fields_dict);
         if (!docname) {
           throw new Error("Falha ao criar Proposta de Envio.");
         }

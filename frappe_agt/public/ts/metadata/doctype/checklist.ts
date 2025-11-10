@@ -1,15 +1,14 @@
-import type { Checklist } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/checklist";
+frappe.provide("agt.namespace.checklist");
 
-frappe.provide("agt.namespace");
-
-export const checklist: Checklist = {
+// Definição única dos valores - o tipo será inferido automaticamente
+export const checklist = {
   workflow_state: {
     pre_analysis: {
       name: "Análise Preliminar",
       id: 1
     },
     customer_fix_info: {
-      name: "Cliente: Corrigir Informações",
+      name: "Cliente: Corrigir Informações", 
       id: 2
     },
     growatt_review: {
@@ -29,7 +28,7 @@ export const checklist: Checklist = {
       id: 6
     }
   }
-};
+} as const;
 
-// Atribui ao namespace global
-agt.namespace.checklist = checklist;
+// Derive o tipo da implementação real
+export type ChecklistType = typeof checklist;

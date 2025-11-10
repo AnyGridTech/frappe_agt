@@ -1,6 +1,6 @@
 import type { ServiceProtocol } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/service_protocol.d.ts";
 
-frappe.provide("agt.namespace");
+frappe.provide("agt.namespace.service_protocol");
 
 export const service_protocol: ServiceProtocol = {
   workflow_action: {
@@ -52,6 +52,3 @@ export const service_protocol: ServiceProtocol = {
     }
   }
 };
-
-// Atribui ao namespace global
-agt.namespace.service_protocol = service_protocol;

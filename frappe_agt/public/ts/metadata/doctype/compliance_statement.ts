@@ -1,6 +1,6 @@
 import type { ComplianceStatement } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/compliance_statement.d.ts";
 
-frappe.provide("agt.namespace");
+frappe.provide("agt.namespace.compliance_statement");
 
 export const compliance_statement: ComplianceStatement = {
   workflow_action: {
@@ -112,6 +112,3 @@ export const compliance_statement: ComplianceStatement = {
     },
   }
 };
-
-// Atribui ao namespace global
-agt.namespace.compliance_statement = compliance_statement;
