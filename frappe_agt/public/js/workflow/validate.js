@@ -1,6 +1,5 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-import "@anygridtech/frappe-types/client";
 frappe.provide("agt.workflow.validate");
 agt.workflow.validate = async (action_extended) => {
   if (cur_frm.doc.__islocal) return;

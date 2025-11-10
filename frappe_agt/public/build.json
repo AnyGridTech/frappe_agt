@@ -1,0 +1,6 @@
+{
+  "external": [
+    "@anygridtech/frappe-types/*",
+    "@anygridtech/frappe-agt-types/*"
+  ]
+}
