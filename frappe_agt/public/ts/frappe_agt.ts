@@ -10,5 +10,3 @@ import "./metadata/doctype/checklist";
 import "./metadata/doctype/service_protocol";
 import "./metadata/doctype/ticket";
 import "./metadata/doctype/compliance_statement";
-
-frappe.require("/assets/frappe_agt/js/checklist/checklists.js")
