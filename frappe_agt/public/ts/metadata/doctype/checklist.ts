@@ -1,7 +1,6 @@
-frappe.provide("agt.namespace.checklist");
+frappe.provide("agt.metadata.doctype.checklist");
 
-// Definição única dos valores - o tipo será inferido automaticamente
-export const checklist = {
+agt.metadata.doctype.checklist = {
   workflow_state: {
     pre_analysis: {
       name: "Análise Preliminar",
@@ -28,7 +27,4 @@ export const checklist = {
       id: 6
     }
   }
-} as const;
-
-// Derive o tipo da implementação real
-export type ChecklistType = typeof checklist;
+}
