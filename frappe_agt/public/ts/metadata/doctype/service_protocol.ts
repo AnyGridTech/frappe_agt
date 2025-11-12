@@ -1,8 +1,6 @@
-import type { ServiceProtocol } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/service_protocol.d.ts";
+frappe.provide("agt.metadata.doctype.service_protocol");
 
-frappe.provide("agt.namespace.service_protocol");
-
-export const service_protocol: ServiceProtocol = {
+agt.metadata.doctype.service_protocol = {
   workflow_action: {
     request_revision: {
       name: "Solicitar Revisão",

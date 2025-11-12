@@ -4,7 +4,6 @@ import type {
   WorkflowField, 
 } from "@anygridtech/frappe-agt-types/agt/client/workflow/before_workflow_action";
 import type { FrappeDoc, FieldDict } from "@anygridtech/frappe-types/client/frappe/core";
-import "@anygridtech/frappe-types/client";
 
 declare global {
   var workflow_validations: WorkflowValidation[];

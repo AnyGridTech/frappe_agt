@@ -1,8 +1,6 @@
-import type { Ticket } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/ticket.d.ts";
+frappe.provide("agt.metadata.doctype.ticket");
 
-frappe.provide("agt.namespace.ticket");
-
-export const ticket: Ticket = {
+agt.metadata.doctype.ticket = {
   workflow_action: {
     approve: {
       name: "Aprovar",

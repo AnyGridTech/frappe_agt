@@ -1,8 +1,6 @@
-import type { ComplianceStatement } from "@anygridtech/frappe-agt-types/agt/client/metadata/doctype/compliance_statement.d.ts";
+frappe.provide("agt.metadata.doctype.compliance_statement");
 
-frappe.provide("agt.namespace.compliance_statement");
-
-export const compliance_statement: ComplianceStatement = {
+agt.metadata.doctype.compliance_statement = {
   workflow_action: {
     approve: {
       name: "Aprovar",
