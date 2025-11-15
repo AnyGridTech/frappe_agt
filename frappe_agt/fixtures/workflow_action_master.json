@@ -1,0 +1,632 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Enviar Periférico",
+  "workflow_action_name": "Enviar Periférico"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Concluido",
+  "workflow_action_name": "Concluido"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aguardando Coleta",
+  "workflow_action_name": "Aguardando Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Estocar Item Descartado",
+  "workflow_action_name": "Estocar Item Descartado"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar Garantia",
+  "workflow_action_name": "Aprovar Garantia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar Troca Avançada",
+  "workflow_action_name": "Aprovar Troca Avançada"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Distribuir como Reparo",
+  "workflow_action_name": "Distribuir como Reparo"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Iniciar Atendimento",
+  "workflow_action_name": "Iniciar Atendimento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Coleta Ignorada",
+  "workflow_action_name": "Coleta Ignorada"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Em Aberto",
+  "workflow_action_name": "Em Aberto"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Devolver Item",
+  "workflow_action_name": "Devolver Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Entregue",
+  "workflow_action_name": "Entregue"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Extraviado",
+  "workflow_action_name": "Extraviado"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Coletado",
+  "workflow_action_name": "Coletado"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Retornar Para Garantia",
+  "workflow_action_name": "Retornar Para Garantia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Abrir Ocorrência de Envio",
+  "workflow_action_name": "Abrir Ocorrência de Envio"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Emitir NF de Entrada",
+  "workflow_action_name": "Emitir NF de Entrada"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "TESTE",
+  "workflow_action_name": "TESTE"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Disponibilidade",
+  "workflow_action_name": "Informar Disponibilidade"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Uso",
+  "workflow_action_name": "Informar Uso"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Concluir Checklist",
+  "workflow_action_name": "Concluir Checklist"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Revisão",
+  "workflow_action_name": "Solicitar Revisão"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Coleta Cancelada",
+  "workflow_action_name": "Coleta Cancelada"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Envio",
+  "workflow_action_name": "Solicitar Envio"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Defeito",
+  "workflow_action_name": "Informar Defeito"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar Correção",
+  "workflow_action_name": "Aprovar Correção"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Coleta Frustrada",
+  "workflow_action_name": "Coleta Frustrada"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Cancelar Checklist",
+  "workflow_action_name": "Cancelar Checklist"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Emitir NF de Saída",
+  "workflow_action_name": "Emitir NF de Saída"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Indisponibilidade",
+  "workflow_action_name": "Informar Indisponibilidade"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Inspeção",
+  "workflow_action_name": "Informar Inspeção"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Informar Condenação",
+  "workflow_action_name": "Informar Condenação"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Paralisar Análise",
+  "workflow_action_name": "Paralisar Análise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Retornar Atendimento",
+  "workflow_action_name": "Retornar Atendimento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Concluir",
+  "workflow_action_name": "Concluir"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aguardando Pagamento",
+  "workflow_action_name": "Aguardando Pagamento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar Documentação",
+  "workflow_action_name": "Aprovar Documentação"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Reparo",
+  "workflow_action_name": "Solicitar Reparo"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Avançar",
+  "workflow_action_name": "Avançar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Reativar",
+  "workflow_action_name": "Reativar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Recusar Coleta Reversa",
+  "workflow_action_name": "Recusar Coleta Reversa"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Proposta de Envio",
+  "workflow_action_name": "Solicitar Proposta de Envio"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Rejeitado",
+  "workflow_action_name": "Rejeitado"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Submit",
+  "workflow_action_name": "Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Enviar",
+  "workflow_action_name": "Enviar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Análise do Laboratório em Andamento",
+  "workflow_action_name": "Análise do Laboratório em Andamento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Paralisar",
+  "workflow_action_name": "Paralisar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Review",
+  "workflow_action_name": "Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Resolver",
+  "workflow_action_name": "Resolver"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Estocar Item Novo",
+  "workflow_action_name": "Estocar Item Novo"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Reject",
+  "workflow_action_name": "Reject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Atender",
+  "workflow_action_name": "Atender"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Revisar",
+  "workflow_action_name": "Revisar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Checklist Bateria",
+  "workflow_action_name": "Solicitar Checklist Bateria"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Checklist EV Charger",
+  "workflow_action_name": "Solicitar Checklist EV Charger"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Checklist Inversor",
+  "workflow_action_name": "Solicitar Checklist Inversor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Reter Item",
+  "workflow_action_name": "Reter Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Suspender",
+  "workflow_action_name": "Suspender"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aguardando Colaborador",
+  "workflow_action_name": "Aguardando Colaborador"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Estocar Item Defeituoso",
+  "workflow_action_name": "Estocar Item Defeituoso"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Emitir Nota",
+  "workflow_action_name": "Emitir Nota"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Checklist",
+  "workflow_action_name": "Solicitar Checklist"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Enviar ao Cliente",
+  "workflow_action_name": "Enviar ao Cliente"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Approve",
+  "workflow_action_name": "Approve"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Documentação",
+  "workflow_action_name": "Solicitar Documentação"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Análise Administrativa",
+  "workflow_action_name": "Análise Administrativa"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Finalizar Revisão",
+  "workflow_action_name": "Finalizar Revisão"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Em Atendimento",
+  "workflow_action_name": "Em Atendimento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Resolvido",
+  "workflow_action_name": "Resolvido"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovado",
+  "workflow_action_name": "Aprovado"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Troca",
+  "workflow_action_name": "Solicitar Troca"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Entregar Item Descartado à Reciclagem",
+  "workflow_action_name": "Entregar Item Descartado à Reciclagem"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Análise do Laboratório Concluída",
+  "workflow_action_name": "Análise do Laboratório Concluída"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Reprovar Análise",
+  "workflow_action_name": "Reprovar Análise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Finalizar Correção",
+  "workflow_action_name": "Finalizar Correção"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Cancelar Coleta",
+  "workflow_action_name": "Cancelar Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solucionar Ocorrência",
+  "workflow_action_name": "Solucionar Ocorrência"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Reparar Item",
+  "workflow_action_name": "Reparar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Inspecionar Item",
+  "workflow_action_name": "Inspecionar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Condenar Item",
+  "workflow_action_name": "Condenar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Notificar Extravio",
+  "workflow_action_name": "Notificar Extravio"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar",
+  "workflow_action_name": "Aprovar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Cancel",
+  "workflow_action_name": "Cancel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Finalizar Caso",
+  "workflow_action_name": "Finalizar Caso"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Retornar",
+  "workflow_action_name": "Retornar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Encaminhar ao Suporte",
+  "workflow_action_name": "Encaminhar ao Suporte"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Embalar Item",
+  "workflow_action_name": "Embalar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Coletar Item",
+  "workflow_action_name": "Coletar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Recusar Coleta",
+  "workflow_action_name": "Recusar Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Ignorar Coleta",
+  "workflow_action_name": "Ignorar Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Receber Item",
+  "workflow_action_name": "Receber Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Análise",
+  "workflow_action_name": "Solicitar Análise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Enviar Item",
+  "workflow_action_name": "Enviar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Coleta",
+  "workflow_action_name": "Solicitar Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Entregar Item",
+  "workflow_action_name": "Entregar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Finalizar Atendimento",
+  "workflow_action_name": "Finalizar Atendimento"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Separar Item",
+  "workflow_action_name": "Separar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Rejeitar",
+  "workflow_action_name": "Rejeitar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Aprovar Análise",
+  "workflow_action_name": "Aprovar Análise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Expedir Item",
+  "workflow_action_name": "Expedir Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Descartar Item",
+  "workflow_action_name": "Descartar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Solicitar Correção",
+  "workflow_action_name": "Solicitar Correção"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Abrir Ocorrência de Coleta",
+  "workflow_action_name": "Abrir Ocorrência de Coleta"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Estocar Item",
+  "workflow_action_name": "Estocar Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "name": "Cancelar",
+  "workflow_action_name": "Cancelar"
+ }
+]

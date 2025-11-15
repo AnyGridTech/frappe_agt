@@ -1,0 +1,1298 @@
+[
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Falha no Transporte para Reparo",
+  "style": "",
+  "workflow_state_name": "Falha no Transporte para Reparo"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Estoque de Acesso Rápido",
+  "style": "",
+  "workflow_state_name": "Estoque de Acesso Rápido"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Controle de Qualidade Técnica",
+  "style": "",
+  "workflow_state_name": "Controle de Qualidade Técnica"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade Técnica Aprovada",
+  "style": "",
+  "workflow_state_name": "Qualidade Técnica Aprovada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade Técnica Reprovada",
+  "style": "",
+  "workflow_state_name": "Qualidade Técnica Reprovada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Revisão do Diagnóstico Técnico",
+  "style": "",
+  "workflow_state_name": "Revisão do Diagnóstico Técnico"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Embalado para Despacho",
+  "style": "",
+  "workflow_state_name": "Embalado para Despacho"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade do Envio Aprovada",
+  "style": "",
+  "workflow_state_name": "Qualidade do Envio Aprovada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade do Envio Reprovada",
+  "style": "",
+  "workflow_state_name": "Qualidade do Envio Reprovada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Enviado ao Cliente",
+  "style": "",
+  "workflow_state_name": "Enviado ao Cliente"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Perdido no Transporte para o Cliente",
+  "style": "",
+  "workflow_state_name": "Perdido no Transporte para o Cliente"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Entrega ao Cliente Recusada",
+  "style": "",
+  "workflow_state_name": "Entrega ao Cliente Recusada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Falha na Entrega ao Cliente",
+  "style": "",
+  "workflow_state_name": "Falha na Entrega ao Cliente"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Retirado pelo Cliente nos Correios",
+  "style": "",
+  "workflow_state_name": "Retirado pelo Cliente nos Correios"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Falha na Retirada pelo Cliente nos Correios",
+  "style": "",
+  "workflow_state_name": "Falha na Retirada pelo Cliente nos Correios"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Pagamento Recusado",
+  "style": "",
+  "workflow_state_name": "Pagamento Recusado"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Peça de Reposição Utilizada no Laboratório",
+  "style": "",
+  "workflow_state_name": "Peça de Reposição Utilizada no Laboratório"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Equipamento Substituído",
+  "style": "",
+  "workflow_state_name": "Equipamento Substituído"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Recebido pelo Cliente",
+  "style": "",
+  "workflow_state_name": "Recebido pelo Cliente"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Item Perdido",
+  "style": "",
+  "workflow_state_name": "Item Perdido"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Reverter Coleta",
+  "style": "",
+  "workflow_state_name": "Reverter Coleta"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Separar Item",
+  "style": "",
+  "workflow_state_name": "Separar Item"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "todos",
+  "style": "Success",
+  "workflow_state_name": "todos"
+ },
+ {
+  "custom_doctype": "IT Request",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Paralisado",
+  "style": "Warning",
+  "workflow_state_name": "Paralisado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Solicitação Incompleta",
+  "style": "",
+  "workflow_state_name": "Solicitação Incompleta"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Pendência",
+  "style": "",
+  "workflow_state_name": "Cliente: Pendência"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Coleta pela Transportadora",
+  "style": "",
+  "workflow_state_name": "Aguardando Coleta pela Transportadora"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Paralisado (Cliente)",
+  "style": "",
+  "workflow_state_name": "Paralisado (Cliente)"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Pagamento de Cotação",
+  "style": "",
+  "workflow_state_name": "Aguardando Pagamento de Cotação"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Entregue ao Cliente",
+  "style": "",
+  "workflow_state_name": "Entregue ao Cliente"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Embalado para Armazenamento",
+  "style": "",
+  "workflow_state_name": "Embalado para Armazenamento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Preencher Dados",
+  "style": "",
+  "workflow_state_name": "Cliente: Preencher Dados"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Apagado",
+  "style": "",
+  "workflow_state_name": "Apagado"
+ },
+ {
+  "custom_doctype": "Compliance Statement",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Documentação Aprovada",
+  "style": "Success",
+  "workflow_state_name": "Documentação Aprovada"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Triagem Técnica",
+  "style": "",
+  "workflow_state_name": "Triagem Técnica"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "name": "Pending",
+  "style": "",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Corrigir documentação",
+  "style": "",
+  "workflow_state_name": "Cliente: Corrigir documentação"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Proposta de Envio Criada",
+  "style": "",
+  "workflow_state_name": "Proposta de Envio Criada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Pagamento de Imposto",
+  "style": "",
+  "workflow_state_name": "Aguardando Pagamento de Imposto"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte Finalizado",
+  "style": "",
+  "workflow_state_name": "Descarte Finalizado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Finalizado: Correção Faltante",
+  "style": "",
+  "workflow_state_name": "Finalizado: Correção Faltante"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Entregue",
+  "style": "",
+  "workflow_state_name": "Entregue"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Pagamento para Reenvio",
+  "style": "",
+  "workflow_state_name": "Aguardando Pagamento para Reenvio"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Checklist Bateria Solicitado",
+  "style": "",
+  "workflow_state_name": "Cliente: Checklist Bateria Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Extraviado",
+  "style": "",
+  "workflow_state_name": "Extraviado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop em Inspeção",
+  "style": "",
+  "workflow_state_name": "Laptop em Inspeção"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Perdido em Trânsito para Reparo",
+  "style": "Danger",
+  "workflow_state_name": "Perdido em Trânsito para Reparo"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Pagamento de Transporte",
+  "style": "",
+  "workflow_state_name": "Aguardando Pagamento de Transporte"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop Cadastrado",
+  "style": "",
+  "workflow_state_name": "Laptop Cadastrado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta Frustrada",
+  "style": "",
+  "workflow_state_name": "Coleta Frustrada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Reparo Inviável",
+  "style": "",
+  "workflow_state_name": "Reparo Inviável"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop Indisponível",
+  "style": "",
+  "workflow_state_name": "Laptop Indisponível"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Finalizado: Corrigido",
+  "style": "",
+  "workflow_state_name": "Finalizado: Corrigido"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Coleta do Defeituoso",
+  "style": "",
+  "workflow_state_name": "Aguardando Coleta do Defeituoso"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coletado",
+  "style": "",
+  "workflow_state_name": "Coletado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop Defeituoso",
+  "style": "",
+  "workflow_state_name": "Laptop Defeituoso"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Entregue ao Centro de Reparos",
+  "style": "",
+  "workflow_state_name": "Entregue ao Centro de Reparos"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Em Trânsito para Reparo",
+  "style": "Info",
+  "workflow_state_name": "Em Trânsito para Reparo"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Peças de Reposição",
+  "style": "",
+  "workflow_state_name": "Aguardando Peças de Reposição"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist EV Charger Solicitado",
+  "style": "Info",
+  "workflow_state_name": "Checklist EV Charger Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "ok-sign",
+  "name": "Approved",
+  "style": "Success",
+  "workflow_state_name": "Approved"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Autorização do Cliente",
+  "style": "",
+  "workflow_state_name": "Aguardando Autorização do Cliente"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist Concluído",
+  "style": "",
+  "workflow_state_name": "Checklist Concluído"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop Condenado",
+  "style": "",
+  "workflow_state_name": "Laptop Condenado"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Reparo Inviável (Condenado)",
+  "style": "",
+  "workflow_state_name": "Reparo Inviável (Condenado)"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist Bateria Solicitado",
+  "style": "Info",
+  "workflow_state_name": "Checklist Bateria Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Emissão de NF Entrada",
+  "style": "",
+  "workflow_state_name": "Emissão de NF Entrada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Retido por Pendência Administrativa",
+  "style": "",
+  "workflow_state_name": "Retido por Pendência Administrativa"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Emissão de NF Saída",
+  "style": "",
+  "workflow_state_name": "Emissão de NF Saída"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Declaração de Conformidade",
+  "style": "",
+  "workflow_state_name": "Declaração de Conformidade"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Retido em Posto Fiscal",
+  "style": "",
+  "workflow_state_name": "Retido em Posto Fiscal"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop Disponível",
+  "style": "",
+  "workflow_state_name": "Laptop Disponível"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "remove",
+  "name": "Rejected",
+  "style": "Danger",
+  "workflow_state_name": "Rejected"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta Cancelada",
+  "style": "",
+  "workflow_state_name": "Coleta Cancelada"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Documentação Solicitada",
+  "style": "",
+  "workflow_state_name": "Documentação Solicitada"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Checklist EV Charger Solicitado",
+  "style": "",
+  "workflow_state_name": "Cliente: Checklist EV Charger Solicitado"
+ },
+ {
+  "custom_doctype": "IT Request",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Colaborador",
+  "style": "Primary",
+  "workflow_state_name": "Aguardando Colaborador"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Laptop em Uso",
+  "style": "",
+  "workflow_state_name": "Laptop em Uso"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Estoque de Envio",
+  "style": "",
+  "workflow_state_name": "Estoque de Envio"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Resolvido",
+  "style": "Success",
+  "workflow_state_name": "Resolvido"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Ativado",
+  "style": "",
+  "workflow_state_name": "Ativado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Rascunho",
+  "style": "",
+  "workflow_state_name": "Rascunho"
+ },
+ {
+  "custom_doctype": "",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Atendimento Finalizado",
+  "style": "Primary",
+  "workflow_state_name": "Atendimento Finalizado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Correção Solicitada",
+  "style": "",
+  "workflow_state_name": "Cliente: Correção Solicitada"
+ },
+ {
+  "custom_doctype": "IT Request",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Pendente - Solicitante",
+  "style": "Warning",
+  "workflow_state_name": "Pendente - Solicitante"
+ },
+ {
+  "custom_doctype": "Service Protocol",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Medições Pendentes",
+  "style": "",
+  "workflow_state_name": "Medições Pendentes"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist Solicitado",
+  "style": "",
+  "workflow_state_name": "Checklist Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Suspendido",
+  "style": "",
+  "workflow_state_name": "Suspendido"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist",
+  "style": "",
+  "workflow_state_name": "Checklist"
+ },
+ {
+  "custom_doctype": "Service Protocol",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Garantia Aprovada",
+  "style": "Success",
+  "workflow_state_name": "Garantia Aprovada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Recebido pela Growatt",
+  "style": "",
+  "workflow_state_name": "Recebido pela Growatt"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Envio pelo Centro de Reparos",
+  "style": "",
+  "workflow_state_name": "Aguardando Envio pelo Centro de Reparos"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Inspeção do Inversor",
+  "style": "",
+  "workflow_state_name": "Inspeção do Inversor"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aprovado",
+  "style": "Success",
+  "workflow_state_name": "Aprovado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Checklist Inversor Solicitado",
+  "style": "",
+  "workflow_state_name": "Cliente: Checklist Inversor Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Proposta de Envio",
+  "style": "",
+  "workflow_state_name": "Proposta de Envio"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte Entregue para Reciclagem",
+  "style": "",
+  "workflow_state_name": "Descarte Entregue para Reciclagem"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Checklist Inversor Solicitado",
+  "style": "Info",
+  "workflow_state_name": "Checklist Inversor Solicitado"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte no Laboratório",
+  "style": "",
+  "workflow_state_name": "Descarte no Laboratório"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Documentação Solicitada",
+  "style": "",
+  "workflow_state_name": "Cliente: Documentação Solicitada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Agendamento de Coleta",
+  "style": "",
+  "workflow_state_name": "Aguardando Agendamento de Coleta"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte Concluído",
+  "style": "",
+  "workflow_state_name": "Descarte Concluído"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Ação",
+  "style": "",
+  "workflow_state_name": "Aguardando Ação"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Revisão",
+  "style": "Warning",
+  "workflow_state_name": "Revisão"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Novo em Estoque",
+  "style": "",
+  "workflow_state_name": "Novo em Estoque"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Cliente",
+  "style": "Danger",
+  "workflow_state_name": "Aguardando Cliente"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Parado",
+  "style": "Warning",
+  "workflow_state_name": "Parado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Growatt",
+  "style": "Info",
+  "workflow_state_name": "Aguardando Growatt"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Correção Administrativa",
+  "style": "",
+  "workflow_state_name": "Aguardando Correção Administrativa"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Separação de Estoque",
+  "style": "",
+  "workflow_state_name": "Separação de Estoque"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Equipamento Condenado",
+  "style": "",
+  "workflow_state_name": "Equipamento Condenado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Devolução",
+  "style": "",
+  "workflow_state_name": "Aguardando Devolução"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta Perdida",
+  "style": "",
+  "workflow_state_name": "Coleta Perdida"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte em Estoque",
+  "style": "",
+  "workflow_state_name": "Descarte em Estoque"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Ativo",
+  "style": "Info",
+  "workflow_state_name": "Ativo"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Caso Finalizado",
+  "style": "",
+  "workflow_state_name": "Caso Finalizado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade da Expedição",
+  "style": "",
+  "workflow_state_name": "Qualidade da Expedição"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Devolvido ao Cliente",
+  "style": "",
+  "workflow_state_name": "Devolvido ao Cliente"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Análise Técnica",
+  "style": "Primary",
+  "workflow_state_name": "Análise Técnica"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Reparado em Estoque",
+  "style": "",
+  "workflow_state_name": "Reparado em Estoque"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Análise Preliminar",
+  "style": "Info",
+  "workflow_state_name": "Análise Preliminar"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta Ignorada",
+  "style": "",
+  "workflow_state_name": "Coleta Ignorada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Defeituoso em Estoque",
+  "style": "",
+  "workflow_state_name": "Defeituoso em Estoque"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Envio ao Cliente em Andamento",
+  "style": "",
+  "workflow_state_name": "Envio ao Cliente em Andamento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Envio",
+  "style": "",
+  "workflow_state_name": "Aguardando Envio"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta Recusada",
+  "style": "",
+  "workflow_state_name": "Coleta Recusada"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Inspeção do Equipamento",
+  "style": "",
+  "workflow_state_name": "Inspeção do Equipamento"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Reparo em Andamento",
+  "style": "",
+  "workflow_state_name": "Reparo em Andamento"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Descarte Enviado para Reciclagem",
+  "style": "",
+  "workflow_state_name": "Descarte Enviado para Reciclagem"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Embalagem",
+  "style": "",
+  "workflow_state_name": "Aguardando Embalagem"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Análise Administrativa",
+  "style": "Warning",
+  "workflow_state_name": "Análise Administrativa"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Qualidade de Recebimento",
+  "style": "Info",
+  "workflow_state_name": "Qualidade de Recebimento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Ação Necessária",
+  "style": "Warning",
+  "workflow_state_name": "Cliente: Ação Necessária"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Ocorrência de Coleta",
+  "style": "",
+  "workflow_state_name": "Ocorrência de Coleta"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Corrigir Informações",
+  "style": "Warning",
+  "workflow_state_name": "Cliente: Corrigir Informações"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Coleta em Andamento",
+  "style": "",
+  "workflow_state_name": "Coleta em Andamento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cancelado",
+  "style": "Danger",
+  "workflow_state_name": "Cancelado"
+ },
+ {
+  "custom_doctype": "Serial No",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Aguardando Coleta",
+  "style": "Warning",
+  "workflow_state_name": "Aguardando Coleta"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Finalizar Preenchimento",
+  "style": "Warning",
+  "workflow_state_name": "Cliente: Finalizar Preenchimento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Cliente: Checklist Solicitado",
+  "style": "",
+  "workflow_state_name": "Cliente: Checklist Solicitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Rejeitado",
+  "style": "Danger",
+  "workflow_state_name": "Rejeitado"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Pendente",
+  "style": "Info",
+  "workflow_state_name": "Pendente"
+ },
+ {
+  "custom_doctype": "IT Request",
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Em Atendimento",
+  "style": "Inverse",
+  "workflow_state_name": "Em Atendimento"
+ },
+ {
+  "custom_doctype": null,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "name": "Concluído",
+  "style": "Success",
+  "workflow_state_name": "Concluido"
+ }
+]
