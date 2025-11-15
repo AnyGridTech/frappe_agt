@@ -1,0 +1,54 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-10-27 12:58:55.554963",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "child_tracker_docname",
+  "column_break_zqei",
+  "child_tracker_workflow_state",
+  "column_break_wpab",
+  "child_tracker_doctype"
+ ],
+ "fields": [
+  {
+   "fieldname": "child_tracker_docname",
+   "fieldtype": "Data",
+   "label": "Nome"
+  },
+  {
+   "fieldname": "column_break_zqei",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "child_tracker_workflow_state",
+   "fieldtype": "Data",
+   "label": "Status"
+  },
+  {
+   "fieldname": "column_break_wpab",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "child_tracker_doctype",
+   "fieldtype": "Data",
+   "label": "Doctype"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-11-15 16:10:29.990969",
+ "modified_by": "Administrator",
+ "module": "Frappe Agt",
+ "name": "Child Tracker Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
