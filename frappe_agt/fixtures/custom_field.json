@@ -61,7 +61,7 @@
     "dt": "Item",
     "fieldname": "ncm",
     "label": "NCM",
-    "fieldtype": "Float",
+    "fieldtype": "Data",
     "insert_after": "mppt"
   },
   {
