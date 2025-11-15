@@ -1,7 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("agt.namespace");
-const checklist = {
+frappe.provide("agt.metadata.doctype.checklist");
+agt.metadata.doctype.checklist = {
   workflow_state: {
     pre_analysis: {
       name: "An\xE1lise Preliminar",
@@ -28,8 +28,4 @@ const checklist = {
       id: 6
     }
   }
-};
-agt.namespace.checklist = checklist;
-export {
-  checklist
 };

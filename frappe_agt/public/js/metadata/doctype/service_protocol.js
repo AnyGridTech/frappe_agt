@@ -1,7 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("agt.namespace");
-const service_protocol = {
+frappe.provide("agt.metadata.doctype.service_protocol");
+agt.metadata.doctype.service_protocol = {
   workflow_action: {
     request_revision: {
       name: "Solicitar Revis\xE3o",
@@ -50,8 +50,4 @@ const service_protocol = {
       id: 5
     }
   }
-};
-agt.namespace.service_protocol = service_protocol;
-export {
-  service_protocol
 };

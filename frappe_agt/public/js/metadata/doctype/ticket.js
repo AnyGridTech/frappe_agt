@@ -1,7 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("agt.namespace");
-const ticket = {
+frappe.provide("agt.metadata.doctype.ticket");
+agt.metadata.doctype.ticket = {
   workflow_action: {
     approve: {
       name: "Aprovar",
@@ -46,8 +46,4 @@ const ticket = {
       id: 5
     }
   }
-};
-agt.namespace.ticket = ticket;
-export {
-  ticket
 };

@@ -1,7 +1,7 @@
 // Copyright (c) 2025, AnyGridTech and contributors
 // For license information, please see license.txt
-frappe.provide("agt.namespace");
-const compliance_statement = {
+frappe.provide("agt.metadata.doctype.compliance_statement");
+agt.metadata.doctype.compliance_statement = {
   workflow_action: {
     approve: {
       name: "Aprovar",
@@ -110,8 +110,4 @@ const compliance_statement = {
       id: 16
     }
   }
-};
-agt.namespace.compliance_statement = compliance_statement;
-export {
-  compliance_statement
 };
