@@ -16,35 +16,35 @@
  "fields": [
   {
    "fieldname": "munic\u00edpio",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Munic\u00edpio",
    "reqd": 1
   },
   {
    "fieldname": "cod",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "IBGE",
    "reqd": 1
   },
   {
    "fieldname": "uf",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "UF",
    "reqd": 1
   },
   {
    "fieldname": "state",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Estado",
    "reqd": 1
   },
   {
    "fieldname": "cod_uf",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "label": "Cod. UF",
    "reqd": 1
   },
