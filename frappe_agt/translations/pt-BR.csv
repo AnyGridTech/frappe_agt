@@ -1175,7 +1175,7 @@ Location,Localização
 Loading...,Carregando...
 Invite as User,Convidar como Usuário
 Intermediate,Intermediário
-In Progress,Em progresso
+In Progress,Em andamento
 Import Data from CSV / Excel files.,Importar dados de arquivos CSV / Excel.
 Home,Início
 Help Article,Artigo de Ajuda
@@ -1205,7 +1205,7 @@ Description,Descrição
 Delete,Excluir
 Default,Padrão
 Dear,Caro
-Date,Data
+Date,Data (DD/MM/YYYY)
 Daily,Diário
 Customize,Personalizar
 Currency,Moeda
@@ -1607,7 +1607,7 @@ Form URL-Encoded,Codificado em URL do formulário
 "For more information, click here.","Para mais informações, <a class=""text-muted"" href=""https://erpnext.com/docs/user/manual/en/setting-up/email/linking-emails-to-document"">clique aqui</a> ."
 For Document Event,Para evento de documento
 First,Primeiro
-Finished,Acabado
+Finished,Finalizado
 Filters applied for {0},Filtros aplicados para {0}
 Filtered Records,Registros Filtrados
 Filter By,Filtrar por
@@ -3722,8 +3722,8 @@ Google Font,Google Font
 Google Calendar ID,ID da Agenda do Google
 Google Analytics ID,ID do Google Analytics
 Google,Google
-Go to {0} Page,Ir para {0} Página
-Go to {0} List,Ir para a {0} lista
+Go to {0} Page,Ir para página de {0}
+Go to {0} List,Ir para a lista de {0}
 Go to {0},Vá para {0}
 Go to this URL after completing the form (only for Guest users),Vá para este URL depois de preencher o formulário (apenas para usuários convidados)
 Go to the document,Vá para o documento
