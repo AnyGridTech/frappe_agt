@@ -242,9 +242,10 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-# força qualquer 404 (site ou desk) a usar sua página personalizada
-website_catch_all = "my_app.www.404"
-
+# Handle 404 errors with a custom page
 error_handlers = {
-    "404": "my_app.utils.error404"
+    "404": "frappe_agt.www.not_found"
 }
+
+# Catch all route
+website_catch_all = "not_found"
