@@ -242,10 +242,3 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-# Handle 404 errors with a custom page
-error_handlers = {
-    "404": "frappe_agt.www.not_found"
-}
-
-# Catch all route
-website_catch_all = "not_found"
