@@ -458,7 +458,7 @@ agt.utils.get_growatt_sn_info = async function(serial_no: string) {
   
   try {
     const sn = await frappe.call({
-      method: 'get_growatt_sn_info',
+      method: 'frappe_agt.public.api.get_growatt_sn_info.get_growatt_sn_info',
       args: { deviceSN: serial_no }
     });
     const fail = !sn || !sn.message?.code || sn.message.code !== 200;
