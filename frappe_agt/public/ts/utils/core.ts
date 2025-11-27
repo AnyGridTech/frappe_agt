@@ -72,7 +72,7 @@ agt.utils.update_workflow_state = async function (params: {
   const { doctype, docname, workflow_state, ignore_workflow_validation, callback } = params;
   return await frappe
     .call({
-      method: 'update_workflow_state',
+      method: 'frappe_agt.api.update_workflow_state',
       args: { doctype, docname, workflow_state, ignore_workflow_validation }
     })
     .then(async () => {
@@ -153,7 +153,7 @@ agt.utils.validate_cnpj_existence = async function (cnpj: string): Promise<boole
 
   try {
     const response = await frappe.call({
-      method: 'check_cnpj',
+      method: 'frappe_agt.api.check_cnpj',
       args: { cnpj: digits }
     });
     const data = response?.message;

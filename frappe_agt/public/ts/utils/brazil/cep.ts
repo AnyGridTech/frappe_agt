@@ -68,7 +68,7 @@ agt.utils.brazil.cep.validate = async function (
   const fetchCepData = async (cep: string) => {
     try {
       const response = await frappe.call({
-        method: 'check_cep',
+        method: 'frappe_agt.api.check_cep',
         args: { cep }
       });
       return response.message;

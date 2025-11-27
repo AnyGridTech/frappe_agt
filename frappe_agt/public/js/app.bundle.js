@@ -1347,7 +1347,7 @@
     }
     try {
       const response = await frappe.call({
-        method: "check_cnpj_existence",
+        method: "frappe_agt.api.check_cnpj_existence",
         args: { cnpj }
       });
       if (response.message && response.message.exists) {
@@ -1485,7 +1485,7 @@
     const fetchCepData = async (cep) => {
       try {
         const response = await frappe.call({
-          method: "check_cep",
+          method: "frappe_agt.api.check_cep",
           args: { cep }
         });
         return response.message;
@@ -1761,7 +1761,7 @@
   agt.utils.update_workflow_state = async function(params) {
     const { doctype, docname, workflow_state, ignore_workflow_validation, callback } = params;
     return await frappe.call({
-      method: "update_workflow_state",
+      method: "frappe_agt.api.update_workflow_state",
       args: { doctype, docname, workflow_state, ignore_workflow_validation }
     }).then(async () => {
       return await agt.utils.refresh_force().then(async (doc) => {
@@ -1829,7 +1829,7 @@
     if (digits.length !== 14) return false;
     try {
       const response = await frappe.call({
-        method: "check_cnpj",
+        method: "frappe_agt.api.check_cnpj",
         args: { cnpj: digits }
       });
       const data = response?.message;
