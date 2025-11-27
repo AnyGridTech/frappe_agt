@@ -2098,22 +2098,13 @@
     });
   };
   agt.utils.get_growatt_sn_info = async function(serial_no) {
-    if (!serial_no || typeof serial_no !== "string") {
-      console.error("get_growatt_sn_info: serial_no \xE9 obrigat\xF3rio");
-      return void 0;
-    }
-    try {
-      const sn = await frappe.call({
-        method: "frappe_agt.public.api.get_growatt_sn_info.get_growatt_sn_info",
-        args: { deviceSN: serial_no }
-      });
-      const fail = !sn || !sn.message?.code || sn.message.code !== 200;
-      if (fail) return void 0;
-      return sn.message;
-    } catch (error) {
-      console.error("Erro ao buscar informa\xE7\xF5es do SN Growatt:", error);
-      return void 0;
-    }
+    const sn = await frappe.call({
+      method: "frappe_agt.api.get_growatt_sn_info",
+      args: { deviceSN: serial_no }
+    });
+    const fail = !sn || !sn.message?.code || sn.message.code !== 200;
+    if (fail) return void 0;
+    return sn.message;
   };
   agt.utils.validate_serial_number = function(sn, type) {
     if (!sn || typeof sn !== "string") return false;
