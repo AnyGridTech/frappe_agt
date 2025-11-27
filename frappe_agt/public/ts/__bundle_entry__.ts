@@ -1,3 +1,4 @@
+import "./__bundle_entry__";
 import "./checklist/checklists";
 import "./corrections_tracker/run";
 import "./corrections_tracker/table";
