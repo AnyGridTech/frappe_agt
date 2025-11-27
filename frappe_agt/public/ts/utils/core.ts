@@ -432,7 +432,7 @@ agt.utils.get_item_info = async function (item_name: string, sn?: string) {
 
   const all_items = await frappe.db
     .get_list('Item', {
-      fields: ['item_code', 'custom_mppt', 'item_name'],
+      fields: ['item_code', 'mppt', 'item_name'],
     })
     .catch((e: any) => {
       console.error('Erro ao buscar itens:', e);
@@ -449,7 +449,7 @@ agt.utils.get_item_info = async function (item_name: string, sn?: string) {
 
   if (!filtered_items.length) return;
   // Se só existe um MPPT, retorna direto
-  const uniqueMppts = [...new Set(filtered_items.map((item: any) => item.custom_mppt))];
+  const uniqueMppts = [...new Set(filtered_items.map((item: any) => item.mppt))];
   if (uniqueMppts.length === 1) return filtered_items[0];
 
   // Se há mais de um MPPT, mostra o diálogo para seleção
@@ -472,7 +472,7 @@ agt.utils.get_item_info = async function (item_name: string, sn?: string) {
       primary_action: async function (values: any) {
         const mppt = values.mppt;
         if (!mppt) return;
-        const item = filtered_items.find((item: any) => item.custom_mppt === mppt);
+        const item = filtered_items.find((item: any) => item.mppt === mppt);
         agt.utils.dialog.close_by_title(dialog_title);
         resolve(item); // Resolve o item selecionado
       }

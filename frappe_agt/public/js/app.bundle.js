@@ -2058,7 +2058,7 @@
       return;
     }
     const all_items = await frappe.db.get_list("Item", {
-      fields: ["item_code", "custom_mppt", "item_name"]
+      fields: ["item_code", "mppt", "item_name"]
     }).catch((e) => {
       console.error("Erro ao buscar itens:", e);
       return null;
@@ -2069,7 +2069,7 @@
       (item) => agt.utils.text.normalize(item.item_name) === normalizedInput
     );
     if (!filtered_items.length) return;
-    const uniqueMppts = [...new Set(filtered_items.map((item) => item.custom_mppt))];
+    const uniqueMppts = [...new Set(filtered_items.map((item) => item.mppt))];
     if (uniqueMppts.length === 1) return filtered_items[0];
     const dialog_title = `Selecione a quantidade de MPPTs (${item_name}${sn ? ` - ${sn}` : ""})`;
     return new Promise((resolve) => {
@@ -2090,7 +2090,7 @@
         primary_action: async function(values) {
           const mppt = values.mppt;
           if (!mppt) return;
-          const item = filtered_items.find((item2) => item2.custom_mppt === mppt);
+          const item = filtered_items.find((item2) => item2.mppt === mppt);
           agt.utils.dialog.close_by_title(dialog_title);
           resolve(item);
         }
