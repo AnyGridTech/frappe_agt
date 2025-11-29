@@ -22,7 +22,7 @@ def get_growatt_sn_info(deviceSN):
 ###############################################################
 # import_movidesk_and_create_entries
 ###############################################################
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def import_movidesk_and_create_entries(auth_token, company="AnyGrid", warehouse="[AW] Waiting at Customer Site - ANY", stock_entry_type="Material Receipt"):
     """
     Imports data from Movidesk and creates Serial No and Stock Entry for each returned item.
@@ -197,8 +197,7 @@ def check_ibge(uf: str):
         frappe.throw("UF code not found or invalid.")
     return data
 
-import frappe # type: ignore
-import json # type: ignore
+
 
 ###############################################################
 # create_stock_entry
@@ -237,8 +236,7 @@ def create_stock_entry(items, company, stock_entry_type):
         frappe.log_error(message=str(e), title="Error in Stock Entry Creation")
         frappe.throw("An unexpected error occurred while creating the Stock Entry.")
 
-import json
-import frappe # type: ignore
+
 
 # API server script
 
@@ -281,12 +279,11 @@ def create_document(doc_type, data):
         frappe.log_error(str(e), "Document Creation Error")
         frappe.throw(f"Error creating document: {str(e)}")
 
-import frappe  # type: ignore
-import json
+
 ###############################################################
 # update_workflow_state
 ###############################################################
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_validation=False):
     """
     Updates the workflow state of a document.
@@ -339,11 +336,10 @@ def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_vali
         frappe.log_error(message=str(e), title="Error in Workflow State Update")
         frappe.throw(f"An error occurred while updating the workflow state: {e}")
 
-import frappe
-
 ###############################################################
 # validate_child_row_deletion
 ###############################################################
+@frappe.whitelist(allow_guest=True)
 def validate_child_row_deletion(doctype, docname, child_table_field):
     """
     Checks if there was an attempt to delete already saved rows in a child table of a document.

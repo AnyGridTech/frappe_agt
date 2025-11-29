@@ -1752,6 +1752,15 @@
         form.states.frm.refresh();
         form.states.frm.selected_workflow_action = null;
         form.states.frm.script_manager.trigger("after_workflow_action");
+      }).catch((error) => {
+        frappe.dom.unfreeze();
+        frappe.msgprint({
+          title: "Erro na transi\xE7\xE3o de workflow",
+          message: error?.message || error,
+          indicator: "red"
+        });
+        console.error("Erro na transi\xE7\xE3o de workflow:", error);
+        throw error;
       }).finally(async () => {
         frappe.dom.unfreeze();
         callback && await callback(form);

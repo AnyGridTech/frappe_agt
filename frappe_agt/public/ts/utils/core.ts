@@ -55,6 +55,16 @@ agt.utils.workflow_transition = async function (
         form.states.frm.selected_workflow_action = null;
         form.states.frm.script_manager.trigger('after_workflow_action');
       })
+      .catch((error: any) => {
+        frappe.dom.unfreeze();
+        frappe.msgprint({
+          title: 'Erro na transição de workflow',
+          message: error?.message || error,
+          indicator: 'red'
+        });
+        console.error('Erro na transição de workflow:', error);
+        throw error;
+      })
       .finally(async () => {
         frappe.dom.unfreeze();
         callback && (await callback(form));
