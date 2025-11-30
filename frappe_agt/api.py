@@ -285,58 +285,131 @@ def create_document(doc_type, data):
 ###############################################################
 # update_workflow_state
 ###############################################################
+# @frappe.whitelist(allow_guest=True)
+# def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_validation=False):
+#     """
+#     Updates the workflow state of a document.
+#     Args:
+#         doctype (str): Document type.
+#         docname (str): Document name.
+#         workflow_state (str): New workflow state.
+#         ignore_workflow_validation (bool): Ignore workflow validation.
+#     Returns:
+#         dict: Updated document.
+#     """
+#     if isinstance(ignore_workflow_validation, str):
+#         ignore_workflow_validation = ignore_workflow_validation.lower() in ["true", "1", "yes"]
+#     if not doctype or not isinstance(doctype, str):
+#         frappe.throw("The 'doctype' parameter is required and must be a string.")
+#     if not docname or not isinstance(docname, str):
+#         frappe.throw("The 'docname' parameter is required and must be a string.")
+#     if not workflow_state or not isinstance(workflow_state, str):
+#         frappe.throw("The 'workflow_state' parameter is required and must be a string.")
+#     if not isinstance(ignore_workflow_validation, bool):
+#         frappe.throw("The 'ignore_workflow_validation' parameter must be a boolean.")
+#     try:
+#         if ignore_workflow_validation:
+#             prev_doc = frappe.get_doc(doctype, docname)
+#             try:
+#                 prev_workflow_state = prev_doc.workflow_state
+#             except Exception:
+#                 prev_workflow_state = None
+#             frappe.db.set_value(doctype, docname, "workflow_state", workflow_state)
+#             frappe.db.commit()
+#             version_doc = frappe.get_doc({
+#                 "doctype": "Version",
+#                 "ref_doctype": doctype,
+#                 "docname": docname,
+#                 "owner": frappe.session.user,
+#                 "creation": frappe.utils.now_datetime(),
+#                 "data": json.dumps({
+#                     "changed": [["workflow_state", prev_workflow_state, workflow_state]]
+#                 })
+#             })
+#             version_doc.insert(ignore_permissions=True)
+#         else:
+#             doc = frappe.get_doc(doctype, docname)
+#             doc.workflow_state = workflow_state
+#             doc.save()
+#             frappe.db.commit()
+#         updated_doc = frappe.get_doc(doctype, docname)
+#         return updated_doc.as_dict()
+#     except Exception as e:
+#         frappe.log_error(message=str(e), title="Error in Workflow State Update")
+#         frappe.throw(f"An error occurred while updating the workflow state: {e}")
+
 @frappe.whitelist(allow_guest=True)
 def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_validation=False):
     """
     Updates the workflow state of a document.
-    Args:
-        doctype (str): Document type.
-        docname (str): Document name.
-        workflow_state (str): New workflow state.
-        ignore_workflow_validation (bool): Ignore workflow validation.
-    Returns:
-        dict: Updated document.
+    If ignore_workflow_validation = True, it FORCES the state and bypasses workflow rules.
     """
+
+    # Normaliza boolean vindo via API
     if isinstance(ignore_workflow_validation, str):
         ignore_workflow_validation = ignore_workflow_validation.lower() in ["true", "1", "yes"]
+
     if not doctype or not isinstance(doctype, str):
         frappe.throw("The 'doctype' parameter is required and must be a string.")
+
     if not docname or not isinstance(docname, str):
         frappe.throw("The 'docname' parameter is required and must be a string.")
+
     if not workflow_state or not isinstance(workflow_state, str):
         frappe.throw("The 'workflow_state' parameter is required and must be a string.")
+
     if not isinstance(ignore_workflow_validation, bool):
         frappe.throw("The 'ignore_workflow_validation' parameter must be a boolean.")
+
     try:
+        doc = frappe.get_doc(doctype, docname)
+
+        old_state = doc.workflow_state
+
+        # ===============================
+        # 🔥 FORÇAR ESTADO (sem workflow)
+        # ===============================
         if ignore_workflow_validation:
-            prev_doc = frappe.get_doc(doctype, docname)
-            try:
-                prev_workflow_state = prev_doc.workflow_state
-            except Exception:
-                prev_workflow_state = None
+
+            # muda direto no banco
             frappe.db.set_value(doctype, docname, "workflow_state", workflow_state)
-            frappe.db.commit()
-            version_doc = frappe.get_doc({
-                "doctype": "Version",
-                "ref_doctype": doctype,
-                "docname": docname,
-                "owner": frappe.session.user,
-                "creation": frappe.utils.now_datetime(),
-                "data": json.dumps({
-                    "changed": [["workflow_state", prev_workflow_state, workflow_state]]
-                })
+
+            # registra versão (auditoria oficial do Frappe)
+            version = frappe.new_doc("Version")
+            version.ref_doctype = doctype
+            version.docname = docname
+            version.data = json.dumps({
+                "changed": [
+                    ["workflow_state", old_state, workflow_state]
+                ],
+                "comment": f"FORCED by {frappe.session.user}"
             })
-            version_doc.insert(ignore_permissions=True)
+            version.insert(ignore_permissions=True)
+
+        # ===============================
+        # ✅ NORMAL (respeitando workflow)
+        # ===============================
         else:
-            doc = frappe.get_doc(doctype, docname)
             doc.workflow_state = workflow_state
             doc.save()
-            frappe.db.commit()
+
+        frappe.db.commit()
+
         updated_doc = frappe.get_doc(doctype, docname)
-        return updated_doc.as_dict()
+
+        return {
+            "status": "success",
+            "doctype": doctype,
+            "docname": docname,
+            "old_state": old_state,
+            "new_state": workflow_state,
+            "forced": ignore_workflow_validation
+        }
+
     except Exception as e:
         frappe.log_error(message=str(e), title="Error in Workflow State Update")
-        frappe.throw(f"An error occurred while updating the workflow state: {e}")
+        frappe.throw(f"An error occurred while updating the workflow state: {str(e)}")
+
 
 ###############################################################
 # validate_child_row_deletion
