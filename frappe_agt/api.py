@@ -2,6 +2,8 @@
 import frappe
 import json
 import requests
+import frappe.utils
+from frappe import _
 
 ###############################################################
 # get_growatt_sn_info
