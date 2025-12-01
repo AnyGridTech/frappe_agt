@@ -4,14 +4,17 @@ import json
 import requests
 import frappe.utils
 from frappe import _
+from typing import Any, Dict, List, Optional, Union
 
 ###############################################################
 # debug_list
 ###############################################################
 
 @frappe.whitelist(allow_guest=True)
-def debug_list():
-    """Debug helper: returns module file and presence of update_workflow_state."""
+def debug_list() -> Dict[str, Any]:
+    """
+    Debug helper: retorna o arquivo do módulo e presença de update_workflow_state.
+    """
     try:
         attrs = sorted([k for k in globals().keys() if isinstance(k, str)])
         return {
@@ -20,6 +23,7 @@ def debug_list():
             "attrs": [a for a in attrs if 'update' in a.lower() or 'workflow' in a.lower()][:50]
         }
     except Exception as e:
+        frappe.log_error(title="Debug List Error", message=str(e))
         return {"error": str(e)}
 
 ###############################################################
@@ -27,7 +31,16 @@ def debug_list():
 ###############################################################
 
 @frappe.whitelist(allow_guest=True)
-def get_growatt_sn_info(deviceSN):
+def get_growatt_sn_info(deviceSN: str) -> Dict[str, Any]:
+    """
+    Consulta informações de um SN Growatt na API pública.
+    Args:
+        deviceSN (str): Serial Number do dispositivo.
+    Returns:
+        dict: Dados retornados pela API Growatt.
+    """
+    if not deviceSN:
+        frappe.throw(_("O parâmetro deviceSN é obrigatório."))
     try:
         url = "https://br.growatt.com/support/locate"
         payload = {"deviceSN": deviceSN}
@@ -36,22 +49,31 @@ def get_growatt_sn_info(deviceSN):
         response.raise_for_status()
         return response.json()
     except Exception as e:
-        frappe.throw(f"Error: {str(e)}")
+        frappe.log_error(title="Growatt SN Info Error", message=str(e))
+        frappe.throw(_("Erro ao consultar SN Growatt: {0}").format(str(e)))
 
 ###############################################################
 # import_movidesk_and_create_entries
 ###############################################################
-
 @frappe.whitelist(allow_guest=True)
-def import_movidesk_and_create_entries(auth_token, company="AnyGrid", warehouse="[AW] Waiting at Customer Site - ANY", stock_entry_type="Material Receipt"):
+def import_movidesk_and_create_entries(
+    auth_token: str,
+    company: str = "AnyGrid",
+    warehouse: str = "[AW] Waiting at Customer Site - ANY",
+    stock_entry_type: str = "Material Receipt"
+) -> Dict[str, Any]:
     """
-    Imports data from Movidesk and creates Serial No and Stock Entry for each returned item.
+    Importa dados do Movidesk e cria Serial No e Stock Entry para cada item retornado.
     Args:
-        auth_token (str): Movidesk authorization token.
-        company (str): Company name.
-        warehouse (str): Warehouse name.
-        stock_entry_type (str): Stock Entry type.
+        auth_token (str): Token de autorização Movidesk.
+        company (str): Nome da empresa.
+        warehouse (str): Nome do depósito.
+        stock_entry_type (str): Tipo de Stock Entry.
+    Returns:
+        dict: status e lista de criados.
     """
+    if not auth_token:
+        frappe.throw(_("O parâmetro auth_token é obrigatório."))
     try:
         headers = {"authorization": auth_token}
         url = "https://movidesk.growattbrasil.com.br/webhook/lastTenDays"
@@ -64,44 +86,58 @@ def import_movidesk_and_create_entries(auth_token, company="AnyGrid", warehouse=
             serial_no = item.get('serial_no')
             if not item_code or not serial_no:
                 continue
-            # Create Serial No if it does not exist
+            # Cria Serial No se não existir
             if not frappe.db.exists('Serial No', serial_no):
-                serial_doc = frappe.get_doc({
-                    "doctype": "Serial No",
-                    "serial_no": serial_no,
-                    "item_code": item_code,
+                try:
+                    serial_doc = frappe.get_doc({
+                        "doctype": "Serial No",
+                        "serial_no": serial_no,
+                        "item_code": item_code,
+                        "company": company
+                    })
+                    serial_doc.insert()
+                except Exception as e:
+                    frappe.log_error(title="Movidesk Serial No Error", message=str(e))
+            # Cria Stock Entry
+            try:
+                stock_entry = frappe.get_doc({
+                    "doctype": "Stock Entry",
+                    "stock_entry_type": stock_entry_type,
+                    "items": [{
+                        "item_code": item_code,
+                        "serial_no": serial_no,
+                        "qty": 1,
+                        "uom": "Nos",
+                        "target_warehouse": warehouse
+                    }],
                     "company": company
                 })
-                serial_doc.insert()
-            # Create Stock Entry
-            stock_entry = frappe.get_doc({
-                "doctype": "Stock Entry",
-                "stock_entry_type": stock_entry_type,
-                "items": [{
-                    "item_code": item_code,
-                    "serial_no": serial_no,
-                    "qty": 1,
-                    "uom": "Nos",
-                    "target_warehouse": warehouse
-                }],
-                "company": company
-            })
-            stock_entry.insert()
-            stock_entry.submit()
-            results.append({"serial_no": serial_no, "item_code": item_code, "stock_entry": stock_entry.name})
+                stock_entry.insert()
+                stock_entry.submit()
+                results.append({"serial_no": serial_no, "item_code": item_code, "stock_entry": stock_entry.name})
+            except Exception as e:
+                frappe.log_error(title="Movidesk Stock Entry Error", message=str(e))
         return {"status": "success", "created": results}
     except Exception as e:
-        frappe.throw(f"Erro ao importar e criar entradas: {str(e)}")
+        frappe.log_error(title="Movidesk Import Error", message=str(e))
+        frappe.throw(_("Erro ao importar e criar entradas: {0}").format(str(e)))
 
 ###############################################################
 # backend_get_all
 ###############################################################
-
 @frappe.whitelist()
-def backend_get_all(doctype_name, fields=None, filters=None):
+def backend_get_all(doctype_name: str, fields: Optional[List[str]] = None, filters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """
-    Fetches records from a doctype with custom filters and fields.
+    Busca registros de um doctype com filtros e campos customizados.
+    Args:
+        doctype_name (str): Nome do DocType.
+        fields (list): Lista de campos a retornar.
+        filters (dict): Filtros para a busca.
+    Returns:
+        dict: status e dados encontrados.
     """
+    if not doctype_name:
+        frappe.throw(_("O parâmetro doctype_name é obrigatório."))
     try:
         fields = fields or []
         filters = filters or {}
@@ -109,7 +145,7 @@ def backend_get_all(doctype_name, fields=None, filters=None):
         return {"status": "success", "data": doctypes}
     except Exception as e:
         frappe.log_error(title="Get Doctypes Error", message=str(e))
-        frappe.throw(f"Erro ao buscar registros: {str(e)}")
+        frappe.throw(_("Erro ao buscar registros: {0}").format(str(e)))
         
 
 ###############################################################
@@ -139,18 +175,22 @@ def fetch_cep_data_v2(digits):
         return None
 
 @frappe.whitelist(allow_guest=True)
-def check_cep(cep: str):
+def check_cep(cep: str) -> Dict[str, Any]:
     """
-    Checks and returns CEP (Brazilian postal code) data.
+    Consulta e retorna dados de um CEP (código postal brasileiro).
+    Args:
+        cep (str): CEP a consultar.
+    Returns:
+        dict: Dados do CEP.
     """
     digits = ''.join([c for c in (cep or "") if c.isdigit()])
     if len(digits) != 8:
-        frappe.throw("CEP must have 8 digits.")
+        frappe.throw(_("O CEP deve conter 8 dígitos."))
     data = fetch_cep_data_v1(digits)
     if not data:
         data = fetch_cep_data_v2(digits)
     if not data:
-        frappe.throw("CEP not found or invalid.")
+        frappe.throw(_("CEP não encontrado ou inválido."))
     return data
 
 
@@ -174,16 +214,20 @@ def fetch_cnpj_data_v1(digits):
         return None
 
 @frappe.whitelist(allow_guest=True)
-def check_cnpj(cnpj: str):
+def check_cnpj(cnpj: str) -> Dict[str, Any]:
     """
-    Checks and returns CNPJ (Brazilian company registry) data.
+    Consulta e retorna dados de um CNPJ (cadastro nacional de pessoa jurídica).
+    Args:
+        cnpj (str): CNPJ a consultar.
+    Returns:
+        dict: Dados do CNPJ.
     """
     digits = ''.join([c for c in (cnpj or "") if c.isdigit()])
     if len(digits) != 14:
-        frappe.throw("CNPJ must have 14 digits.")
+        frappe.throw(_("O CNPJ deve conter 14 dígitos."))
     data = fetch_cnpj_data_v1(digits)
     if not data:
-        frappe.throw("CNPJ not found or invalid.")
+        frappe.throw(_("CNPJ não encontrado ou inválido."))
     return data
 
 
@@ -206,16 +250,20 @@ def fetch_ibge_data(uf):
         return None
 
 @frappe.whitelist(allow_guest=True)
-def check_ibge(uf: str):
+def check_ibge(uf: str) -> Any:
     """
-    Checks and returns IBGE city data for a given state code (UF).
+    Consulta e retorna dados de municípios IBGE para um UF.
+    Args:
+        uf (str): Código UF (estado).
+    Returns:
+        list: Lista de municípios.
     """
     uf_code = (uf or "").strip().upper()
     if len(uf_code) != 2:
-        frappe.throw("UF code must have 2 characters.")
+        frappe.throw(_("O código UF deve ter 2 caracteres."))
     data = fetch_ibge_data(uf_code)
     if not data:
-        frappe.throw("UF code not found or invalid.")
+        frappe.throw(_("UF não encontrado ou inválido."))
     return data
 
 
@@ -224,25 +272,29 @@ def check_ibge(uf: str):
 # create_stock_entry
 ###############################################################
 @frappe.whitelist()
-def create_stock_entry(items, company, stock_entry_type):
+def create_stock_entry(
+    items: Union[str, List[Dict[str, Any]]],
+    company: str,
+    stock_entry_type: str
+) -> str:
     """
-    Creates, saves, and submits a Stock Entry.
+    Cria, salva e submete um Stock Entry.
     Args:
-        items (list): List of dicts with item_code, qty, source_warehouse, target_warehouse.
-        company (str): Company name.
-        stock_entry_type (str): Stock Entry type.
+        items (list|str): Lista de dicts com item_code, qty, source_warehouse, target_warehouse.
+        company (str): Nome da empresa.
+        stock_entry_type (str): Tipo do Stock Entry.
     Returns:
-        str: Name of the created Stock Entry.
+        str: Nome do Stock Entry criado.
     """
     if isinstance(items, str):
         try:
             items = json.loads(items)
         except Exception:
-            frappe.throw(f"Invalid format for 'items'. Expected JSON array, received: {items}")
+            frappe.throw(_("Formato inválido para 'items'. Esperado JSON array, recebido: {0}").format(items))
     if not items or not isinstance(items, list):
-        frappe.throw(f"Expected 'items' to be a list of dictionaries, but got: {items}")
+        frappe.throw(_("Esperado 'items' como lista de dicionários, recebido: {0}").format(items))
     if not company or not stock_entry_type:
-        frappe.throw("Company and Stock Entry Type are required parameters.")
+        frappe.throw(_("Os parâmetros Company e Stock Entry Type são obrigatórios."))
     try:
         stock_entry = frappe.get_doc({
             "doctype": "Stock Entry",
@@ -255,7 +307,7 @@ def create_stock_entry(items, company, stock_entry_type):
         return stock_entry.name
     except Exception as e:
         frappe.log_error(message=str(e), title="Error in Stock Entry Creation")
-        frappe.throw("An unexpected error occurred while creating the Stock Entry.")
+        frappe.throw(_("Ocorreu um erro ao criar o Stock Entry."))
 
 
 
@@ -265,22 +317,24 @@ def create_stock_entry(items, company, stock_entry_type):
 # create_document
 ###############################################################
 @frappe.whitelist()
-def create_document(doc_type, data):
+def create_document(doc_type: str, data: Union[Dict[str, Any], str]) -> Dict[str, Any]:
     """
-    Creates a new document of any type.
+    Cria um novo documento de qualquer tipo.
     Args:
-        doc_type (str): Document type.
-        data (dict or str): Document data.
+        doc_type (str): Tipo do documento.
+        data (dict|str): Dados do documento.
     Returns:
         dict: status, doc_name, msg
     """
+    if not doc_type:
+        frappe.throw(_("O parâmetro doc_type é obrigatório."))
     if isinstance(data, str):
         try:
             data = json.loads(data)
         except Exception:
-            frappe.throw("Invalid data format. Must be dict or JSON string.")
+            frappe.throw(_("Formato inválido para os dados. Deve ser dict ou string JSON."))
     if not data:
-        frappe.throw("No data received in the request")
+        frappe.throw(_("Nenhum dado recebido na requisição."))
     try:
         doc = frappe.new_doc(doc_type)
         for key, value in data.items():
@@ -294,38 +348,43 @@ def create_document(doc_type, data):
         return {
             "status": "success",
             "doc_name": doc.name,
-            "msg": "Document created successfully"
+            "msg": _("Documento criado com sucesso")
         }
     except Exception as e:
         frappe.log_error(str(e), "Document Creation Error")
-        frappe.throw(f"Error creating document: {str(e)}")
+        frappe.throw(_("Erro ao criar documento: {0}").format(str(e)))
 
 
 ###############################################################
 # update_workflow_state
 ###############################################################
 @frappe.whitelist(allow_guest=True)
-def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_validation=False):
+def update_workflow_state(
+    doctype: str,
+    docname: str,
+    workflow_state: str,
+    ignore_workflow_validation: Union[bool, str] = False
+) -> Dict[str, Any]:
     """
-    Updates the workflow state of a document.
+    Atualiza o estado do workflow de um documento.
     Args:
-        doctype (str): Document type.
-        docname (str): Document name.
-        workflow_state (str): New workflow state.
-        ignore_workflow_validation (bool): Ignore workflow validation.
+        doctype (str): Tipo do documento.
+        docname (str): Nome do documento.
+        workflow_state (str): Novo estado do workflow.
+        ignore_workflow_validation (bool): Ignorar validação de workflow.
     Returns:
-        dict: Updated document.
+        dict: Documento atualizado.
     """
     if isinstance(ignore_workflow_validation, str):
         ignore_workflow_validation = ignore_workflow_validation.lower() in ["true", "1", "yes"]
     if not doctype or not isinstance(doctype, str):
-        frappe.throw("The 'doctype' parameter is required and must be a string.")
+        frappe.throw(_("O parâmetro 'doctype' é obrigatório e deve ser string."))
     if not docname or not isinstance(docname, str):
-        frappe.throw("The 'docname' parameter is required and must be a string.")
+        frappe.throw(_("O parâmetro 'docname' é obrigatório e deve ser string."))
     if not workflow_state or not isinstance(workflow_state, str):
-        frappe.throw("The 'workflow_state' parameter is required and must be a string.")
+        frappe.throw(_("O parâmetro 'workflow_state' é obrigatório e deve ser string."))
     if not isinstance(ignore_workflow_validation, bool):
-        frappe.throw("The 'ignore_workflow_validation' parameter must be a boolean.")
+        frappe.throw(_("O parâmetro 'ignore_workflow_validation' deve ser boolean."))
     try:
         if ignore_workflow_validation:
             prev_doc = frappe.get_doc(doctype, docname)
@@ -355,78 +414,68 @@ def update_workflow_state(doctype, docname, workflow_state, ignore_workflow_vali
         return updated_doc.as_dict()
     except Exception as e:
         frappe.log_error(message=str(e), title="Error in Workflow State Update")
-        frappe.throw(f"An error occurred while updating the workflow state: {e}")
+        frappe.throw(_("Erro ao atualizar o estado do workflow: {0}").format(e))
 
 ###############################################################
 # validate_child_row_deletion
 ###############################################################
 @frappe.whitelist(allow_guest=True)
-def validate_child_row_deletion(doctype, docname, child_table_field):
+def validate_child_row_deletion(doctype: str, docname: str, child_table_field: str) -> bool:
     """
-    Checks if there was an attempt to delete already saved rows in a child table of a document.
-    Returns True if allowed, raises error if not.
+    Verifica se houve tentativa de deletar linhas já salvas em uma tabela filha de um documento.
+    Args:
+        doctype (str): Tipo do documento.
+        docname (str): Nome do documento.
+        child_table_field (str): Campo da tabela filha.
+    Returns:
+        bool: True se permitido, lança erro se não.
     """
-    # If the document is new, allow everything
     if not docname or docname.startswith("new-"):
         return True
     try:
-        # Get the current document from the database (saved state)
         current_doc = frappe.get_doc(doctype, docname)
-        # Get the document being validated (with changes)
-        # This needs to be passed as a parameter or obtained from context
         doc_being_saved = frappe.local.form_dict.get('doc') or frappe.get_doc(doctype, docname)
-        # If unable to get the previous document, allow
         if not current_doc:
             return True
-        # Get rows from the current (saved) state
         old_rows = {d.name for d in getattr(current_doc, child_table_field, []) if d.name}
-        # Get rows from the document being saved
         new_rows = {d.name for d in getattr(doc_being_saved, child_table_field, []) if d.name and not d.get("__islocal")}
-        # Find deleted rows
         deleted_rows = old_rows - new_rows
         if deleted_rows:
-            frappe.throw(
-                f"You cannot delete already saved rows from the table '{child_table_field}'. "
-                f"Removed rows: {', '.join(deleted_rows)}. "
-                "Only new rows can be removed."
-            )
+            frappe.throw(_(
+                "Não é permitido remover linhas já salvas da tabela '{0}'. Removidas: {1}. Apenas novas linhas podem ser removidas."
+            ).format(child_table_field, ', '.join(deleted_rows)))
         return True
     except Exception as e:
-        frappe.log_error(f"Error validating child row deletion: {str(e)}")
-        # If there is a validation error, allow saving to avoid blocking the system
+        frappe.log_error(f"Erro ao validar deleção de linha filha: {str(e)}")
         return True
 
 
 ###############################################################
 # validate_child_row_deletion_in_doc
 ###############################################################
-def validate_child_row_deletion_in_doc(doc, child_table_field):
+def validate_child_row_deletion_in_doc(doc: Any, child_table_field: str) -> bool:
     """
-    Version that receives the document directly (to use in DocType validate).
+    Versão que recebe o documento diretamente (para usar no validate do DocType).
+    Args:
+        doc (Document): Documento a ser validado.
+        child_table_field (str): Campo da tabela filha.
+    Returns:
+        bool: True se permitido, lança erro se não.
     """
-    # If the document is new, allow everything
     if doc.get("__islocal") or not doc.name:
         return True
     try:
-        # Get the current document from the database (saved state)
         old_doc = frappe.get_doc(doc.doctype, doc.name)
-        # Get rows from the current (saved) state
         old_rows = {d.name for d in getattr(old_doc, child_table_field, []) if d.name}
-        # Get rows from the document being saved
         new_rows = {d.name for d in getattr(doc, child_table_field, []) if d.name and not d.get("__islocal")}
-        # Find deleted rows
         deleted_rows = old_rows - new_rows
         if deleted_rows:
-            frappe.throw(
-                f"You cannot delete already saved rows from the table '{child_table_field}'. "
-                f"Removed rows: {', '.join(deleted_rows)}. "
-                "Only new rows can be removed."
-            )
+            frappe.throw(_(
+                "Não é permitido remover linhas já salvas da tabela '{0}'. Removidas: {1}. Apenas novas linhas podem ser removidas."
+            ).format(child_table_field, ', '.join(deleted_rows)))
         return True
     except frappe.DoesNotExistError:
-        # Document does not exist yet, it's new
         return True
     except Exception as e:
-        frappe.log_error(f"Error validating child row deletion: {str(e)}")
-        # If there is a validation error, allow saving to avoid blocking the system
+        frappe.log_error(f"Erro ao validar deleção de linha filha: {str(e)}")
         return True
