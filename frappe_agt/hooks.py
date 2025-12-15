@@ -242,3 +242,32 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+# Fixtures
+# --------
+
+fixtures = [
+	{
+		"dt": "Custom Field",
+		"filters": [
+			["name", "in", [
+				"User-extended_info_section",
+				"User-internal_id",
+				"User-internal_department",
+				"User-internal_manager",
+				"User-taxid",
+				"Mppt",
+				"Ncm",
+				"Item-phase",
+				"Item-package_dimensions_section",
+				"Item-package_height",
+				"Item-package_width",
+				"Item-package_depth",
+				"Item-error_version",
+				"Family",
+				"Equipment Type"
+			]]
+		]
+	},
+	"frappe_agt.fixtures.item"
+]
+
