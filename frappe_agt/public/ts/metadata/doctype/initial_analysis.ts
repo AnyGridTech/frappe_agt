@@ -1,6 +1,6 @@
-frappe.provide("agt.metadata.doctype.service_protocol");
+frappe.provide("agt.metadata.doctype.initial_analysis");
 
-agt.metadata.doctype.service_protocol = {
+agt.metadata.doctype.initial_analysis = {
   workflow_action: {
     request_revision: {
       name: "Solicitar Revisão",

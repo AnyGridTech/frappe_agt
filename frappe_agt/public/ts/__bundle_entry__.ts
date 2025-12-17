@@ -1,10 +1,11 @@
+import "./__bundle_entry__";
 import "./checklist/checklists";
 import "./corrections_tracker/run";
 import "./corrections_tracker/table";
 import "./frappe_agt.bundle";
 import "./metadata/doctype/checklist";
 import "./metadata/doctype/compliance_statement";
-import "./metadata/doctype/service_protocol";
+import "./metadata/doctype/initial_analysis";
 import "./metadata/doctype/ticket";
 import "./ui/enhanced_dialog";
 import "./ui/ultra_dialog";

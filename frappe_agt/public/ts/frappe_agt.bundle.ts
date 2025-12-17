@@ -7,6 +7,6 @@ import "./utils";
 import "./workflow/validate";
 import "./workflow/pre_action";
 import "./metadata/doctype/checklist";
-import "./metadata/doctype/service_protocol";
+import "./metadata/doctype/initial_analysis";
 import "./metadata/doctype/ticket";
 import "./metadata/doctype/compliance_statement";

@@ -2985,9 +2985,9 @@
     }
   };
 
-  // public/ts/metadata/doctype/service_protocol.ts
-  frappe.provide("agt.metadata.doctype.service_protocol");
-  agt.metadata.doctype.service_protocol = {
+  // public/ts/metadata/doctype/initial_analysis.ts
+  frappe.provide("agt.metadata.doctype.initial_analysis");
+  agt.metadata.doctype.initial_analysis = {
     workflow_action: {
       request_revision: {
         name: "Solicitar Revis\xE3o",
