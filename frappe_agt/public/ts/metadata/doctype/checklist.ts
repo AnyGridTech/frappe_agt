@@ -3,27 +3,27 @@ frappe.provide("agt.metadata.doctype.checklist");
 agt.metadata.doctype.checklist = {
   workflow_state: {
     pre_analysis: {
-      name: "Análise Preliminar",
+      name: "Preliminary Analysis",
       id: 1
     },
     customer_fix_info: {
-      name: "Cliente: Corrigir Informações", 
+      name: "Customer: Fix Information", 
       id: 2
     },
     growatt_review: {
-      name: "Revisão",
+      name: "Review",
       id: 3
     },
     finished: {
-      name: "Concluído",
+      name: "Finished",
       id: 4
     },
     rejected: {
-      name: "Rejeitado",
+      name: "Rejected",
       id: 5
     },
     cancelled: {
-      name: "Cancelado",
+      name: "Cancelled",
       id: 6
     }
   }

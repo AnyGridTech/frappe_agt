@@ -2470,7 +2470,7 @@
     const currentTable = form.doc[tableField] || [];
     let needsUpdate = !await agt.utils.table.is_sync(currentTable, remote, docname, workflowStateField);
     if (!needsUpdate) {
-      console.log(`Tabela '${tableField}' j\xE1 est\xE1 sincronizada.`);
+      console.log(`The table '${tableField}' is already synchronized.`);
       return;
     }
     form.doc[tableField] = remote.map((item) => {
@@ -2483,7 +2483,7 @@
     form.dirty();
     form.refresh_field(tableField);
     await form.save();
-    console.log(`Tabela '${tableField}' sincronizada.`);
+    console.log(`The table '${tableField}' synchronized.`);
   };
   agt.utils.form.assign_parent_doc_name = function(_form) {
   };
@@ -2959,27 +2959,27 @@
   agt.metadata.doctype.checklist = {
     workflow_state: {
       pre_analysis: {
-        name: "An\xE1lise Preliminar",
+        name: "Preliminary Analysis",
         id: 1
       },
       customer_fix_info: {
-        name: "Cliente: Corrigir Informa\xE7\xF5es",
+        name: "Customer: Fix Information",
         id: 2
       },
       growatt_review: {
-        name: "Revis\xE3o",
+        name: "Review",
         id: 3
       },
       finished: {
-        name: "Conclu\xEDdo",
+        name: "Finished",
         id: 4
       },
       rejected: {
-        name: "Rejeitado",
+        name: "Rejected",
         id: 5
       },
       cancelled: {
-        name: "Cancelado",
+        name: "Cancelled",
         id: 6
       }
     }
@@ -2990,49 +2990,49 @@
   agt.metadata.doctype.initial_analysis = {
     workflow_action: {
       request_revision: {
-        name: "Solicitar Revis\xE3o",
+        name: "Request Revision",
         id: 1
       },
       request_checklist: {
-        name: "Solicitar Checklist",
+        name: "Request Checklist",
         id: 2
       },
       request_correction: {
-        name: "Solicitar Proposta de Envio",
+        name: "Request Submission Proposal",
         id: 3
       },
       reject: {
-        name: "Rejeitar",
+        name: "Reject",
         id: 4
       },
       cancel: {
-        name: "Cancelar",
+        name: "Cancel",
         id: 5
       },
       finish_correction: {
-        name: "Aprovar Corre\xE7\xE3o",
+        name: "Approve Correction",
         id: 6
       }
     },
     workflow_state: {
       holding_action: {
-        name: "Aguardando A\xE7\xE3o",
+        name: "Awaiting Action",
         id: 1
       },
       growatt_review: {
-        name: "Revis\xE3o",
+        name: "Review",
         id: 2
       },
       finished: {
-        name: "Conclu\xEDdo",
+        name: "Finished",
         id: 3
       },
       rejected: {
-        name: "Rejeitado",
+        name: "Rejected",
         id: 4
       },
       cancelled: {
-        name: "Cancelado",
+        name: "Cancelled",
         id: 5
       }
     }
@@ -3043,46 +3043,54 @@
   agt.metadata.doctype.ticket = {
     workflow_action: {
       approve: {
-        name: "Aprovar",
+        name: "Approve",
         id: 1
       },
       finish: {
-        name: "Concluir",
+        name: "Finish",
         id: 2
       },
       reject: {
-        name: "Rejeitar",
+        name: "Reject",
         id: 3
       },
       cancel: {
-        name: "Cancelar",
+        name: "Cancel",
         id: 4
       },
       reactive: {
-        name: "Reativar",
+        name: "Reactivate",
         id: 5
+      },
+      hold: {
+        name: "Hold",
+        id: 6
       }
     },
     workflow_state: {
       draft: {
-        name: "Rascunho",
+        name: "Draft",
         id: 1
       },
       active: {
-        name: "Ativo",
+        name: "Active",
         id: 2
       },
-      finished: {
-        name: "Concluido",
+      waiting_for_customer: {
+        name: "Waiting for Customer",
         id: 3
       },
-      rejected: {
-        name: "Rejeitado",
+      finished: {
+        name: "Waiting for Customer",
         id: 4
       },
-      cancelled: {
-        name: "Cancelado",
+      rejected: {
+        name: "Rejected",
         id: 5
+      },
+      cancelled: {
+        name: "Cancelled",
+        id: 6
       }
     }
   };
@@ -3092,109 +3100,109 @@
   agt.metadata.doctype.compliance_statement = {
     workflow_action: {
       approve: {
-        name: "Aprovar",
+        name: "Approve",
         id: 1
       },
       request_analysis: {
-        name: "Solicitar An\xE1lise",
+        name: "Request Analysis",
         id: 2
       },
       request_correction: {
-        name: "Solicitar Corre\xE7\xE3o",
+        name: "Request Correction",
         id: 3
       },
       finish_review: {
-        name: "Finalizar Revis\xE3o",
+        name: "Finish Review",
         id: 4
       },
       reject: {
-        name: "Rejeitar",
+        name: "Reject",
         id: 5
       },
       finish_service: {
-        name: "Finalizar Atendimento",
+        name: "Finish Service",
         id: 6
       },
       cancel: {
-        name: "Cancelar",
+        name: "Cancel",
         id: 7
       },
       finish_correction: {
-        name: "Finalizar Corre\xE7\xE3o",
+        name: "Finish Correction",
         id: 8
       },
       request_documentation: {
-        name: "Solicitar Documenta\xE7\xE3o",
+        name: "Request Documentation",
         id: 9
       },
       request_checklist: {
-        name: "Solicitar Checklist",
+        name: "Request Checklist",
         id: 10
       },
       forward_to_support: {
-        name: "Encaminhar ao Suporte",
+        name: "Forward to Support",
         id: 11
       }
     },
     workflow_state: {
       customer_finish_filling: {
-        name: "Cliente: Finalizar Preenchimento",
+        name: "Customer: Finish Filling",
         id: 1
       },
       growatt_preliminary_assessment: {
-        name: "An\xE1lise Preliminar",
+        name: "Preliminary Analysis",
         id: 2
       },
       customer_fix_info: {
-        name: "Cliente: Corrigir Informa\xE7\xF5es",
+        name: "Customer: Fix Information",
         id: 3
       },
       growatt_review: {
-        name: "Revis\xE3o",
+        name: "Review",
         id: 4
       },
       customer_checklist_requested: {
-        name: "Cliente: Checklist Solicitado",
+        name: "Customer: Checklist Requested",
         id: 5
       },
       checklist_finished: {
-        name: "Checklist Conclu\xEDdo",
+        name: "Checklist Finished",
         id: 6
       },
       shipping_proposal: {
-        name: "Proposta de Envio",
+        name: "Shipping Proposal",
         id: 7
       },
       warranty_approved: {
-        name: "Garantia Aprovada",
+        name: "Warranty Approved",
         id: 9
       },
       rejected: {
-        name: "Rejeitado",
+        name: "Rejected",
         id: 10
       },
       finished: {
-        name: "Conclu\xEDdo",
+        name: "Finished",
         id: 11
       },
       cancelled: {
-        name: "Cancelado",
+        name: "Cancelled",
         id: 12
       },
       approved: {
-        name: "Aprovado",
+        name: "Approved",
         id: 13
       },
       finished_fixed: {
-        name: "Finalizado: Corrigido",
+        name: "Finished: Fixed",
         id: 14
       },
       finished_missing: {
-        name: "Finalizado: Corre\xE7\xE3o Faltante",
+        name: "Finished: Missing Correction",
         id: 15
       },
       customer_necessary_action: {
-        name: "Cliente: A\xE7\xE3o Necess\xE1ria",
+        name: "Customer: Action Required",
         id: 16
       }
     }

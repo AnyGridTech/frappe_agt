@@ -1,5 +1,39 @@
 modified a workflow state,modificou uma etapa
 List View,Visualização de Lista
+Request Revision,Solicitar Revisão
+Request Checklist,Solicitar Checklist
+Request Submission Proposal,Solicitar Proposta de Envio
+Reject,Rejeitar
+Cancel,Cancelar
+Approve Correction,Aprovar Correção
+Awaiting Action,Aguardando Ação
+Review,Revisão
+Finished,Concluído
+Rejected,Rejeitado
+Cancelled,Cancelado
+Preliminary Analysis,Análise Preliminar
+Customer: Fix Information,Cliente: Corrigir Informações
+Approve,Aprovar
+Request Analysis,Solicitar Análise
+Request Correction,Solicitar Correção
+Finish Review,Finalizar Revisão
+Finish Service,Finalizar Atendimento
+Finish Correction,Finalizar Correção
+Request Documentation,Solicitar Documentação
+Forward to Support,Encaminhar ao Suporte
+Customer: Finish Filling,Cliente: Finalizar Preenchimento
+Customer: Checklist Requested,Cliente: Checklist Solicitado
+Checklist Finished,Checklist Concluído
+Shipping Proposal,Proposta de Envio
+Warranty Approved,Garantia Aprovada
+Approved,Aprovado
+Finished: Fixed,Finalizado: Corrigido
+Finished: Missing Correction,Finalizado: Correção Faltante
+Customer: Action Required,Cliente: Ação Necessária
+Finish,Concluir
+Reactivate,Reativar
+Draft,Rascunho
+Active,Ativo
 Basic Info,Informações Básicas
 Profile,Perfil
 Connections,Conexões
@@ -92,10 +126,10 @@ Add Row Below,Adicionar Linha Abaixo
 Add Row,Adicionar Linha
 Add field,Adicionar campo
 Service Protocol Smart Energy Manager,Checklist do Smart Energy Manager
-Service Protocol Smart Meter Checklist,Checklist do Smart Meter
-Service Protocol EV Charger Checklist,Checklist do EV Charger
-Service Protocol Battery Checklist,Checklist da Bateria
-Service Protocol Inverter Checklist,Checklist do Inversor
+Checklist of Smart Meter,Checklist do Smart Meter
+Checklist of EV Charger,Checklist do EV Charger
+Checklist of Battery,Checklist da Bateria
+Checklist of Inverter,Checklist do Inversor
 Service Protocol,Protocolo de Serviço
 Toggle Theme,Alternar Tema
 Top,Topo
