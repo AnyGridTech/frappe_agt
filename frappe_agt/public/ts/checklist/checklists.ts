@@ -48,7 +48,7 @@ agt.checklist = {
         if (action === 'Rejeitar') {
           agt.utils.update_workflow_state({
             doctype: "Service Protocol",
-            docname: frm.doc['sp_docname'],
+            docname: frm.doc['inanly_docname'],
             workflow_state: "Holding Action",
             ignore_workflow_validation: true,
           });
@@ -141,7 +141,7 @@ agt.checklist = {
       try {
         agt.utils.update_workflow_state({
           doctype: "Service Protocol",
-          docname: form.doc['sp_docname'],
+          docname: form.doc['inanly_docname'],
           workflow_state: "Finished",
           ignore_workflow_validation: true,
         });
@@ -152,7 +152,7 @@ agt.checklist = {
         });
         form.dirty();
         setTimeout(() => {
-          const url = `/app/service-protocol/${form.doc['sp_docname']}`;
+          const url = `/app/service-protocol/${form.doc['inanly_docname']}`;
           window.open(url, '_blank');
         }, 500);
         await form.save();

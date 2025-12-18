@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-11-15 13:58:23.960145",
+ "creation": "2025-12-18 16:55:51.200716",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -24,35 +24,32 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Pendente\nConclu\u00eddo",
+   "options": "Pending\nCompleted",
    "read_only": 1,
    "reqd": 1,
    "translatable": 1
   },
   {
    "allow_in_quick_entry": 1,
+   "allow_on_submit": 1,
+   "columns": 2,
    "fieldname": "correction_label",
    "fieldtype": "Select",
-   "ignore_user_permissions": 1,
    "in_filter": 1,
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Campo",
-   "read_only": 1,
+   "label": "Field",
    "reqd": 1,
-   "set_only_once": 1,
-   "translatable": 1
+   "set_only_once": 1
   },
   {
    "allow_in_quick_entry": 1,
    "allow_on_submit": 1,
    "fieldname": "correction_text",
    "fieldtype": "Small Text",
-   "label": "Descri\u00e7\u00e3o da Corre\u00e7\u00e3o",
-   "reqd": 1,
-   "set_only_once": 1,
-   "translatable": 1
+   "label": "Correction Description",
+   "set_only_once": 1
   },
   {
    "allow_in_quick_entry": 1,
@@ -64,13 +61,15 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Criado por",
+   "label": "Created By",
    "options": "User",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "allow_in_quick_entry": 1,
    "allow_on_submit": 1,
+   "columns": 2,
    "depends_on": "eval:(() => {\n    if (doc.created_date?.length) return true;\n    frappe.model.set_value(\"Corrections Tracker\", doc.name, \"created_date\", frappe.datetime.now_datetime())\n    return true;\n})()",
    "fieldname": "created_date",
    "fieldtype": "Datetime",
@@ -78,7 +77,8 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Criado em",
+   "label": "Created Date",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -91,28 +91,28 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Finalizado por",
+   "label": "Finished By",
    "options": "User",
-   "reqd": 1
+   "read_only": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "allow_on_submit": 1,
+   "columns": 2,
    "fieldname": "finished_date",
    "fieldtype": "Datetime",
    "in_filter": 1,
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Finalizado em",
-   "reqd": 1
+   "label": "Finished Date",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-11-15 14:05:45.759876",
+ "modified": "2025-12-18 16:56:59.101268",
  "modified_by": "Administrator",
  "module": "Frappe Agt",
  "name": "Corrections Tracker",

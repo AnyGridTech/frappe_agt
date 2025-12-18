@@ -8,7 +8,14 @@ Cancel,Cancelar
 Approve Correction,Aprovar Correção
 Awaiting Action,Aguardando Ação
 Review,Revisão
+Pending,Pendente
 Finished,Concluído
+Field,Campo
+Correction Description,Descrição da Correção
+Created By,Criado por
+Created On,Criado em
+Finished By,Finalizado por
+Finished On,Finalizado em
 Rejected,Rejeitado
 Cancelled,Cancelado
 Preliminary Analysis,Análise Preliminar
@@ -4936,3 +4943,30 @@ API Key,Chave da API
 API Endpoint,API Endpoint
 A4,A4
 This form is not editable due to a Workflow.,Este formulário não pode ser editado devido a um Workflow.
+There are no pending items to approve.,Não existem pendências para aprovar.
+Mark corrections as completed,Marcar correções como concluídas
+Confirm and Approve Correction,Confirmar e Aprovar Correção
+Attention,Atenção
+To approve the correction mark all pending items as fixed.,Para aprovar a correção marque todas as pendências como corrigidas.
+Corrections approved,Correções aprovadas
+All pending items have been marked as completed.,Todas as pendências foram marcadas como concluídas.
+Go to,Ir para
+Add at least one correction request (status "Pending") before requesting review.,Adicione ao menos um pedido de correção (status "Pendente") antes de solicitar revisão.
+Sent for Review,Enviado para Revisão
+The document was sent to,O documento foi enviado para
+<b>Save failed:</b><br>There are duplicate 'Correction Labels' among active requests. Each request must refer to a unique field.,<b>Falha ao salvar:</b><br>Existem 'Rótulos da Correção' duplicados entre os pedidos ativos. Cada pedido deve referir um campo único.
+<b>Save failed:</b><br>For each request with status "Pending" you must fill in 'Correction Label' and 'Correction Text'.,<b>Falha ao salvar:</b><br>Para cada pedido com status "Pendente" é necessário preencher 'Rótulo da Correção' e 'Texto da Correção'.
+There are pending requests. Do you want to send to,Existem pedidos pendentes. Deseja enviar para
+now,agora
+Yes send for review.,Sim enviar para revisão.
+No later.,Não depois.
+Pending corrections,Correções pendentes
+Confirm that the following items have been corrected by the customer,Confirme se os seguintes itens foram corrigidos pelo cliente
+Are you sure you want to create a new correction request?,Tem certeza que deseja criar um novo pedido de correção?
+Create a new correction request for the customer with the missing fields.,Crie um novo pedido de correção para o cliente com os campos faltantes.
+Yes create new request.,Sim criar novo pedido.
+No cancel.,Não cancelar.
+<p>Mark each pending item as fixed in the 'Approve Correction' button. It will only be possible to approve if all are marked.</p>,<p>Marque cada pendência como corrigida no botão 'Aprovar Correção'. Só será possível aprovar se todas estiverem marcadas.</p>
+There are pending requests. You can send for review by clicking,Há pedidos pendentes. Você pode enviar para revisão clicando em
+Pending Correction Requests,Pedidos de Correção Pendentes
+Request,Pedido
