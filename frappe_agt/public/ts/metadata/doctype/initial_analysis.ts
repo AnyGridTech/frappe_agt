@@ -3,28 +3,24 @@ frappe.provide("agt.metadata.doctype.initial_analysis");
 agt.metadata.doctype.initial_analysis = {
   workflow_action: {
     request_revision: {
-      name: "Request Review",
+      name: "Review",
       id: 1
     },
-    request_checklist: {
-      name: "Request Checklist",
+    finish: {
+      name: "Finish",
       id: 2
-    },
-    request_correction: {
-      name: "Request Proposed Dispatch",
-      id: 3
     },
     reject: {
       name: "Reject",
-      id: 4
+      id: 3
     },
     cancel: {
       name: "Cancel",
-      id: 5
+      id: 4
     },
-    finish_correction: {
-      name: "Approve",
-      id: 6
+    approve_correction: {
+      name: "Approve Correction",
+      id: 5
     }
   },
   workflow_state: {

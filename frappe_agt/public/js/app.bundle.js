@@ -176,17 +176,17 @@
   var STATUS = {
     WORKFLOW: {
       AWAITING_ACTION: "Awaiting Action",
-      REVIEW: "Revision"
+      REVISION: "Revision"
     },
     ROW: {
-      PENDING: "Pending",
-      FINISHED: "Finished"
+      FINISHED: "Finished",
+      PENDING: "Pending"
     }
   };
   var ACTION = {
-    REQUEST_REVIEW: "Request Review",
-    APPROVE_CORRECTION: "Approve Correction",
-    NEW_CORRECTION: "New Correction"
+    NEW_CORRECTION: "New Correction",
+    REVIEW: "Review",
+    APPROVE_CORRECTION: "Approve"
   };
   function getPending(rows) {
     return rows.filter((row) => row.status === STATUS.ROW.PENDING);
@@ -283,15 +283,15 @@
           const ws = form.doc.workflow_state;
           const action = form.states?.frm?.selected_workflow_action;
           const rows = form.doc["corrections_tracker"] || [];
-          if (ws === STATUS.WORKFLOW.AWAITING_ACTION && action === ACTION.REQUEST_REVIEW) {
+          if (ws === STATUS.WORKFLOW.AWAITING_ACTION && action === ACTION.REVIEW) {
             if (!getPending(rows).length) frappe.throw(__('Add at least one correction request (status "Pending") before requesting review.'));
             await agt.utils.update_workflow_state({
               doctype: form.doctype,
               docname: form.docname,
-              workflow_state: STATUS.WORKFLOW.REVIEW,
+              workflow_state: STATUS.WORKFLOW.REVISION,
               ignore_workflow_validation: true,
               callback: async () => {
-                frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVIEW}</b>".`, indicator: "blue" });
+                frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVISION}</b>".`, indicator: "blue" });
                 form.dirty();
                 form.refresh_field("corrections_tracker");
                 await form.save();
@@ -321,14 +321,14 @@
           const html = getCorrectionsHtml(rows);
           if (!html.length) return;
           if (ws === STATUS.WORKFLOW.AWAITING_ACTION) {
-            const confirmDiag = frappe.confirm(`${__("There are pending requests. Do you want to send to")} "<b>${STATUS.WORKFLOW.REVIEW}</b>" ${__("now")}?<br><br><ul>${html}</ul>`, async () => {
+            const confirmDiag = frappe.confirm(`${__("There are pending requests. Do you want to send to")} "<b>${STATUS.WORKFLOW.REVISION}</b>" ${__("now")}?<br><br><ul>${html}</ul>`, async () => {
               await agt.utils.update_workflow_state({
                 doctype: form.doctype,
                 docname: form.docname,
-                workflow_state: STATUS.WORKFLOW.REVIEW,
+                workflow_state: STATUS.WORKFLOW.REVISION,
                 ignore_workflow_validation: true,
                 callback: async () => {
-                  frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVIEW}</b>".`, indicator: "blue" });
+                  frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVISION}</b>".`, indicator: "blue" });
                   form.dirty();
                   form.refresh_field("corrections_tracker");
                 }
@@ -337,7 +337,7 @@
             confirmDiag.set_primary_action(__("Yes, send for review."));
             confirmDiag.set_secondary_action_label(__("No, later."));
           }
-          if (ws === STATUS.WORKFLOW.REVIEW) {
+          if (ws === STATUS.WORKFLOW.REVISION) {
             frappe.msgprint({ title: __("Pending corrections"), message: `${__("Confirm that the following items have been corrected by the customer")}:<br><br><ul>${html}</ul>`, indicator: "orange" });
           }
         },
@@ -349,7 +349,7 @@
           form.set_df_property("corrections_tracker", "cannot_delete_rows", 1);
           const rows = form.doc["corrections_tracker"] || [];
           if (getPending(rows).length) form.set_df_property("corrections_tracker", "cannot_add_rows", 1);
-          if (form.doc.workflow_state === STATUS.WORKFLOW.REVIEW) {
+          if (form.doc.workflow_state === STATUS.WORKFLOW.REVISION) {
             form.add_custom_button("Approve Correction", async () => approveCorrections(form, rows));
             form.add_custom_button(ACTION.NEW_CORRECTION, async () => {
               const confirmDiag = frappe.confirm(__("Are you sure you want to create a new correction request?"), async () => {
@@ -371,7 +371,7 @@
           const html = getCorrectionsHtml(rows);
           if (!getPending(rows).length || !html.length) return;
           let msg = `<ul>${html}</ul><br>`;
-          msg += form.doc.workflow_state === STATUS.WORKFLOW.REVIEW ? __("<p>Mark each pending item as fixed in the 'Approve Correction' button. It will only be possible to approve if all are marked.</p>") : `<p>${__("There are pending requests. You can send for review by clicking")} '${ACTION.REQUEST_REVIEW}'.</p>`;
+          msg += form.doc.workflow_state === STATUS.WORKFLOW.REVISION ? __("<p>Mark each pending item as fixed in the 'Approve Correction' button. It will only be possible to approve if all are marked.</p>") : `<p>${__("There are pending requests. You can send for review by clicking")} '${ACTION.REVIEW}'.</p>`;
           frappe.msgprint({ title: __("Pending Correction Requests"), message: msg, indicator: "orange" });
         }
       });
@@ -2957,30 +2957,48 @@
   // public/ts/metadata/doctype/checklist.ts
   frappe.provide("agt.metadata.doctype.checklist");
   agt.metadata.doctype.checklist = {
-    workflow_state: {
-      pre_analysis: {
-        name: "Preliminary Analysis",
+    workflow_action: {
+      request_revision: {
+        name: "Review",
         id: 1
       },
-      customer_fix_info: {
-        name: "Customer: Fix Information",
+      finish: {
+        name: "Finish",
         id: 2
       },
-      growatt_review: {
-        name: "Review",
+      reject: {
+        name: "Reject",
         id: 3
+      },
+      cancel: {
+        name: "Cancel",
+        id: 4
+      },
+      approve_correction: {
+        name: "Approve Correction",
+        id: 5
+      }
+    },
+    workflow_state: {
+      holding_action: {
+        name: "Awaiting Action",
+        id: 1
+      },
+      growatt_review: {
+        name: "Revision",
+        id: 2
       },
       finished: {
         name: "Finished",
-        id: 4
+        id: 3
       },
       rejected: {
         name: "Rejected",
-        id: 5
+        id: 4
       },
       cancelled: {
         name: "Cancelled",
-        id: 6
+        id: 5
       }
     }
   };
@@ -2990,28 +3008,24 @@
   agt.metadata.doctype.initial_analysis = {
     workflow_action: {
       request_revision: {
-        name: "Request Review",
+        name: "Review",
         id: 1
       },
-      request_checklist: {
-        name: "Request Checklist",
+      finish: {
+        name: "Finish",
         id: 2
-      },
-      request_correction: {
-        name: "Request Proposed Dispatch",
-        id: 3
       },
       reject: {
         name: "Reject",
-        id: 4
+        id: 3
       },
       cancel: {
         name: "Cancel",
-        id: 5
+        id: 4
       },
-      finish_correction: {
-        name: "Approve",
-        id: 6
+      approve_correction: {
+        name: "Approve Correction",
+        id: 5
       }
     },
     workflow_state: {
@@ -3042,8 +3056,57 @@
   frappe.provide("agt.metadata.doctype.ticket");
   agt.metadata.doctype.ticket = {
     workflow_action: {
-      approve: {
-        name: "Approve",
+      finish: {
+        name: "Finish",
+        id: 1
+      },
+      reject: {
+        name: "Reject",
+        id: 2
+      },
+      hold: {
+        name: "Hold",
+        id: 3
+      },
+      reactivate: {
+        name: "Reactivate",
+        id: 4
+      },
+      cancel: {
+        name: "Cancel",
+        id: 5
+      }
+    },
+    workflow_state: {
+      active: {
+        name: "Active",
+        id: 1
+      },
+      waiting_for_customer: {
+        name: "Waiting for Customer",
+        id: 2
+      },
+      finished: {
+        name: "Finished",
+        id: 3
+      },
+      rejected: {
+        name: "Rejected",
+        id: 4
+      },
+      cancelled: {
+        name: "Cancelled",
+        id: 5
+      }
+    }
+  };
+
+  // public/ts/metadata/doctype/compliance_statement.ts
+  frappe.provide("agt.metadata.doctype.compliance_statement");
+  agt.metadata.doctype.compliance_statement = {
+    workflow_action: {
+      request_revision: {
+        name: "Review",
         id: 1
       },
       finish: {
@@ -3058,152 +3121,31 @@
         name: "Cancel",
         id: 4
       },
-      reactive: {
-        name: "Reactivate",
+      approve_correction: {
+        name: "Approve Correction",
         id: 5
-      },
-      hold: {
-        name: "Hold",
-        id: 6
       }
     },
     workflow_state: {
-      draft: {
-        name: "Draft",
+      holding_action: {
+        name: "Awaiting Action",
         id: 1
-      },
-      active: {
-        name: "Active",
-        id: 2
-      },
-      waiting_for_customer: {
-        name: "Waiting for Customer",
-        id: 3
-      },
-      finished: {
-        name: "Waiting for Customer",
-        id: 4
-      },
-      rejected: {
-        name: "Rejected",
-        id: 5
-      },
-      cancelled: {
-        name: "Cancelled",
-        id: 6
-      }
-    }
-  };
-
-  // public/ts/metadata/doctype/compliance_statement.ts
-  frappe.provide("agt.metadata.doctype.compliance_statement");
-  agt.metadata.doctype.compliance_statement = {
-    workflow_action: {
-      approve: {
-        name: "Approve",
-        id: 1
-      },
-      request_analysis: {
-        name: "Request Analysis",
-        id: 2
-      },
-      request_correction: {
-        name: "Request Correction",
-        id: 3
-      },
-      finish_review: {
-        name: "Finish Review",
-        id: 4
-      },
-      reject: {
-        name: "Reject",
-        id: 5
-      },
-      finish_service: {
-        name: "Finish Service",
-        id: 6
-      },
-      cancel: {
-        name: "Cancel",
-        id: 7
-      },
-      finish_correction: {
-        name: "Finish Correction",
-        id: 8
-      },
-      request_documentation: {
-        name: "Request Documentation",
-        id: 9
-      },
-      request_checklist: {
-        name: "Request Checklist",
-        id: 10
-      },
-      forward_to_support: {
-        name: "Forward to Support",
-        id: 11
-      }
-    },
-    workflow_state: {
-      customer_finish_filling: {
-        name: "Customer: Finish Filling",
-        id: 1
-      },
-      growatt_preliminary_assessment: {
-        name: "Preliminary Analysis",
-        id: 2
-      },
-      customer_fix_info: {
-        name: "Customer: Fix Information",
-        id: 3
       },
       growatt_review: {
-        name: "Review",
-        id: 4
-      },
-      customer_checklist_requested: {
-        name: "Customer: Checklist Requested",
-        id: 5
-      },
-      checklist_finished: {
-        name: "Checklist Finished",
-        id: 6
-      },
-      shipping_proposal: {
-        name: "Shipping Proposal",
-        id: 7
-      },
-      warranty_approved: {
-        name: "Warranty Approved",
-        id: 9
-      },
-      rejected: {
-        name: "Rejected",
-        id: 10
+        name: "Revision",
+        id: 2
       },
       finished: {
         name: "Finished",
-        id: 11
+        id: 3
+      },
+      rejected: {
+        name: "Rejected",
+        id: 4
       },
       cancelled: {
         name: "Cancelled",
-        id: 12
-      },
-      approved: {
-        name: "Approved",
-        id: 13
-      },
-      finished_fixed: {
-        name: "Finished: Fixed",
-        id: 14
-      },
-      finished_missing: {
-        name: "Finished: Missing Correction",
-        id: 15
-      },
-      customer_necessary_action: {
-        name: "Customer: Action Required",
-        id: 16
+        id: 5
       }
     }
   };
