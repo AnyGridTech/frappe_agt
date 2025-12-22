@@ -195,10 +195,10 @@ agt.utils.format_doc = function (doc: string, type?: string): string {
     return formatted;
   };
 
-  if (type === 'Pessoa Física') {
+  if (type === 'Individual') {
     return formatCpf(digits);
   }
-  if (type === 'Pessoa Jurídica') {
+  if (type === 'Legal Entity') {
     return formatCnpj(digits);
   }
   // Se não houver tipo, formata com base no comprimento
@@ -247,7 +247,7 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
     const docType = typeField ? frm.doc[typeField] : null;
 
     // Make the field read-only and hidden if the document type is not valid  
-    if (docType && docType !== 'Pessoa Física' && docType !== 'Pessoa Jurídica') {
+    if (docType && docType !== 'Individual' && docType !== 'Legal Entity') {
       frm.set_df_property(docField, 'read_only', 1);
       frm.set_df_property(docField, 'hidden', 1);
       updateUI('#f1c40f', 'Selecione o tipo de documento antes de preencher.');
@@ -263,7 +263,7 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
     }
 
     // { CPF logic }
-    if (docType === 'Pessoa Física') {
+    if (docType === 'Individual') {
       if (digits.length < 11) {
         updateUI('#f1c40f', 'CPF incompleto');
       } else {
@@ -277,7 +277,7 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
     }
 
     // { CNPJ logic }
-    if (docType === 'Pessoa Jurídica') {
+    if (docType === 'Legal Entity') {
       if (digits.length < 14) {
         updateUI('#f1c40f', 'CNPJ incompleto');
       } else {
@@ -329,7 +329,7 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
 
     // Extract only digits and limit length based on document type
     let digits = originalValue.replace(/\D/g, '');
-    const maxLength = docType === 'Pessoa Jurídica' ? 14 : (docType === 'Pessoa Física' ? 11 : 14);
+    const maxLength = docType === 'Legal Entity' ? 14 : (docType === 'Individual' ? 11 : 14);
     if (digits.length > maxLength) {
       digits = digits.slice(0, maxLength);
     }
@@ -338,9 +338,9 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
     const formatCnpj = (d: string) => d.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4').replace(/(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5');
 
     let formattedValue = digits;
-    if (docType === 'Pessoa Física') {
+    if (docType === 'Individual') {
       formattedValue = formatCpf(digits);
-    } else if (docType === 'Pessoa Jurídica') {
+    } else if (docType === 'Legal Entity') {
       formattedValue = formatCnpj(digits);
     } else {
       formattedValue = digits.length > 11 ? formatCnpj(digits) : formatCpf(digits);
