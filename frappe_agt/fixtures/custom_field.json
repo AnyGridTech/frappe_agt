@@ -157,5 +157,50 @@
     "label": "Service Partner",
     "fieldtype": "Check",
     "insert_after": "state_registration"
-  }
+  },
+        {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_section",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_section",
+        "label": "Invoice Information",
+        "fieldtype": "Section Break",
+        "insert_after": "total_additional_costs"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_file",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_file",
+        "label": "Invoice File",
+        "fieldtype": "Attach",
+        "insert_after": "invoice_section"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_number",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_number",
+        "label": "Invoice Number",
+        "fieldtype": "Data",
+        "insert_after": "invoice_file"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_serie",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_serie",
+        "label": "Invoice Serie",
+        "fieldtype": "Data",
+        "insert_after": "invoice_number"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_access_key",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_access_key",
+        "label": "Invoice Access Key",
+        "fieldtype": "Data",
+        "insert_after": "invoice_serie"
+      }
 ]

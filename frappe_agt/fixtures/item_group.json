@@ -1198,8 +1198,7 @@
         "old_parent": "Inverter Types",
         "parent_item_group": "Inverter Types",
         "taxes": []
-    }
-][
+    },
   {
     "doctype": "Item Group",
     "item_group_name": "Growatt Product",
