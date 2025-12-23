@@ -1,6 +1,36 @@
 frappe.provide('agt.utils');
 
-agt.utils.workflow_transition = async function(
+export interface GrowattApiResponse {
+  code: number;           // Status code of the response
+  msg: string;            // Message describing the response
+  data: DeviceInfo;       // Object containing detailed information
+}
+
+export interface DeviceInfo {
+  id: number;             // Unique ID of the device
+  orderNumber: string;    // Order number associated with the device
+  accountName: string;    // Account name (partially masked)
+  accountName2: string;   // Additional account name (partially masked)
+  model: string;          // Model of the device
+  deviceSN: string;       // Serial number of the device
+  deliveryTime: string;   // Delivery date in ISO format (YYYY-MM-DD)
+  warrantyTime: number;   // Warranty duration in years
+  outTime: string;        // Warranty expiration date in ISO format (YYYY-MM-DD)
+  code: string;           // Device code
+  number4Years: string;   // Reserved or additional data (appears to be empty)
+  lastUpdateTime: string; // Last updated timestamp (YYYY-MM-DD HH:mm:ss)
+  operationName: string;  // Name of the operator or handler
+  month: number;          // Reserved data (seems to be a count or metric)
+  area: number;           // Area or region ID
+  countryId: number;      // Country ID
+  deviceType: number;     // Type of the device
+  isToShip: number;       // Flag indicating if the device is to be shipped
+  isPush: number;         // Flag indicating push notification status
+  isPushCount: number;    // Count of push attempts
+  isPushOa: number;       // Additional push notification status
+}
+
+agt.utils.workflow_transition = async function (
   form: any,
   action: string,
   callback?: ((f: any) => void) | ((f: any) => Promise<void>)
@@ -9,7 +39,7 @@ agt.utils.workflow_transition = async function(
     console.error('workflow_transition: Parâmetros inválidos.');
     return;
   }
-  
+
   // set the workflow_action for use in form scripts
   frappe.dom.freeze();
   form.states.frm.selected_workflow_action = action;
@@ -25,6 +55,16 @@ agt.utils.workflow_transition = async function(
         form.states.frm.selected_workflow_action = null;
         form.states.frm.script_manager.trigger('after_workflow_action');
       })
+      .catch((error: any) => {
+        frappe.dom.unfreeze();
+        frappe.msgprint({
+          title: 'Erro na transição de workflow',
+          message: error?.message || error,
+          indicator: 'red'
+        });
+        console.error('Erro na transição de workflow:', error);
+        throw error;
+      })
       .finally(async () => {
         frappe.dom.unfreeze();
         callback && (await callback(form));
@@ -32,7 +72,7 @@ agt.utils.workflow_transition = async function(
   });
 };
 
-agt.utils.update_workflow_state = async function(params: {
+agt.utils.update_workflow_state = async function (params: {
   doctype: string;
   docname: string;
   workflow_state: string;
@@ -42,7 +82,7 @@ agt.utils.update_workflow_state = async function(params: {
   const { doctype, docname, workflow_state, ignore_workflow_validation, callback } = params;
   return await frappe
     .call({
-      method: 'update_workflow_state',
+      method: 'frappe_agt.api.update_workflow_state',
       args: { doctype, docname, workflow_state, ignore_workflow_validation }
     })
     .then(async () => {
@@ -53,12 +93,12 @@ agt.utils.update_workflow_state = async function(params: {
     });
 };
 
-agt.utils.refresh_force = async function() {
+agt.utils.refresh_force = async function () {
   if (!cur_frm?.doc?.doctype || !cur_frm?.doc?.name) {
     console.error('refresh_force: cur_frm ou documento inválido');
     return undefined;
   }
-  
+
   frappe.model.clear_doc(cur_frm.doc.doctype, cur_frm.doc.name);
   return await agt.utils.doc.get_doc(cur_frm.doc.doctype, cur_frm.doc.name)
     .then((doc: any) => {
@@ -74,19 +114,19 @@ agt.utils.refresh_force = async function() {
 };
 
 // Validation functions (moved here to avoid circular dependencies)
-agt.utils.validate_cpf_regex = function(cpf: string): boolean {
+agt.utils.validate_cpf_regex = function (cpf: string): boolean {
   if (!cpf || typeof cpf !== 'string') return false;
   cpf = cpf.trim();
   return /^(?!000\.000\.000\-00)(\d{3}\.\d{3}\.\d{3}\-\d{2})$/.test(cpf);
 };
 
-agt.utils.validate_cnpj_regex = function(cnpj: string): boolean {
+agt.utils.validate_cnpj_regex = function (cnpj: string): boolean {
   if (!cnpj || typeof cnpj !== 'string') return false;
   cnpj = cnpj.trim();
   return /^(?!00\.000\.000\/0000\-00)(\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2})$/.test(cnpj);
 };
 
-agt.utils.validate_cpf = function(cpf: string): boolean {
+agt.utils.validate_cpf = function (cpf: string): boolean {
   const d = (cpf || '').replace(/\D/g, '');
   if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
   let sum = 0;
@@ -101,7 +141,7 @@ agt.utils.validate_cpf = function(cpf: string): boolean {
   return check === +(d[10] || 0);
 };
 
-agt.utils.validate_cnpj = function(cnpj: string): boolean {
+agt.utils.validate_cnpj = function (cnpj: string): boolean {
   const d = (cnpj || '').replace(/\D/g, '');
   if (d.length !== 14 || /^(\d)\1+$/.test(d)) return false;
   const calc = (base: string, weights: number[]) => base.split('').reduce((sum, n, i) => sum + +(n || 0) * (weights[i] || 0), 0);
@@ -117,13 +157,13 @@ agt.utils.validate_cnpj = function(cnpj: string): boolean {
 
 agt.utils.validate_cnpj_existence = async function (cnpj: string): Promise<boolean> {
   if (!cnpj || typeof cnpj !== 'string') return false;
-  
+
   const digits = cnpj.replace(/\D/g, '');
   if (digits.length !== 14) return false;
 
   try {
     const response = await frappe.call({
-      method: 'check_cnpj',
+      method: 'frappe_agt.api.check_cnpj',
       args: { cnpj: digits }
     });
     const data = response?.message;
@@ -135,7 +175,7 @@ agt.utils.validate_cnpj_existence = async function (cnpj: string): Promise<boole
   }
 };
 
-agt.utils.format_doc = function(doc: string, type?: string): string {
+agt.utils.format_doc = function (doc: string, type?: string): string {
   let digits = (doc || '').replace(/\D/g, '');
 
   const formatCpf = (d: string) => {
@@ -155,10 +195,10 @@ agt.utils.format_doc = function(doc: string, type?: string): string {
     return formatted;
   };
 
-  if (type === 'Pessoa Física') {
+  if (type === 'Individual') {
     return formatCpf(digits);
   }
-  if (type === 'Pessoa Jurídica') {
+  if (type === 'Legal Entity') {
     return formatCnpj(digits);
   }
   // Se não houver tipo, formata com base no comprimento
@@ -166,7 +206,7 @@ agt.utils.format_doc = function(doc: string, type?: string): string {
 };
 
 // Document ID validation function
-agt.utils.document_id = async function(frm: any, docField: string, typeField: string) {
+agt.utils.document_id = async function (frm: any, docField: string, typeField: string) {
   const field = frm.fields_dict[docField];
   if (!field?.$input) {
     console.error(`document_id: O campo '${docField}' não foi encontrado ou não é um campo de entrada válido.`);
@@ -207,7 +247,7 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
     const docType = typeField ? frm.doc[typeField] : null;
 
     // Make the field read-only and hidden if the document type is not valid  
-    if (docType && docType !== 'Pessoa Física' && docType !== 'Pessoa Jurídica') {
+    if (docType && docType !== 'Individual' && docType !== 'Legal Entity') {
       frm.set_df_property(docField, 'read_only', 1);
       frm.set_df_property(docField, 'hidden', 1);
       updateUI('#f1c40f', 'Selecione o tipo de documento antes de preencher.');
@@ -223,7 +263,7 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
     }
 
     // { CPF logic }
-    if (docType === 'Pessoa Física') {
+    if (docType === 'Individual') {
       if (digits.length < 11) {
         updateUI('#f1c40f', 'CPF incompleto');
       } else {
@@ -237,7 +277,7 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
     }
 
     // { CNPJ logic }
-    if (docType === 'Pessoa Jurídica') {
+    if (docType === 'Legal Entity') {
       if (digits.length < 14) {
         updateUI('#f1c40f', 'CNPJ incompleto');
       } else {
@@ -289,7 +329,7 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
 
     // Extract only digits and limit length based on document type
     let digits = originalValue.replace(/\D/g, '');
-    const maxLength = docType === 'Pessoa Jurídica' ? 14 : (docType === 'Pessoa Física' ? 11 : 14);
+    const maxLength = docType === 'Legal Entity' ? 14 : (docType === 'Individual' ? 11 : 14);
     if (digits.length > maxLength) {
       digits = digits.slice(0, maxLength);
     }
@@ -298,9 +338,9 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
     const formatCnpj = (d: string) => d.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4').replace(/(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5');
 
     let formattedValue = digits;
-    if (docType === 'Pessoa Física') {
+    if (docType === 'Individual') {
       formattedValue = formatCpf(digits);
-    } else if (docType === 'Pessoa Jurídica') {
+    } else if (docType === 'Legal Entity') {
       formattedValue = formatCnpj(digits);
     } else {
       formattedValue = digits.length > 11 ? formatCnpj(digits) : formatCpf(digits);
@@ -343,7 +383,7 @@ agt.utils.document_id = async function(frm: any, docField: string, typeField: st
   validateAndStyle();
 };
 
-agt.utils.redirect_by_ref = function(ref?: string, title?: string, message?: string, indicator?: string, url?: string, delay = 3000, newTab = true) {
+agt.utils.redirect_by_ref = function (ref?: string, title?: string, message?: string, indicator?: string, url?: string, delay = 3000, newTab = true) {
   if (!ref || !url) {
     console.error('redirect_by_ref: ref e url são obrigatórios');
     return;
@@ -366,7 +406,7 @@ agt.utils.redirect_by_ref = function(ref?: string, title?: string, message?: str
   }, delay);
 };
 
-agt.utils.build_doc_url = function(doctype: string, docname: string): string {
+agt.utils.build_doc_url = function (doctype: string, docname: string): string {
   const doctypeSlug = doctype
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/\s+/g, '-')
@@ -375,7 +415,7 @@ agt.utils.build_doc_url = function(doctype: string, docname: string): string {
   return `${window.location.origin}/app/${doctypeSlug}/${encodeURIComponent(docname)}`;
 };
 
-agt.utils.redirect_after_create_doc = function(success: boolean, url: string, docname: string, doctype: string): void {
+agt.utils.redirect_after_create_doc = function (success: boolean, url: string, docname: string, doctype: string): void {
   if (success) {
     frappe.msgprint({
       title: "Redirecionando...",
@@ -394,15 +434,15 @@ agt.utils.redirect_after_create_doc = function(success: boolean, url: string, do
   }, 2000);
 };
 
-agt.utils.get_item_info = async function(item_name: string, sn?: string) {
+agt.utils.get_item_info = async function (item_name: string, sn?: string) {
   if (!item_name || typeof item_name !== 'string') {
     console.error('get_item_info: item_name é obrigatório');
     return;
   }
-  
+
   const all_items = await frappe.db
     .get_list('Item', {
-      fields: ['item_code', 'custom_mppt', 'item_name'],
+      fields: ['item_code', 'mppt', 'item_name'],
     })
     .catch((e: any) => {
       console.error('Erro ao buscar itens:', e);
@@ -419,7 +459,7 @@ agt.utils.get_item_info = async function(item_name: string, sn?: string) {
 
   if (!filtered_items.length) return;
   // Se só existe um MPPT, retorna direto
-  const uniqueMppts = [...new Set(filtered_items.map((item: any) => item.custom_mppt))];
+  const uniqueMppts = [...new Set(filtered_items.map((item: any) => item.mppt))];
   if (uniqueMppts.length === 1) return filtered_items[0];
 
   // Se há mais de um MPPT, mostra o diálogo para seleção
@@ -442,7 +482,7 @@ agt.utils.get_item_info = async function(item_name: string, sn?: string) {
       primary_action: async function (values: any) {
         const mppt = values.mppt;
         if (!mppt) return;
-        const item = filtered_items.find((item: any) => item.custom_mppt === mppt);
+        const item = filtered_items.find((item: any) => item.mppt === mppt);
         agt.utils.dialog.close_by_title(dialog_title);
         resolve(item); // Resolve o item selecionado
       }
@@ -450,27 +490,17 @@ agt.utils.get_item_info = async function(item_name: string, sn?: string) {
   });
 };
 
-agt.utils.get_growatt_sn_info = async function(serial_no: string) {
-  if (!serial_no || typeof serial_no !== 'string') {
-    console.error('get_growatt_sn_info: serial_no é obrigatório');
-    return undefined;
-  }
-  
-  try {
-    const sn = await frappe.call({
-      method: 'get_growatt_sn_info',
-      args: { deviceSN: serial_no }
-    });
-    const fail = !sn || !sn.message?.code || sn.message.code !== 200;
-    if (fail) return undefined;
-    return sn.message;
-  } catch (error: any) {
-    console.error('Erro ao buscar informações do SN Growatt:', error);
-    return undefined;
-  }
+agt.utils.get_growatt_sn_info = async function (serial_no: string) {
+  const sn = await frappe.call<{ message: GrowattApiResponse }>({
+    method: 'frappe_agt.api.get_growatt_sn_info',
+    args: { deviceSN: serial_no }
+  });
+  const fail = !sn || !sn.message?.code || sn.message.code !== 200;
+  if (fail) return undefined;
+  return sn.message;
 };
 
-agt.utils.validate_serial_number = function(sn: string, type?: 'inverter' | 'battery' | 'ev_charger' | 'transformer' | 'smart_meter' | 'smart_energy_manager' | 'other'): boolean {
+agt.utils.validate_serial_number = function (sn: string, type?: 'inverter' | 'battery' | 'ev_charger' | 'transformer' | 'smart_meter' | 'smart_energy_manager' | 'other'): boolean {
   if (!sn || typeof sn !== 'string') return false;
 
   sn = sn.trim().toUpperCase();
@@ -490,7 +520,7 @@ agt.utils.validate_serial_number = function(sn: string, type?: 'inverter' | 'bat
   return output;
 };
 
-agt.utils.get_value_from_any_doc = async function(
+agt.utils.get_value_from_any_doc = async function (
   frm: any,
   doctype: string,
   docnameField: string,

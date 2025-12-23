@@ -2,47 +2,47 @@ frappe.provide("agt.metadata.doctype.ticket");
 
 agt.metadata.doctype.ticket = {
   workflow_action: {
-    approve: {
-      name: "Aprovar",
-      id: 1
-    },
     finish: {
-      name: "Concluir",
-      id: 2
+      name: "Finish",
+      id: 1
     },
     reject: {
-      name: "Rejeitar",
+      name: "Reject",
+      id: 2
+    },
+    hold: {
+      name: "Hold",
       id: 3
     },
-    cancel: {
-      name: "Cancelar",
+    reactivate: {
+      name: "Reactivate",
       id: 4
     },
-    reactive: {
-      name: "Reativar",
+    cancel: {
+      name: "Cancel",
       id: 5
-    },
+    }
   },
   workflow_state: {
-    draft: {
-      name: "Rascunho",
+    active: {
+      name: "Active",
       id: 1
     },
-    active: {
-      name: "Ativo",
+    waiting_for_customer: {
+      name: "Waiting for Customer",
       id: 2
     },
     finished: {
-      name: "Concluido",
+      name: "Finished",
       id: 3
     },
     rejected: {
-      name: "Rejeitado",
+      name: "Rejected",
       id: 4
     },
     cancelled: {
-      name: "Cancelado",
+      name: "Cancelled",
       id: 5
-    },
+    }
   }
 };

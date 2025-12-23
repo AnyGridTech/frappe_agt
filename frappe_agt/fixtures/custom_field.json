@@ -61,7 +61,7 @@
     "dt": "Item",
     "fieldname": "ncm",
     "label": "NCM",
-    "fieldtype": "Float",
+    "fieldtype": "Data",
     "insert_after": "mppt"
   },
   {
@@ -108,27 +108,54 @@
     "label": "Package Depth (cm)",
     "fieldtype": "Float",
     "insert_after": "package_width"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-error_version",
+    "dt": "Item",
+    "fieldname": "error_version",
+    "label": "Version",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "link_filters": "[[\"Item Group\",\"parent_item_group\",\"=\",\"Error Version\"]]",
+    "insert_after": "item_group"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Family",
+    "dt": "Item",
+    "fieldname": "family",
+    "label": "Family",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "insert_after": "stock_uom"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Equipment Type",
+    "dt": "Item",
+    "fieldname": "equipment_type",
+    "label": "Equipment Type",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "insert_after": "family"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "State Registration",
+    "dt": "Company",
+    "fieldname": "state_registration",
+    "label": "Inscrição Estadual",
+    "fieldtype": "Data",
+    "insert_after": "parent_company"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Service Partner",
+    "dt": "Company",
+    "fieldname": "service_partner",
+    "label": "Service Partner",
+    "fieldtype": "Check",
+    "insert_after": "state_registration"
   }
-  ,
-    {
-      "doctype": "Custom Field",
-      "name": "Family",
-      "dt": "Item",
-      "fieldname": "family",
-      "label": "Family",
-      "fieldtype": "Link",
-      "options": "Item Group",
-      "insert_after": "package_depth"
-    }
-    ,
-      {
-        "doctype": "Custom Field",
-        "name": "Equipment Type",
-        "dt": "Item",
-        "fieldname": "equipment_type",
-        "label": "Equipment Type",
-        "fieldtype": "Link",
-        "options": "Item Group",
-        "insert_after": "family"
-      }
 ]

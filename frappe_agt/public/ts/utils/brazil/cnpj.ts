@@ -80,7 +80,7 @@ agt.utils.brazil.cnpj.validate_existence = async function (frm: FrappeForm, cnpj
 
   try {
     const response = await frappe.call({
-      method: 'check_cnpj_existence',
+      method: 'frappe_agt.api.check_cnpj_existence',
       args: { cnpj }
     });
     

@@ -63,7 +63,7 @@
           if (action === "Rejeitar") {
             agt.utils.update_workflow_state({
               doctype: "Service Protocol",
-              docname: frm.doc["sp_docname"],
+              docname: frm.doc["inanly_docname"],
               workflow_state: "Holding Action",
               ignore_workflow_validation: true
             });
@@ -142,7 +142,7 @@
         try {
           agt.utils.update_workflow_state({
             doctype: "Service Protocol",
-            docname: form.doc["sp_docname"],
+            docname: form.doc["inanly_docname"],
             workflow_state: "Finished",
             ignore_workflow_validation: true
           });
@@ -153,7 +153,7 @@
           });
           form.dirty();
           setTimeout(() => {
-            const url = `/app/service-protocol/${form.doc["sp_docname"]}`;
+            const url = `/app/service-protocol/${form.doc["inanly_docname"]}`;
             window.open(url, "_blank");
           }, 500);
           await form.save();
@@ -175,18 +175,18 @@
   frappe.provide("agt.corrections_tracker");
   var STATUS = {
     WORKFLOW: {
-      AWAITING_ACTION: "Aguardando A\xE7\xE3o",
-      REVIEW: "Revis\xE3o"
+      AWAITING_ACTION: "Awaiting Action",
+      REVISION: "Revision"
     },
     ROW: {
-      PENDING: "Pendente",
-      FINISHED: "Conclu\xEDdo"
+      FINISHED: "Finished",
+      PENDING: "Pending"
     }
   };
   var ACTION = {
-    REQUEST_REVIEW: "Solicitar Revis\xE3o",
-    APPROVE_CORRECTION: "Aprovar Corre\xE7\xE3o",
-    NEW_CORRECTION: "Novo Pedido"
+    NEW_CORRECTION: "New Correction",
+    REVIEW: "Review",
+    APPROVE_CORRECTION: "Approve"
   };
   function getPending(rows) {
     return rows.filter((row) => row.status === STATUS.ROW.PENDING);
@@ -202,26 +202,26 @@
     return getPending(rows).map((row, idx) => ({
       fieldname: `chk_${idx}`,
       fieldtype: "Check",
-      label: `${row.correction_label || `Pedido ${idx + 1}`}${row.correction_text ? ` \u2014 ${row.correction_text}` : ""}`,
+      label: `${row.correction_label || `${__("Request")} ${idx + 1}`}${row.correction_text ? ` \u2014 ${row.correction_text}` : ""}`,
       default: 0
     }));
   }
   async function approveCorrections(form, rows, onDone) {
     const pending = getPending(rows);
     if (!pending.length) {
-      frappe.msgprint("N\xE3o existem pend\xEAncias para aprovar.");
+      frappe.msgprint(__("There are no pending items to approve."));
       return;
     }
     const d = new frappe.ui.Dialog({
-      title: "Marcar corre\xE7\xF5es como conclu\xEDdas",
+      title: __("Mark corrections as completed"),
       fields: getDialogFields(rows),
-      primary_action_label: "Confirmar e Aprovar Corre\xE7\xE3o",
-      secondary_action_label: "Cancelar"
+      primary_action_label: __("Confirm and Approve Correction"),
+      secondary_action_label: __("Cancel")
     });
-    d.set_primary_action("Confirmar e Aprovar Corre\xE7\xE3o", async () => {
+    d.set_primary_action(__("Confirm and Approve Correction"), async () => {
       const values = d.get_values();
       if (!Object.values(values).every((v) => v === 1 || v === true)) {
-        frappe.msgprint({ title: "Aten\xE7\xE3o", message: `Para aprovar a corre\xE7\xE3o, marque todas as pend\xEAncias como corrigidas.`, indicator: "orange" });
+        frappe.msgprint({ title: __("Attention"), message: __("To approve the correction, mark all pending items as fixed."), indicator: "orange" });
         return;
       }
       await Promise.all(pending.map((row) => agt.utils.table.row.update_one(row, {
@@ -239,7 +239,7 @@
         workflow_state: STATUS.WORKFLOW.AWAITING_ACTION,
         ignore_workflow_validation: true,
         callback: async () => {
-          frappe.msgprint({ title: "Corre\xE7\xF5es aprovadas", message: `Todas as pend\xEAncias foram marcadas como conclu\xEDdas.`, indicator: "green" });
+          frappe.msgprint({ title: __("Corrections approved"), message: __("All pending items have been marked as completed."), indicator: "green" });
           form.dirty();
           form.refresh_field("corrections_tracker");
           await form.save();
@@ -252,7 +252,7 @@
   function loadAdminButtons() {
     if (!frappe.boot.user.roles.includes("System Manager")) return;
     Object.values(STATUS.WORKFLOW).forEach((status) => {
-      cur_frm.add_custom_button(`Ir para ${status}`, async () => {
+      cur_frm.add_custom_button(`${__("Go to")} ${status}`, async () => {
         await agt.utils.update_workflow_state({
           doctype: cur_frm.doctype,
           docname: cur_frm.docname,
@@ -283,15 +283,15 @@
           const ws = form.doc.workflow_state;
           const action = form.states?.frm?.selected_workflow_action;
           const rows = form.doc["corrections_tracker"] || [];
-          if (ws === STATUS.WORKFLOW.AWAITING_ACTION && action === ACTION.REQUEST_REVIEW) {
-            if (!getPending(rows).length) frappe.throw(`Adicione ao menos um pedido de corre\xE7\xE3o (status "Pendente") antes de solicitar revis\xE3o.`);
+          if (ws === STATUS.WORKFLOW.AWAITING_ACTION && action === ACTION.REVIEW) {
+            if (!getPending(rows).length) frappe.throw(__('Add at least one correction request (status "Pending") before requesting review.'));
             await agt.utils.update_workflow_state({
               doctype: form.doctype,
               docname: form.docname,
-              workflow_state: STATUS.WORKFLOW.REVIEW,
+              workflow_state: STATUS.WORKFLOW.REVISION,
               ignore_workflow_validation: true,
               callback: async () => {
-                frappe.msgprint({ title: "Enviado para Revis\xE3o", message: `O documento foi enviado para "<b>${STATUS.WORKFLOW.REVIEW}</b>".`, indicator: "blue" });
+                frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVISION}</b>".`, indicator: "blue" });
                 form.dirty();
                 form.refresh_field("corrections_tracker");
                 await form.save();
@@ -305,11 +305,11 @@
           const rows = form.doc["corrections_tracker"] || [];
           const activeLabels = getPending(rows).map((row) => row.correction_label).filter(Boolean);
           if (new Set(activeLabels).size < activeLabels.length) {
-            frappe.throw(`<b>Falha ao salvar:</b><br>Existem 'R\xF3tulos da Corre\xE7\xE3o' duplicados entre os pedidos ativos. Cada pedido deve referir um campo \xFAnico.`);
+            frappe.throw(__("<b>Save failed:</b><br>There are duplicate 'Correction Labels' among active requests. Each request must refer to a unique field."));
           }
           getPending(rows).forEach((row) => {
             if (!row.correction_label || !row.correction_text) {
-              frappe.throw(`<b>Falha ao salvar:</b><br>Para cada pedido com status "Pendente" \xE9 necess\xE1rio preencher 'R\xF3tulo da Corre\xE7\xE3o' e 'Texto da Corre\xE7\xE3o'.`);
+              frappe.throw(__(`<b>Save failed:</b><br>For each request with status "Pending", you must fill in 'Correction Label' and 'Correction Text'.`));
             }
           });
         },
@@ -321,24 +321,24 @@
           const html = getCorrectionsHtml(rows);
           if (!html.length) return;
           if (ws === STATUS.WORKFLOW.AWAITING_ACTION) {
-            const confirmDiag = frappe.confirm(`Existem pedidos pendentes. Deseja enviar para "<b>${STATUS.WORKFLOW.REVIEW}</b>" agora?<br><br><ul>${html}</ul>`, async () => {
+            const confirmDiag = frappe.confirm(`${__("There are pending requests. Do you want to send to")} "<b>${STATUS.WORKFLOW.REVISION}</b>" ${__("now")}?<br><br><ul>${html}</ul>`, async () => {
               await agt.utils.update_workflow_state({
                 doctype: form.doctype,
                 docname: form.docname,
-                workflow_state: STATUS.WORKFLOW.REVIEW,
+                workflow_state: STATUS.WORKFLOW.REVISION,
                 ignore_workflow_validation: true,
                 callback: async () => {
-                  frappe.msgprint({ title: "Enviado para Revis\xE3o", message: `O documento foi enviado para "<b>${STATUS.WORKFLOW.REVIEW}</b>".`, indicator: "blue" });
+                  frappe.msgprint({ title: __("Sent for Review"), message: `${__("The document was sent to")} "<b>${STATUS.WORKFLOW.REVISION}</b>".`, indicator: "blue" });
                   form.dirty();
                   form.refresh_field("corrections_tracker");
                 }
               });
             });
-            confirmDiag.set_primary_action("Sim, enviar para revis\xE3o.");
-            confirmDiag.set_secondary_action_label("N\xE3o, depois.");
+            confirmDiag.set_primary_action(__("Yes, send for review."));
+            confirmDiag.set_secondary_action_label(__("No, later."));
           }
-          if (ws === STATUS.WORKFLOW.REVIEW) {
-            frappe.msgprint({ title: "Corre\xE7\xF5es pendentes", message: `Confirme se os seguintes itens foram corrigidos pelo cliente:<br><br><ul>${html}</ul>`, indicator: "orange" });
+          if (ws === STATUS.WORKFLOW.REVISION) {
+            frappe.msgprint({ title: __("Pending corrections"), message: `${__("Confirm that the following items have been corrected by the customer")}:<br><br><ul>${html}</ul>`, indicator: "orange" });
           }
         },
         async refresh() {
@@ -349,10 +349,10 @@
           form.set_df_property("corrections_tracker", "cannot_delete_rows", 1);
           const rows = form.doc["corrections_tracker"] || [];
           if (getPending(rows).length) form.set_df_property("corrections_tracker", "cannot_add_rows", 1);
-          if (form.doc.workflow_state === STATUS.WORKFLOW.REVIEW) {
-            form.add_custom_button("Aprovar Corre\xE7\xE3o", async () => approveCorrections(form, rows));
+          if (form.doc.workflow_state === STATUS.WORKFLOW.REVISION) {
+            form.add_custom_button("Approve Correction", async () => approveCorrections(form, rows));
             form.add_custom_button(ACTION.NEW_CORRECTION, async () => {
-              const confirmDiag = frappe.confirm("Tem certeza que deseja criar um novo pedido de corre\xE7\xE3o?", async () => {
+              const confirmDiag = frappe.confirm(__("Are you sure you want to create a new correction request?"), async () => {
                 const finishedRows = (form.doc["corrections_tracker"] || []).filter((row) => row.status === STATUS.ROW.FINISHED);
                 await Promise.all(finishedRows.map((row) => agt.utils.table.row.update_one(row, {
                   status: STATUS.ROW.FINISHED,
@@ -361,18 +361,18 @@
                 })));
                 setTimeout(() => {
                   form.set_df_property("corrections_tracker", "cannot_add_rows", 0);
-                  frappe.msgprint("Crie um novo pedido de corre\xE7\xE3o para o cliente com os campos faltantes.");
+                  frappe.msgprint(__("Create a new correction request for the customer with the missing fields."));
                 }, 2e3);
               });
-              confirmDiag.set_primary_action("Sim, criar novo pedido.");
-              confirmDiag.set_secondary_action_label("N\xE3o, cancelar.");
+              confirmDiag.set_primary_action(__("Yes, create new request."));
+              confirmDiag.set_secondary_action_label(__("No, cancel."));
             });
           }
           const html = getCorrectionsHtml(rows);
           if (!getPending(rows).length || !html.length) return;
           let msg = `<ul>${html}</ul><br>`;
-          msg += form.doc.workflow_state === STATUS.WORKFLOW.REVIEW ? `<p>Marque cada pend\xEAncia como corrigida no bot\xE3o 'Aprovar Corre\xE7\xE3o'. S\xF3 ser\xE1 poss\xEDvel aprovar se todas estiverem marcadas.</p>` : `<p>H\xE1 pedidos pendentes. Voc\xEA pode enviar para revis\xE3o clicando em '${ACTION.REQUEST_REVIEW}'.</p>`;
-          frappe.msgprint({ title: "Pedidos de Corre\xE7\xE3o Pendentes", message: msg, indicator: "orange" });
+          msg += form.doc.workflow_state === STATUS.WORKFLOW.REVISION ? __("<p>Mark each pending item as fixed in the 'Approve Correction' button. It will only be possible to approve if all are marked.</p>") : `<p>${__("There are pending requests. You can send for review by clicking")} '${ACTION.REVIEW}'.</p>`;
+          frappe.msgprint({ title: __("Pending Correction Requests"), message: msg, indicator: "orange" });
         }
       });
     }
@@ -1347,7 +1347,7 @@
     }
     try {
       const response = await frappe.call({
-        method: "check_cnpj_existence",
+        method: "frappe_agt.api.check_cnpj_existence",
         args: { cnpj }
       });
       if (response.message && response.message.exists) {
@@ -1485,7 +1485,7 @@
     const fetchCepData = async (cep) => {
       try {
         const response = await frappe.call({
-          method: "check_cep",
+          method: "frappe_agt.api.check_cep",
           args: { cep }
         });
         return response.message;
@@ -1752,6 +1752,15 @@
         form.states.frm.refresh();
         form.states.frm.selected_workflow_action = null;
         form.states.frm.script_manager.trigger("after_workflow_action");
+      }).catch((error) => {
+        frappe.dom.unfreeze();
+        frappe.msgprint({
+          title: "Erro na transi\xE7\xE3o de workflow",
+          message: error?.message || error,
+          indicator: "red"
+        });
+        console.error("Erro na transi\xE7\xE3o de workflow:", error);
+        throw error;
       }).finally(async () => {
         frappe.dom.unfreeze();
         callback && await callback(form);
@@ -1761,7 +1770,7 @@
   agt.utils.update_workflow_state = async function(params) {
     const { doctype, docname, workflow_state, ignore_workflow_validation, callback } = params;
     return await frappe.call({
-      method: "update_workflow_state",
+      method: "frappe_agt.api.update_workflow_state",
       args: { doctype, docname, workflow_state, ignore_workflow_validation }
     }).then(async () => {
       return await agt.utils.refresh_force().then(async (doc) => {
@@ -1829,7 +1838,7 @@
     if (digits.length !== 14) return false;
     try {
       const response = await frappe.call({
-        method: "check_cnpj",
+        method: "frappe_agt.api.check_cnpj",
         args: { cnpj: digits }
       });
       const data = response?.message;
@@ -2058,7 +2067,7 @@
       return;
     }
     const all_items = await frappe.db.get_list("Item", {
-      fields: ["item_code", "custom_mppt", "item_name"]
+      fields: ["item_code", "mppt", "item_name"]
     }).catch((e) => {
       console.error("Erro ao buscar itens:", e);
       return null;
@@ -2069,7 +2078,7 @@
       (item) => agt.utils.text.normalize(item.item_name) === normalizedInput
     );
     if (!filtered_items.length) return;
-    const uniqueMppts = [...new Set(filtered_items.map((item) => item.custom_mppt))];
+    const uniqueMppts = [...new Set(filtered_items.map((item) => item.mppt))];
     if (uniqueMppts.length === 1) return filtered_items[0];
     const dialog_title = `Selecione a quantidade de MPPTs (${item_name}${sn ? ` - ${sn}` : ""})`;
     return new Promise((resolve) => {
@@ -2090,7 +2099,7 @@
         primary_action: async function(values) {
           const mppt = values.mppt;
           if (!mppt) return;
-          const item = filtered_items.find((item2) => item2.custom_mppt === mppt);
+          const item = filtered_items.find((item2) => item2.mppt === mppt);
           agt.utils.dialog.close_by_title(dialog_title);
           resolve(item);
         }
@@ -2098,22 +2107,13 @@
     });
   };
   agt.utils.get_growatt_sn_info = async function(serial_no) {
-    if (!serial_no || typeof serial_no !== "string") {
-      console.error("get_growatt_sn_info: serial_no \xE9 obrigat\xF3rio");
-      return void 0;
-    }
-    try {
-      const sn = await frappe.call({
-        method: "get_growatt_sn_info",
-        args: { deviceSN: serial_no }
-      });
-      const fail = !sn || !sn.message?.code || sn.message.code !== 200;
-      if (fail) return void 0;
-      return sn.message;
-    } catch (error) {
-      console.error("Erro ao buscar informa\xE7\xF5es do SN Growatt:", error);
-      return void 0;
-    }
+    const sn = await frappe.call({
+      method: "frappe_agt.api.get_growatt_sn_info",
+      args: { deviceSN: serial_no }
+    });
+    const fail = !sn || !sn.message?.code || sn.message.code !== 200;
+    if (fail) return void 0;
+    return sn.message;
   };
   agt.utils.validate_serial_number = function(sn, type) {
     if (!sn || typeof sn !== "string") return false;
@@ -2470,7 +2470,7 @@
     const currentTable = form.doc[tableField] || [];
     let needsUpdate = !await agt.utils.table.is_sync(currentTable, remote, docname, workflowStateField);
     if (!needsUpdate) {
-      console.log(`Tabela '${tableField}' j\xE1 est\xE1 sincronizada.`);
+      console.log(`The table '${tableField}' is already synchronized.`);
       return;
     }
     form.doc[tableField] = remote.map((item) => {
@@ -2483,7 +2483,7 @@
     form.dirty();
     form.refresh_field(tableField);
     await form.save();
-    console.log(`Tabela '${tableField}' sincronizada.`);
+    console.log(`The table '${tableField}' synchronized.`);
   };
   agt.utils.form.assign_parent_doc_name = function(_form) {
   };
@@ -2957,82 +2957,96 @@
   // public/ts/metadata/doctype/checklist.ts
   frappe.provide("agt.metadata.doctype.checklist");
   agt.metadata.doctype.checklist = {
-    workflow_state: {
-      pre_analysis: {
-        name: "An\xE1lise Preliminar",
-        id: 1
-      },
-      customer_fix_info: {
-        name: "Cliente: Corrigir Informa\xE7\xF5es",
-        id: 2
-      },
-      growatt_review: {
-        name: "Revis\xE3o",
-        id: 3
-      },
-      finished: {
-        name: "Conclu\xEDdo",
-        id: 4
-      },
-      rejected: {
-        name: "Rejeitado",
-        id: 5
-      },
-      cancelled: {
-        name: "Cancelado",
-        id: 6
-      }
-    }
-  };
-
-  // public/ts/metadata/doctype/service_protocol.ts
-  frappe.provide("agt.metadata.doctype.service_protocol");
-  agt.metadata.doctype.service_protocol = {
     workflow_action: {
       request_revision: {
-        name: "Solicitar Revis\xE3o",
+        name: "Review",
         id: 1
       },
-      request_checklist: {
-        name: "Solicitar Checklist",
+      finish: {
+        name: "Finish",
         id: 2
       },
-      request_correction: {
-        name: "Solicitar Proposta de Envio",
+      reject: {
+        name: "Reject",
         id: 3
       },
-      reject: {
-        name: "Rejeitar",
+      cancel: {
+        name: "Cancel",
         id: 4
       },
-      cancel: {
-        name: "Cancelar",
+      approve_correction: {
+        name: "Approve Correction",
         id: 5
-      },
-      finish_correction: {
-        name: "Aprovar Corre\xE7\xE3o",
-        id: 6
       }
     },
     workflow_state: {
       holding_action: {
-        name: "Aguardando A\xE7\xE3o",
+        name: "Awaiting Action",
         id: 1
       },
       growatt_review: {
-        name: "Revis\xE3o",
+        name: "Revision",
         id: 2
       },
       finished: {
-        name: "Conclu\xEDdo",
+        name: "Finished",
         id: 3
       },
       rejected: {
-        name: "Rejeitado",
+        name: "Rejected",
         id: 4
       },
       cancelled: {
-        name: "Cancelado",
+        name: "Cancelled",
+        id: 5
+      }
+    }
+  };
+
+  // public/ts/metadata/doctype/initial_analysis.ts
+  frappe.provide("agt.metadata.doctype.initial_analysis");
+  agt.metadata.doctype.initial_analysis = {
+    workflow_action: {
+      request_revision: {
+        name: "Review",
+        id: 1
+      },
+      finish: {
+        name: "Finish",
+        id: 2
+      },
+      reject: {
+        name: "Reject",
+        id: 3
+      },
+      cancel: {
+        name: "Cancel",
+        id: 4
+      },
+      approve_correction: {
+        name: "Approve Correction",
+        id: 5
+      }
+    },
+    workflow_state: {
+      holding_action: {
+        name: "Awaiting Action",
+        id: 1
+      },
+      growatt_review: {
+        name: "Revision",
+        id: 2
+      },
+      finished: {
+        name: "Finished",
+        id: 3
+      },
+      rejected: {
+        name: "Rejected",
+        id: 4
+      },
+      cancelled: {
+        name: "Cancelled",
         id: 5
       }
     }
@@ -3042,46 +3056,46 @@
   frappe.provide("agt.metadata.doctype.ticket");
   agt.metadata.doctype.ticket = {
     workflow_action: {
-      approve: {
-        name: "Aprovar",
+      finish: {
+        name: "Finish",
         id: 1
       },
-      finish: {
-        name: "Concluir",
+      reject: {
+        name: "Reject",
         id: 2
       },
-      reject: {
-        name: "Rejeitar",
+      hold: {
+        name: "Hold",
         id: 3
       },
-      cancel: {
-        name: "Cancelar",
+      reactivate: {
+        name: "Reactivate",
         id: 4
       },
-      reactive: {
-        name: "Reativar",
+      cancel: {
+        name: "Cancel",
         id: 5
       }
     },
     workflow_state: {
-      draft: {
-        name: "Rascunho",
+      active: {
+        name: "Active",
         id: 1
       },
-      active: {
-        name: "Ativo",
+      waiting_for_customer: {
+        name: "Waiting for Customer",
         id: 2
       },
       finished: {
-        name: "Concluido",
+        name: "Finished",
         id: 3
       },
       rejected: {
-        name: "Rejeitado",
+        name: "Rejected",
         id: 4
       },
       cancelled: {
-        name: "Cancelado",
+        name: "Cancelled",
         id: 5
       }
     }
@@ -3091,111 +3105,47 @@
   frappe.provide("agt.metadata.doctype.compliance_statement");
   agt.metadata.doctype.compliance_statement = {
     workflow_action: {
-      approve: {
-        name: "Aprovar",
+      request_revision: {
+        name: "Review",
         id: 1
       },
-      request_analysis: {
-        name: "Solicitar An\xE1lise",
+      finish: {
+        name: "Finish",
         id: 2
       },
-      request_correction: {
-        name: "Solicitar Corre\xE7\xE3o",
+      reject: {
+        name: "Reject",
         id: 3
       },
-      finish_review: {
-        name: "Finalizar Revis\xE3o",
+      cancel: {
+        name: "Cancel",
         id: 4
       },
-      reject: {
-        name: "Rejeitar",
+      approve_correction: {
+        name: "Approve Correction",
         id: 5
-      },
-      finish_service: {
-        name: "Finalizar Atendimento",
-        id: 6
-      },
-      cancel: {
-        name: "Cancelar",
-        id: 7
-      },
-      finish_correction: {
-        name: "Finalizar Corre\xE7\xE3o",
-        id: 8
-      },
-      request_documentation: {
-        name: "Solicitar Documenta\xE7\xE3o",
-        id: 9
-      },
-      request_checklist: {
-        name: "Solicitar Checklist",
-        id: 10
-      },
-      forward_to_support: {
-        name: "Encaminhar ao Suporte",
-        id: 11
       }
     },
     workflow_state: {
-      customer_finish_filling: {
-        name: "Cliente: Finalizar Preenchimento",
+      holding_action: {
+        name: "Awaiting Action",
         id: 1
       },
-      growatt_preliminary_assessment: {
-        name: "An\xE1lise Preliminar",
+      growatt_review: {
+        name: "Revision",
         id: 2
       },
-      customer_fix_info: {
-        name: "Cliente: Corrigir Informa\xE7\xF5es",
+      finished: {
+        name: "Finished",
         id: 3
       },
-      growatt_review: {
-        name: "Revis\xE3o",
+      rejected: {
+        name: "Rejected",
         id: 4
       },
-      customer_checklist_requested: {
-        name: "Cliente: Checklist Solicitado",
-        id: 5
-      },
-      checklist_finished: {
-        name: "Checklist Conclu\xEDdo",
-        id: 6
-      },
-      shipping_proposal: {
-        name: "Proposta de Envio",
-        id: 7
-      },
-      warranty_approved: {
-        name: "Garantia Aprovada",
-        id: 9
-      },
-      rejected: {
-        name: "Rejeitado",
-        id: 10
-      },
-      finished: {
-        name: "Conclu\xEDdo",
-        id: 11
-      },
       cancelled: {
-        name: "Cancelado",
-        id: 12
-      },
-      approved: {
-        name: "Aprovado",
-        id: 13
-      },
-      finished_fixed: {
-        name: "Finalizado: Corrigido",
-        id: 14
-      },
-      finished_missing: {
-        name: "Finalizado: Corre\xE7\xE3o Faltante",
-        id: 15
-      },
-      customer_necessary_action: {
-        name: "Cliente: A\xE7\xE3o Necess\xE1ria",
-        id: 16
+        name: "Cancelled",
+        id: 5
       }
     }
   };

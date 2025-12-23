@@ -1,0 +1,27 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+
+<div style="
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+">
+
+    <h1 class="hero-title">Página Não Encontrada</h1>
+
+    <img src="/images/404.png" class="img-responsive" style="max-width: 800px; margin: 20px 0;">
+
+    <p class="hero-subtitle" style="margin: 20px 0; white-space: nowrap;">
+        A página que você tentou acessar não existe ou não está mais disponível.
+    </p>
+
+    <a href="/" class="btn btn-primary btn-lg">Voltar ao início</a>
+
+</div>
+
+{% endblock %}

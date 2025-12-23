@@ -1,0 +1,191 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "BA",
+  "uf": "BA",
+  "uf_name": "Bahia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "CE",
+  "uf": "CE",
+  "uf_name": "Ceará"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "DF",
+  "uf": "DF",
+  "uf_name": "Distrito Federal"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "MS",
+  "uf": "MS",
+  "uf_name": "Mato Grosso do Sul"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "MG",
+  "uf": "MG",
+  "uf_name": "Minas Gerais"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "PB",
+  "uf": "PB",
+  "uf_name": "Paraíba"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "PE",
+  "uf": "PE",
+  "uf_name": "Pernambuco"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "RR",
+  "uf": "RR",
+  "uf_name": "Roraima"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "TO",
+  "uf": "TO",
+  "uf_name": "Tocantins"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "RO",
+  "uf": "RO",
+  "uf_name": "Rondônia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "MA",
+  "uf": "MA",
+  "uf_name": "Maranhão"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "RS",
+  "uf": "RS",
+  "uf_name": "Rio Grande do Sul"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "PA",
+  "uf": "PA",
+  "uf_name": "Pará"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "SE",
+  "uf": "SE",
+  "uf_name": "Sergipe"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "AP",
+  "uf": "AP",
+  "uf_name": "Amapá"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "SC",
+  "uf": "SC",
+  "uf_name": "Santa Catarina"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "MT",
+  "uf": "MT",
+  "uf_name": "Mato Grosso"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "AL",
+  "uf": "AL",
+  "uf_name": "Alagoas"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "PR",
+  "uf": "PR",
+  "uf_name": "Paraná"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "RN",
+  "uf": "RN",
+  "uf_name": "Rio Grande do Norte"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "GO",
+  "uf": "GO",
+  "uf_name": "Goiás"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "AM",
+  "uf": "AM",
+  "uf_name": "Amazonas"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "ES",
+  "uf": "ES",
+  "uf_name": "Espírito Santo"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "PI",
+  "uf": "PI",
+  "uf_name": "Piauí"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "RJ",
+  "uf": "RJ",
+  "uf_name": "Rio de Janeiro"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "AC",
+  "uf": "AC",
+  "uf_name": "Acre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "UF",
+  "name": "SP",
+  "uf": "SP",
+  "uf_name": "São Paulo"
+ }
+]

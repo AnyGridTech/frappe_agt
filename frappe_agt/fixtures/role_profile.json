@@ -2,7 +2,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-30 15:56:25.704532",
   "name": "Logistics",
   "role_profile": "Logistics",
   "roles": [
@@ -29,7 +28,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-26 14:49:46.880149",
   "name": "Marketing",
   "role_profile": "Marketing",
   "roles": [
@@ -50,7 +48,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-03 08:01:39.622044",
   "name": "Purchasing",
   "role_profile": "Purchasing",
   "roles": []
@@ -58,7 +55,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-03 08:11:11.487205",
   "name": "Sales",
   "role_profile": "Sales",
   "roles": []
@@ -66,7 +62,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-30 15:55:58.306817",
   "name": "Service Manager",
   "role_profile": "Service Manager",
   "roles": [
@@ -111,7 +106,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-09-26 09:41:21.812715",
   "name": "Human Resources",
   "role_profile": "Human Resources",
   "roles": [
@@ -138,7 +132,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-16 14:54:05.058367",
   "name": "Receiving",
   "role_profile": "Receiving",
   "roles": [
@@ -183,7 +176,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-30 16:44:04.177908",
   "name": "Operations",
   "role_profile": "Operations",
   "roles": [
@@ -222,7 +214,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-26 16:20:36.218442",
   "name": "Customer Service",
   "role_profile": "Customer Service",
   "roles": [
@@ -255,7 +246,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-16 14:55:22.428437",
   "name": "Dispatch",
   "role_profile": "Dispatch",
   "roles": [
@@ -288,7 +278,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-30 15:55:49.107792",
   "name": "Service Engineer",
   "role_profile": "Service Engineer",
   "roles": [
@@ -333,7 +322,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-31 17:07:29.566573",
   "name": "Stock",
   "role_profile": "Stock",
   "roles": [
@@ -366,7 +354,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-20 16:31:21.302611",
   "name": "Fiscal",
   "role_profile": "Fiscal",
   "roles": [
@@ -393,7 +380,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-10-14 17:54:19.749477",
   "name": "Customer",
   "role_profile": "Customer",
   "roles": [
@@ -408,7 +394,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-12-30 15:56:08.240667",
   "name": "Laboratory",
   "role_profile": "Laboratory",
   "roles": [
@@ -435,7 +420,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-01-16 16:04:53.899537",
   "name": "Packing",
   "role_profile": "Packing",
   "roles": [
@@ -480,7 +464,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-09-02 19:32:43.335059",
   "name": "Support",
   "role_profile": "Support",
   "roles": [
@@ -507,7 +490,6 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2025-09-04 18:07:27.004777",
   "name": "Information Technology",
   "role_profile": "Information Technology",
   "roles": [

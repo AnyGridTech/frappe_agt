@@ -101,7 +101,7 @@ agt.utils.form.mirror_checklist_table = async function(form: any, doctype: strin
 
   // If there are no differences, do nothing
   if (!needsUpdate) {
-    console.log(`Tabela '${tableField}' já está sincronizada.`);
+    console.log(`The table '${tableField}' is already synchronized.`);
     return;
   }
 
@@ -116,7 +116,7 @@ agt.utils.form.mirror_checklist_table = async function(form: any, doctype: strin
   form.dirty();
   form.refresh_field(tableField);
   await form.save();
-  console.log(`Tabela '${tableField}' sincronizada.`);
+  console.log(`The table '${tableField}' synchronized.`);
 };
 
 agt.utils.form.assign_parent_doc_name = function(_form: any) {
