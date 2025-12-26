@@ -1198,5 +1198,702 @@
         "old_parent": "Inverter Types",
         "parent_item_group": "Inverter Types",
         "taxes": []
-    }
+    },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Growatt Product",
+    "is_group": 1,
+    "name": "Growatt Product"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Battery",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "Battery"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "LiFePO4",
+    "is_group": 0,
+    "parent_item_group": "Battery",
+    "name": "LiFePO4"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Board",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "CAP & Diode Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "CAP & Diode Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "COM Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "COM Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Connector Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Connector Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Control Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Control Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "DC EMI Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "DC EMI Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "DC Filter",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "DC Filter"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Filter Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Filter Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "IO Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "IO Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Main Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Main Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MPPT Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "MPPT Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Power Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Power Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "PV Input Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "PV Input Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SPD Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "SPD Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SPS Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "SPS Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Wire Board",
+    "is_group": 0,
+    "parent_item_group": "Board",
+    "name": "Wire Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Inverter",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "Inverter"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Inverter Types",
+    "is_group": 1,
+    "parent_item_group": "Inverter",
+    "name": "Inverter Types"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "HYBRID",
+    "is_group": 0,
+    "parent_item_group": "Inverter Types",
+    "name": "HYBRID"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "OFFGRID",
+    "is_group": 0,
+    "parent_item_group": "Inverter Types",
+    "name": "OFFGRID"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "ONGRID",
+    "is_group": 0,
+    "parent_item_group": "Inverter Types",
+    "name": "ONGRID"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Inverter Versions",
+    "is_group": 1,
+    "parent_item_group": "Inverter",
+    "name": "Inverter Versions"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Misc",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "Misc"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Version",
+    "is_group": 1,
+    "parent_item_group": "Miscellaneous",
+    "name": "Version"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "CHARGER",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "CHARGER"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "COM",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "COM"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MICRO",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "MICRO"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "OFF",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "OFF"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "X",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "X"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "X2",
+    "is_group": 0,
+    "parent_item_group": "Version",
+    "name": "X2"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Grid Connection Type",
+    "is_group": 1,
+    "parent_item_group": "Miscellaneous",
+    "name": "Grid Connection Type"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Single-Phase",
+    "is_group": 0,
+    "parent_item_group": "Grid Connection Type",
+    "name": "Single-Phase"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Three-Phase",
+    "is_group": 0,
+    "parent_item_group": "Grid Connection Type",
+    "name": "Three-Phase"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Two-Phase",
+    "is_group": 0,
+    "parent_item_group": "Grid Connection Type",
+    "name": "Two-Phase"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "CC",
+    "is_group": 0,
+    "parent_item_group": "Grid Connection Type",
+    "name": "CC"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Product Families",
+    "is_group": 1,
+    "parent_item_group": "Miscellaneous",
+    "name": "Product Families"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MAC",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MAC"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MAX",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MAX"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MIC",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MIC"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MID",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MID"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MIN",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MIN"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MOD",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MOD"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MTL-S",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MTL-S"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "MTLP-S",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "MTLP-S"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "NEO",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "NEO"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "S",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "S"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SEM/SHINEMASTER",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "SEM/SHINEMASTER"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SMART METER",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "SMART METER"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SPF",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "SPF"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "TL3-S",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "TL3-S"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "AXE",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "AXE"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "HOPE",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "HOPE"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "SHINE WI-FI",
+    "is_group": 0,
+    "parent_item_group": "Product Families",
+    "name": "SHINE WI-FI"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "EV Charger",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "EV Charger"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "THOR CA - Three-Phase",
+    "is_group": 1,
+    "parent_item_group": "EV Charger",
+    "name": "THOR CA - Three-Phase"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "THOR CA",
+    "is_group": 1,
+    "parent_item_group": "EV Charger",
+    "name": "THOR CA"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "THOR CC",
+    "is_group": 1,
+    "parent_item_group": "EV Charger",
+    "name": "THOR CC"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Peripheral",
+    "is_group": 1,
+    "parent_item_group": "Growatt Product",
+    "name": "Peripheral"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "AC Connector",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "AC Connector"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "AC Protection Box",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "AC Protection Box"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Acrylic Structure",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Acrylic Structure"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Adhesive Insulator",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Adhesive Insulator"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "AFCI Board",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "AFCI Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Aluminum Structure",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Aluminum Structure"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Box",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Box"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Bus CAP",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Bus CAP"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Cable",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Cable"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Carcass",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Carcass"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Connectors",
+    "is_group": 1,
+    "parent_item_group": "Peripheral",
+    "name": "Connectors"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Cooler",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Cooler"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Datalogger",
+    "is_group": 1,
+    "parent_item_group": "Peripheral",
+    "name": "Datalogger"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "WiFi-X",
+    "is_group": 0,
+    "parent_item_group": "Datalogger",
+    "name": "WiFi-X"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "WiFi-S",
+    "is_group": 0,
+    "parent_item_group": "Datalogger",
+    "name": "WiFi-S"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "WiFi-F",
+    "is_group": 0,
+    "parent_item_group": "Datalogger",
+    "name": "WiFi-F"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "DRM Connector",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "DRM Connector"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Fuse",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Fuse"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "HCT",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "HCT"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Heatsink",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Heatsink"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Inductor",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Inductor"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Inductor Bank",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Inductor Bank"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Installation Kit",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Installation Kit"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Insulating Rubber",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Insulating Rubber"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Insulating Tube",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Insulating Tube"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Invólucro",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Invólucro"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Mounting Bracket",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Mounting Bracket"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Phenolite Base",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Phenolite Base"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "PID Board",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "PID Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Plastic Base",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Plastic Base"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Plastic Buffer",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Plastic Buffer"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "RS485 Board",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "RS485 Board"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Switch",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "Switch"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "TC",
+    "is_group": 0,
+    "parent_item_group": "Peripheral",
+    "name": "TC"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Internal Process",
+    "is_group": 1,
+    "name": "Internal Process"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Advanced Warranty",
+    "is_group": 0,
+    "parent_item_group": "Internal Process",
+    "name": "Advanced Warranty"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Out of Warranty",
+    "is_group": 0,
+    "parent_item_group": "Internal Process",
+    "name": "Out of Warranty"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Repair Warranty",
+    "is_group": 0,
+    "parent_item_group": "Internal Process",
+    "name": "Repair Warranty"
+  },
+  {
+    "doctype": "Item Group",
+    "item_group_name": "Miscellaneous",
+    "is_group": 1,
+    "name": "Miscellaneous"
+  }
 ]

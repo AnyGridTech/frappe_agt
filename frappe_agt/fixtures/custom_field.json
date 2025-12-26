@@ -854,4 +854,208 @@
   "unique": 0,
   "width": null
  }
+  {
+    "doctype": "Custom Field",
+    "name": "User-extended_info_section",
+    "dt": "User",
+    "fieldname": "extended_info_section",
+    "label": "Extended Info",
+    "fieldtype": "Section Break",
+    "insert_after": "user_category"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_id",
+    "dt": "User",
+    "fieldname": "internal_id",
+    "label": "ID",
+    "fieldtype": "Data",
+    "insert_after": "extended_info_section"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_department",
+    "dt": "User",
+    "fieldname": "internal_department",
+    "label": "Department",
+    "fieldtype": "Link",
+    "options": "Department",
+    "insert_after": "internal_id"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-internal_manager",
+    "dt": "User",
+    "fieldname": "internal_manager",
+    "label": "Immediate Manager",
+    "fieldtype": "Link",
+    "options": "User",
+    "insert_after": "internal_department"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "User-taxid",
+    "dt": "User",
+    "fieldname": "taxid",
+    "label": "CPF/CNPJ",
+    "fieldtype": "Data",
+    "insert_after": "internal_manager"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Mppt",
+    "dt": "Item",
+    "fieldname": "mppt",
+    "label": "MPPT",
+    "fieldtype": "Int",
+    "insert_after": "item_name"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Ncm",
+    "dt": "Item",
+    "fieldname": "ncm",
+    "label": "NCM",
+    "fieldtype": "Data",
+    "insert_after": "mppt"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-phase",
+    "dt": "Item",
+    "fieldname": "phase",
+    "label": "Phase",
+    "fieldtype": "Data",
+    "insert_after": "ncm"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_dimensions_section",
+    "dt": "Item",
+    "fieldname": "package_dimensions_section",
+    "label": "Package Dimensions",
+    "fieldtype": "Section Break",
+    "insert_after": "phase"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_height",
+    "dt": "Item",
+    "fieldname": "package_height",
+    "label": "Package Height (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_dimensions_section"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_width",
+    "dt": "Item",
+    "fieldname": "package_width",
+    "label": "Package Width (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_height"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-package_depth",
+    "dt": "Item",
+    "fieldname": "package_depth",
+    "label": "Package Depth (cm)",
+    "fieldtype": "Float",
+    "insert_after": "package_width"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Item-error_version",
+    "dt": "Item",
+    "fieldname": "error_version",
+    "label": "Version",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "link_filters": "[[\"Item Group\",\"parent_item_group\",\"=\",\"Error Version\"]]",
+    "insert_after": "item_group"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Family",
+    "dt": "Item",
+    "fieldname": "family",
+    "label": "Family",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "insert_after": "stock_uom"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Equipment Type",
+    "dt": "Item",
+    "fieldname": "equipment_type",
+    "label": "Equipment Type",
+    "fieldtype": "Link",
+    "options": "Item Group",
+    "insert_after": "family"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "State Registration",
+    "dt": "Company",
+    "fieldname": "state_registration",
+    "label": "Inscrição Estadual",
+    "fieldtype": "Data",
+    "insert_after": "parent_company"
+  },
+  {
+    "doctype": "Custom Field",
+    "name": "Service Partner",
+    "dt": "Company",
+    "fieldname": "service_partner",
+    "label": "Service Partner",
+    "fieldtype": "Check",
+    "insert_after": "state_registration"
+  },
+        {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_section",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_section",
+        "label": "Invoice Information",
+        "fieldtype": "Section Break",
+        "insert_after": "total_additional_costs"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_file",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_file",
+        "label": "Invoice File",
+        "fieldtype": "Attach",
+        "insert_after": "invoice_section"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_number",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_number",
+        "label": "Invoice Number",
+        "fieldtype": "Data",
+        "insert_after": "invoice_file"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_serie",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_serie",
+        "label": "Invoice Serie",
+        "fieldtype": "Data",
+        "insert_after": "invoice_number"
+      },
+      {
+        "doctype": "Custom Field",
+        "name": "Stock Entry-invoice_access_key",
+        "dt": "Stock Entry",
+        "fieldname": "invoice_access_key",
+        "label": "Invoice Access Key",
+        "fieldtype": "Data",
+        "insert_after": "invoice_serie"
+      }
 ]

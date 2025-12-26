@@ -27,7 +27,6 @@ app_license = "mit"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/frappe_agt/css/frappe_agt.css"
 app_include_js = "assets/frappe_agt/js/app.bundle.js"
-
 # include js, css files in header of web template
 # web_include_css = "/assets/frappe_agt/css/frappe_agt.css"
 # web_include_js = "/assets/frappe_agt/js/frappe_agt.js"
@@ -83,7 +82,7 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # ------------
 
 # before_install = "frappe_agt.install.before_install"
-# after_install = "frappe_agt.install.after_install"
+after_install = "frappe_agt.utils.import.import_private_csvs"
 
 # Uninstallation
 # ------------
