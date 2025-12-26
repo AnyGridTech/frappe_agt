@@ -108,7 +108,7 @@ last edited this,editou isso pela última vez
 You,Você
 Show Preview,Mostrar Prévia
 Doctype,Documento
-Service Protocol list,Lista de Protocolo de Serviço
+Initial Analysis list,Lista de Protocolo de Serviço
 Search or type a command (Ctrl + G),Pesquisar ou digitar um comando (Ctrl + G)
 Add Row to Column Layout,Adicionar Linha ao Layout de Coluna
 Add Row to Section,Adicionar Linha à Seção
@@ -132,12 +132,12 @@ Add Row Above,Adicionar Linha Acima
 Add Row Below,Adicionar Linha Abaixo
 Add Row,Adicionar Linha
 Add field,Adicionar campo
-Service Protocol Smart Energy Manager,Checklist do Smart Energy Manager
+Initial Analysis Smart Energy Manager,Checklist do Smart Energy Manager
 Checklist of Smart Meter,Checklist do Smart Meter
 Checklist of EV Charger,Checklist do EV Charger
 Checklist of Battery,Checklist da Bateria
 Checklist of Inverter,Checklist do Inversor
-Service Protocol,Protocolo de Serviço
+Initial Analysis,Protocolo de Serviço
 Toggle Theme,Alternar Tema
 Top,Topo
 Bottom,Inferior

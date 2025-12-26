@@ -1,0 +1,1080 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Logistics",
+  "role_profile": "Logistics",
+  "roles": [
+   {
+    "parent": "Logistics",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Shipping Logistics Manager"
+   },
+   {
+    "parent": "Logistics",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Shipping Logistics User"
+   },
+   {
+    "parent": "Logistics",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Marketing",
+  "role_profile": "Marketing",
+  "roles": [
+   {
+    "parent": "Marketing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Marketing Manager"
+   },
+   {
+    "parent": "Marketing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Marketing User"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Purchasing",
+  "role_profile": "Purchasing",
+  "roles": []
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Sales",
+  "role_profile": "Sales",
+  "roles": []
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Service Manager",
+  "role_profile": "Service Manager",
+  "roles": [
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Manufacturing Manager"
+   },
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Maintenance Manager"
+   },
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Service Manager"
+   },
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "System Manager of Quality"
+   },
+   {
+    "parent": "Service Manager",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Human Resources",
+  "role_profile": "Human Resources",
+  "roles": [
+   {
+    "parent": "Human Resources",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Human Resources",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "HR User"
+   },
+   {
+    "parent": "Human Resources",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "HR Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Receiving",
+  "role_profile": "Receiving",
+  "roles": [
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Receiving User"
+   },
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Receiving User"
+   },
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Item Manager"
+   },
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Receiving Manager"
+   },
+   {
+    "parent": "Receiving",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Receiving Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Operations",
+  "role_profile": "Operations",
+  "roles": [
+   {
+    "parent": "Operations",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Operations Leader"
+   },
+   {
+    "parent": "Operations",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Operations",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Operations",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support Manager"
+   },
+   {
+    "parent": "Operations",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Customer Service",
+  "role_profile": "Customer Service",
+  "roles": [
+   {
+    "parent": "Customer Service",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Customer Service",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Customer Service",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Customer Service",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Dispatch",
+  "role_profile": "Dispatch",
+  "roles": [
+   {
+    "parent": "Dispatch",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Dispatch User"
+   },
+   {
+    "parent": "Dispatch",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Dispatch",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Dispatch User"
+   },
+   {
+    "parent": "Dispatch",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Item Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Service Engineer",
+  "role_profile": "Service Engineer",
+  "roles": [
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Manufacturing User"
+   },
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Laboratory Manager"
+   },
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Service Engineer"
+   },
+   {
+    "parent": "Service Engineer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Stock",
+  "role_profile": "Stock",
+  "roles": [
+   {
+    "parent": "Stock",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Stock",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "Stock",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Stock",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Item Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Fiscal",
+  "role_profile": "Fiscal",
+  "roles": [
+   {
+    "parent": "Fiscal",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Fiscal",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fiscal Manager"
+   },
+   {
+    "parent": "Fiscal",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fiscal User"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Customer",
+  "role_profile": "Customer",
+  "roles": [
+   {
+    "parent": "Customer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Laboratory",
+  "role_profile": "Laboratory",
+  "roles": [
+   {
+    "parent": "Laboratory",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Laboratory Manager"
+   },
+   {
+    "parent": "Laboratory",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Laboratory User"
+   },
+   {
+    "parent": "Laboratory",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Packing",
+  "role_profile": "Packing",
+  "roles": [
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Packing User"
+   },
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Packing Manager"
+   },
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Packing User"
+   },
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Packing Manager"
+   },
+   {
+    "parent": "Packing",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Item Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Support",
+  "role_profile": "Support",
+  "roles": [
+   {
+    "parent": "Support",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Support",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Support",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "name": "Information Technology",
+  "role_profile": "Information Technology",
+  "roles": [
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Academics User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Auditor"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Blogger"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Board Repair Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Board Repair User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Board Stock Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Board Stock User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Dashboard Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Delivery Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Delivery User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Directorate"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Dispatch Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Dispatch User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Distributor"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Employee"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Engineering and Operations Supervisor"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fiscal Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fiscal User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fleet Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Fulfillment User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Inbox User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Information Technology User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Inverter Repair Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Inverter Repair User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Inverter Stock Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Inverter Stock User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Item Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Knowledge Base Contributor"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Knowledge Base Editor"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Laboratory Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Laboratory User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Maintenance Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Maintenance User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Manufacturing Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Manufacturing User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Marketing Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Marketing User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Newsletter Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Operations Leader"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Operations Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Operations User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Packing Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Packing User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Peripherals Stock Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Peripherals Stock User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Prepared Report User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Projects Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Projects User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Purchase Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Purchase Master Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Purchase User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Purchasing User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Board Repair Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Board Repair User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Dispatch Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Dispatch User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Inverter Repair Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Inverter Repair User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Packing Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Packing User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Receiving Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Quality of Receiving User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Receiving Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Receiving User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Report Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Reverse Logistics Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Reverse Logistics User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Sales Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Sales Master Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Sales User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Script Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Separation Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Separation User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Service Engineer"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Service Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Service User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Shipping Logistics Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Shipping Logistics User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Standard Employee"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Supplier"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Support User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "System Manager of Quality"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "System Manager of Sales"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Translator"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Website Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Workspace Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "HR User"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer Support Manager"
+   },
+   {
+    "parent": "Information Technology",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Customer Support User"
+   }
+  ]
+ }
+]

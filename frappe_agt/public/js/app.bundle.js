@@ -62,7 +62,7 @@
           }
           if (action === "Rejeitar") {
             agt.utils.update_workflow_state({
-              doctype: "Service Protocol",
+              doctype: "Initial Analysis",
               docname: frm.doc["inanly_docname"],
               workflow_state: "Holding Action",
               ignore_workflow_validation: true
@@ -141,14 +141,14 @@
         trigger_checklist_finished = true;
         try {
           agt.utils.update_workflow_state({
-            doctype: "Service Protocol",
+            doctype: "Initial Analysis",
             docname: form.doc["inanly_docname"],
             workflow_state: "Finished",
             ignore_workflow_validation: true
           });
           frappe.msgprint({
             title: "Checklist conclu\xEDdo!",
-            message: "Voc\xEA ser\xE1 redirecionado novamente ao 'Service Protocol' para solicitar a proposta de envio.",
+            message: "Voc\xEA ser\xE1 redirecionado novamente ao 'Initial Analysis' para solicitar a proposta de envio.",
             indicator: "blue"
           });
           form.dirty();
@@ -158,7 +158,7 @@
           }, 500);
           await form.save();
         } catch (error) {
-          console.error("Erro ao mover o workflow state do Service Protocol:", error);
+          console.error("Erro ao mover o workflow state do Initial Analysis:", error);
           frappe.msgprint({
             title: "Erro",
             message: "Algo deu errado. Por favor, entre em contato com a equipe de Tecnologia da Informa\xE7\xE3o.",
