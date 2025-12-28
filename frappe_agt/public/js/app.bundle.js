@@ -1865,15 +1865,15 @@
       if (formatted.length > 12) formatted = formatted.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, "$1.$2.$3/$4-$5");
       return formatted;
     };
-    if (type === "Pessoa F\xEDsica") {
+    if (type === "Individual") {
       return formatCpf(digits);
     }
-    if (type === "Pessoa Jur\xEDdica") {
+    if (type === "Legal Entity") {
       return formatCnpj(digits);
     }
     return digits.length < 12 ? formatCpf(digits) : formatCnpj(digits);
   };
-  agt.utils.document_id = async function(frm, docField, typeField) {
+  agt.utils.document_id = async function(frm, docField, typeField, nameField) {
     const field = frm.fields_dict[docField];
     if (!field?.$input) {
       console.error(`document_id: O campo '${docField}' n\xE3o foi encontrado ou n\xE3o \xE9 um campo de entrada v\xE1lido.`);
@@ -1909,20 +1909,82 @@
       const value = $input.val() || "";
       const digits = value.replace(/\D/g, "");
       const docType = typeField ? frm.doc[typeField] : null;
-      if (docType && docType !== "Pessoa F\xEDsica" && docType !== "Pessoa Jur\xEDdica") {
+      const setLabels = (currentType) => {
+        try {
+          if (nameField && frm.fields_dict[nameField]) {
+            let nameLabel = "Individual Name/Legal Entity Name";
+            if (currentType === "Individual") nameLabel = "Individual Name";
+            else if (currentType === "Legal Entity") nameLabel = "Legal Entity Name";
+            frm.set_df_property(nameField, "label", nameLabel);
+          }
+        } catch (e) {
+          console.warn(`Could not set label for ${nameField}:`, e);
+        }
+        try {
+          if (frm.fields_dict[docField]) {
+            let docLabel = "CPF/CNPJ";
+            if (currentType === "Individual") docLabel = "CPF";
+            else if (currentType === "Legal Entity") docLabel = "CNPJ";
+            frm.set_df_property(docField, "label", docLabel);
+          }
+        } catch (e) {
+          console.warn(`Could not set label for ${docField}:`, e);
+        }
+      };
+      if (!typeField) {
+        setLabels(null);
+        try {
+          if (nameField && frm.fields_dict[nameField]) {
+            frm.set_df_property(nameField, "read_only", 0);
+            frm.set_df_property(nameField, "hidden", 0);
+          }
+        } catch (e) {
+        }
+      }
+      if (typeField && !docType) {
+        setLabels(null);
         frm.set_df_property(docField, "read_only", 1);
         frm.set_df_property(docField, "hidden", 1);
+        try {
+          if (nameField && frm.fields_dict[nameField]) {
+            frm.set_df_property(nameField, "read_only", 1);
+            frm.set_df_property(nameField, "hidden", 1);
+          }
+        } catch (e) {
+        }
+        updateUI("#f1c40f", "Selecione o tipo de documento antes de preencher.");
+        return;
+      }
+      if (docType && docType !== "Individual" && docType !== "Legal Entity") {
+        setLabels(null);
+        frm.set_df_property(docField, "read_only", 1);
+        frm.set_df_property(docField, "hidden", 1);
+        try {
+          if (nameField && frm.fields_dict[nameField]) {
+            frm.set_df_property(nameField, "read_only", 1);
+            frm.set_df_property(nameField, "hidden", 1);
+          }
+        } catch (e) {
+        }
         updateUI("#f1c40f", "Selecione o tipo de documento antes de preencher.");
         return;
       } else {
         frm.set_df_property(docField, "read_only", 0);
         frm.set_df_property(docField, "hidden", 0);
+        setLabels(docType ?? null);
+        try {
+          if (nameField && frm.fields_dict[nameField]) {
+            frm.set_df_property(nameField, "read_only", 0);
+            frm.set_df_property(nameField, "hidden", 0);
+          }
+        } catch (e) {
+        }
       }
       if (!digits) {
         updateUI("", "");
         return;
       }
-      if (docType === "Pessoa F\xEDsica") {
+      if (docType === "Individual") {
         if (digits.length < 11) {
           updateUI("#f1c40f", "CPF incompleto");
         } else {
@@ -1934,7 +1996,7 @@
         }
         return;
       }
-      if (docType === "Pessoa Jur\xEDdica") {
+      if (docType === "Legal Entity") {
         if (digits.length < 14) {
           updateUI("#f1c40f", "CNPJ incompleto");
         } else {
@@ -1979,16 +2041,16 @@
       const originalPos = input.selectionStart || 0;
       const digitsBeforeCursor = originalValue.slice(0, originalPos).replace(/\D/g, "").length;
       let digits = originalValue.replace(/\D/g, "");
-      const maxLength = docType === "Pessoa Jur\xEDdica" ? 14 : docType === "Pessoa F\xEDsica" ? 11 : 14;
+      const maxLength = docType === "Legal Entity" ? 14 : docType === "Individual" ? 11 : 14;
       if (digits.length > maxLength) {
         digits = digits.slice(0, maxLength);
       }
       const formatCpf = (d) => d.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3").replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
       const formatCnpj = (d) => d.replace(/(\d{2})(\d)/, "$1.$2").replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4").replace(/(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, "$1.$2.$3/$4-$5");
       let formattedValue = digits;
-      if (docType === "Pessoa F\xEDsica") {
+      if (docType === "Individual") {
         formattedValue = formatCpf(digits);
-      } else if (docType === "Pessoa Jur\xEDdica") {
+      } else if (docType === "Legal Entity") {
         formattedValue = formatCnpj(digits);
       } else {
         formattedValue = digits.length > 11 ? formatCnpj(digits) : formatCpf(digits);
@@ -2013,9 +2075,49 @@
     $input.off(".cpfcnpj").on("input.cpfcnpj", formatOnInput);
     if (typeField && frm.fields_dict[typeField]?.$input) {
       frm.fields_dict[typeField].$input.off(`.cpfcnpjtype_${docField}`).on(`change.cpfcnpjtype_${docField}`, () => {
+        const currentType = frm.doc[typeField] || null;
+        if (!typeField) return;
+        try {
+          if (nameField) {
+            if (currentType === "Individual") frm.set_df_property(nameField, "label", "Individual Name");
+            else if (currentType === "Legal Entity") frm.set_df_property(nameField, "label", "Legal Entity Name");
+            else frm.set_df_property(nameField, "label", "Individual Name/Legal Entity Name");
+            try {
+              if (frm.fields_dict[nameField]) {
+                if (!currentType) {
+                  frm.set_df_property(nameField, "read_only", 1);
+                  frm.set_df_property(nameField, "hidden", 1);
+                } else {
+                  frm.set_df_property(nameField, "read_only", 0);
+                  frm.set_df_property(nameField, "hidden", 0);
+                }
+              }
+            } catch (e) {
+            }
+          }
+        } catch (e) {
+          console.warn(`Could not set label for ${nameField}:`, e);
+        }
+        try {
+          if (frm.fields_dict[docField]) {
+            if (currentType === "Individual") frm.set_df_property(docField, "label", "CPF");
+            else if (currentType === "Legal Entity") frm.set_df_property(docField, "label", "CNPJ");
+            else frm.set_df_property(docField, "label", "CPF/CNPJ");
+          }
+        } catch (e) {
+          console.warn(`Could not set label for ${docField}:`, e);
+        }
         validateAndStyle();
         $input.trigger("input.cpfcnpj");
       });
+    } else {
+      if (!typeField) {
+        try {
+          if (nameField) frm.set_df_property(nameField, "label", "Individual Name/Legal Entity Name");
+          frm.set_df_property(docField, "label", "CPF/CNPJ");
+        } catch (e) {
+        }
+      }
     }
     validateAndStyle();
   };

@@ -206,7 +206,7 @@ agt.utils.format_doc = function (doc: string, type?: string): string {
 };
 
 // Document ID validation function
-agt.utils.document_id = async function (frm: any, docField: string, typeField: string) {
+agt.utils.document_id = async function (frm: any, docField: string, typeField: string, nameField?: string) {
   const field = frm.fields_dict[docField];
   if (!field?.$input) {
     console.error(`document_id: O campo '${docField}' não foi encontrado ou não é um campo de entrada válido.`);
@@ -246,15 +246,87 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
     const digits = value.replace(/\D/g, '');
     const docType = typeField ? frm.doc[typeField] : null;
 
-    // Make the field read-only and hidden if the document type is not valid  
-    if (docType && docType !== 'Individual' && docType !== 'Legal Entity') {
+    // Update labels for the related name and taxid fields
+    const setLabels = (currentType: string | null) => {
+      try {
+        if (nameField && frm.fields_dict[nameField]) {
+          let nameLabel = 'Individual Name/Legal Entity Name';
+          if (currentType === 'Individual') nameLabel = 'Individual Name';
+          else if (currentType === 'Legal Entity') nameLabel = 'Legal Entity Name';
+          frm.set_df_property(nameField, 'label', nameLabel);
+        }
+      } catch (e) {
+        console.warn(`Could not set label for ${nameField}:`, e);
+      }
+
+      try {
+        if (frm.fields_dict[docField]) {
+          let docLabel = 'CPF/CNPJ';
+          if (currentType === 'Individual') docLabel = 'CPF';
+          else if (currentType === 'Legal Entity') docLabel = 'CNPJ';
+          frm.set_df_property(docField, 'label', docLabel);
+        }
+      } catch (e) {
+        console.warn(`Could not set label for ${docField}:`, e);
+      }
+    };
+
+    // If there's no type field provided at all, show combined labels
+    if (!typeField) {
+      setLabels(null);
+      // Ensure nameField is visible/editable when there is no typeField
+      try {
+        if (nameField && frm.fields_dict[nameField]) {
+          frm.set_df_property(nameField, 'read_only', 0);
+          frm.set_df_property(nameField, 'hidden', 0);
+        }
+      } catch (e) {}
+    }
+
+    // If there is a docPair (typeField provided) but no selected type, hide the document field.
+    // If there is no docPair (typeField falsy), keep old behavior (field visible and auto-detected).
+    if (typeField && !docType) {
+      // Update labels for the name/doc fields to a neutral state while hidden
+      setLabels(null);
       frm.set_df_property(docField, 'read_only', 1);
       frm.set_df_property(docField, 'hidden', 1);
+      // nameField should follow type selection (hidden until a valid type is chosen)
+      try {
+        if (nameField && frm.fields_dict[nameField]) {
+          frm.set_df_property(nameField, 'read_only', 1);
+          frm.set_df_property(nameField, 'hidden', 1);
+        }
+      } catch (e) {}
+      updateUI('#f1c40f', 'Selecione o tipo de documento antes de preencher.');
+      return;
+    }
+
+    // Make the field read-only and hidden if the document type is not valid
+    if (docType && docType !== 'Individual' && docType !== 'Legal Entity') {
+      setLabels(null);
+      frm.set_df_property(docField, 'read_only', 1);
+      frm.set_df_property(docField, 'hidden', 1);
+      // Hide nameField as well for invalid type selections
+      try {
+        if (nameField && frm.fields_dict[nameField]) {
+          frm.set_df_property(nameField, 'read_only', 1);
+          frm.set_df_property(nameField, 'hidden', 1);
+        }
+      } catch (e) {}
       updateUI('#f1c40f', 'Selecione o tipo de documento antes de preencher.');
       return;
     } else {
       frm.set_df_property(docField, 'read_only', 0);
       frm.set_df_property(docField, 'hidden', 0);
+      // Ensure labels reflect current type selection
+      setLabels(docType ?? null);
+      // Ensure nameField visibility follows the selected type
+      try {
+        if (nameField && frm.fields_dict[nameField]) {
+          frm.set_df_property(nameField, 'read_only', 0);
+          frm.set_df_property(nameField, 'hidden', 0);
+        }
+      } catch (e) {}
     }
 
     if (!digits) {
@@ -372,12 +444,55 @@ agt.utils.document_id = async function (frm: any, docField: string, typeField: s
   // Attach events to the input field
   $input.off('.cpfcnpj').on('input.cpfcnpj', formatOnInput);
 
-  // Revalidate if the type field changes
+  // Revalidate and update labels if the type field changes
   if (typeField && frm.fields_dict[typeField]?.$input) {
     frm.fields_dict[typeField].$input.off(`.cpfcnpjtype_${docField}`).on(`change.cpfcnpjtype_${docField}`, () => {
+      // Update labels on type change
+      const currentType = frm.doc[typeField] || null;
+      if (!typeField) return;
+      try {
+        if (nameField) {
+          if (currentType === 'Individual') frm.set_df_property(nameField, 'label', 'Individual Name');
+          else if (currentType === 'Legal Entity') frm.set_df_property(nameField, 'label', 'Legal Entity Name');
+          else frm.set_df_property(nameField, 'label', 'Individual Name/Legal Entity Name');
+          // adjust visibility based on selection: hide when no selection, show otherwise
+          try {
+            if (frm.fields_dict[nameField]) {
+              if (!currentType) {
+                frm.set_df_property(nameField, 'read_only', 1);
+                frm.set_df_property(nameField, 'hidden', 1);
+              } else {
+                frm.set_df_property(nameField, 'read_only', 0);
+                frm.set_df_property(nameField, 'hidden', 0);
+              }
+            }
+          } catch (e) {}
+        }
+      } catch (e) {
+        console.warn(`Could not set label for ${nameField}:`, e);
+      }
+
+      try {
+        if (frm.fields_dict[docField]) {
+          if (currentType === 'Individual') frm.set_df_property(docField, 'label', 'CPF');
+          else if (currentType === 'Legal Entity') frm.set_df_property(docField, 'label', 'CNPJ');
+          else frm.set_df_property(docField, 'label', 'CPF/CNPJ');
+        }
+      } catch (e) {
+        console.warn(`Could not set label for ${docField}:`, e);
+      }
+
       validateAndStyle(); // Directly call the validation/style function
       $input.trigger('input.cpfcnpj'); // Optional: keep formatting if needed
     });
+  } else {
+    // If there is no type field, ensure combined labels are shown
+    if (!typeField) {
+      try {
+        if (nameField) frm.set_df_property(nameField, 'label', 'Individual Name/Legal Entity Name');
+        frm.set_df_property(docField, 'label', 'CPF/CNPJ');
+      } catch (e) {}
+    }
   }
   // Perform initial validation
   validateAndStyle();
