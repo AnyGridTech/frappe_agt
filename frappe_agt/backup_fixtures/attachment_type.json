@@ -1,0 +1,26 @@
+[
+ {
+  "attach_type": null,
+  "docstatus": 0,
+  "doctype": "Attachment Type",
+  "name": "CPF"
+ },
+ {
+  "attach_type": null,
+  "docstatus": 0,
+  "doctype": "Attachment Type",
+  "name": "Contrato Social"
+ },
+ {
+  "attach_type": null,
+  "docstatus": 0,
+  "doctype": "Attachment Type",
+  "name": "CNH"
+ },
+ {
+  "attach_type": null,
+  "docstatus": 0,
+  "doctype": "Attachment Type",
+  "name": "RG"
+ }
+]
