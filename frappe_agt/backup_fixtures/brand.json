@@ -1,0 +1,20 @@
+[
+ {
+  "brand": "Canadian",
+  "brand_defaults": [],
+  "description": null,
+  "docstatus": 0,
+  "doctype": "Brand",
+  "image": null,
+  "name": "Canadian"
+ },
+ {
+  "brand": "Growatt",
+  "brand_defaults": [],
+  "description": null,
+  "docstatus": 0,
+  "doctype": "Brand",
+  "image": null,
+  "name": "Growatt"
+ }
+]
