@@ -82,7 +82,7 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # ------------
 
 # before_install = "frappe_agt.install.before_install"
-after_install = "frappe_agt.utils.import.import_private_csvs"
+# after_install = "frappe_agt.utils.import.import_private_csvs"
 
 # Uninstallation
 # ------------
