@@ -651,3 +651,81 @@ agt.utils.get_value_from_any_doc = async function (
     return null;
   }
 };
+
+agt.utils.get_target_field_by_field_match = async function (
+  frm: any,
+  target_doctype: string,
+  match_field_source: string,
+  match_field_target: string,
+  return_field: string,
+  options?: {
+    default_value?: any;
+    multiple_handler?: 'first' | 'error' | 'all';
+  }
+): Promise<any> {
+  const defaultValue = options?.default_value ?? null;
+  const multipleHandler = options?.multiple_handler ?? 'first';
+
+  // Get the value from the source document
+  const sourceValue = frm.doc[match_field_source];
+  
+  if (sourceValue === undefined || sourceValue === null) {
+    console.warn(`[get_target_field_by_field_match] Source field '${match_field_source}' is empty in current document`);
+    return defaultValue;
+  }
+
+  try {
+    // Search for matching documents in the target doctype
+    const filters: Record<string, any> = {};
+    filters[match_field_target] = sourceValue;
+
+    const results = await frappe.db.get_list(target_doctype, {
+      filters: filters,
+      fields: [return_field, 'name'],
+      limit: multipleHandler === 'all' ? 0 : 2 // Get 2 to detect multiple matches
+    });
+
+    // Handle no results
+    if (!results || results.length === 0) {
+      console.warn(
+        `[get_target_field_by_field_match] No matching document found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'`
+      );
+      return defaultValue;
+    }
+
+    // Handle multiple results
+    if (results.length > 1) {
+      if (multipleHandler === 'error') {
+        throw new Error(
+          `Multiple documents found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'. Expected only one.`
+        );
+      } else if (multipleHandler === 'all') {
+        // Return array of all values
+        return results.map(r => r[return_field]);
+      }
+      // Default: 'first' - continue with first result
+      console.warn(
+        `[get_target_field_by_field_match] Multiple documents found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'. Returning first match.`
+      );
+    }
+
+    // Return the value from the matched document
+    const returnValue = results[0][return_field];
+    
+    if (returnValue === undefined) {
+      console.warn(
+        `[get_target_field_by_field_match] Field '${return_field}' not found in matched document '${results[0].name}' of type '${target_doctype}'`
+      );
+      return defaultValue;
+    }
+
+    return returnValue ?? defaultValue;
+
+  } catch (e) {
+    console.error(
+      `[get_target_field_by_field_match] Error searching '${target_doctype}' where ${match_field_target} = '${sourceValue}':`,
+      e
+    );
+    return defaultValue;
+  }
+};

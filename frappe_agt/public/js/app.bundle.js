@@ -2244,6 +2244,57 @@
       return null;
     }
   };
+  agt.utils.get_target_field_by_field_match = async function(frm, target_doctype, match_field_source, match_field_target, return_field, options) {
+    const defaultValue = options?.default_value ?? null;
+    const multipleHandler = options?.multiple_handler ?? "first";
+    const sourceValue = frm.doc[match_field_source];
+    if (sourceValue === void 0 || sourceValue === null) {
+      console.warn(`[get_target_field_by_field_match] Source field '${match_field_source}' is empty in current document`);
+      return defaultValue;
+    }
+    try {
+      const filters = {};
+      filters[match_field_target] = sourceValue;
+      const results = await frappe.db.get_list(target_doctype, {
+        filters,
+        fields: [return_field, "name"],
+        limit: multipleHandler === "all" ? 0 : 2
+        // Get 2 to detect multiple matches
+      });
+      if (!results || results.length === 0) {
+        console.warn(
+          `[get_target_field_by_field_match] No matching document found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'`
+        );
+        return defaultValue;
+      }
+      if (results.length > 1) {
+        if (multipleHandler === "error") {
+          throw new Error(
+            `Multiple documents found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'. Expected only one.`
+          );
+        } else if (multipleHandler === "all") {
+          return results.map((r) => r[return_field]);
+        }
+        console.warn(
+          `[get_target_field_by_field_match] Multiple documents found in '${target_doctype}' where ${match_field_target} = '${sourceValue}'. Returning first match.`
+        );
+      }
+      const returnValue = results[0][return_field];
+      if (returnValue === void 0) {
+        console.warn(
+          `[get_target_field_by_field_match] Field '${return_field}' not found in matched document '${results[0].name}' of type '${target_doctype}'`
+        );
+        return defaultValue;
+      }
+      return returnValue ?? defaultValue;
+    } catch (e) {
+      console.error(
+        `[get_target_field_by_field_match] Error searching '${target_doctype}' where ${match_field_target} = '${sourceValue}':`,
+        e
+      );
+      return defaultValue;
+    }
+  };
 
   // public/ts/utils/db.ts
   frappe.provide("agt.utils.db");
