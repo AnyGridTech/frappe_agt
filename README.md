@@ -1,41 +1,199 @@
-### Frappe Agt
+# Frappe AGT - Serial Number Validation & API Integration
 
-AnyGridTech set of global functions.
+Utility functions for validating Growatt device serial numbers and fetching device information from the Growatt API.
 
-### Installation
+## Quick Start
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
-
-```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch develop
-bench install-app frappe_agt
-```
-
-### Contributing
-
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
+### Test a Serial Number
 
 ```bash
-cd apps/frappe_agt
-pre-commit install
+cd /workspace/development/frappe-bench/apps/frappe_agt
+./scripts/test_sn.sh YOUR_SERIAL_NUMBER inverter
 ```
 
-Pre-commit is configured to use the following tools for checking and formatting your code:
+### Use in Code
 
-- ruff
-- eslint
-- prettier
-- pyupgrade
+```python
+from frappe_agt.utils import validate_serial_number, get_growatt_sn_info
 
-### CI
+# Validate serial number format
+is_valid = validate_serial_number("XZJ6CF806L", type="inverter")  # True/False
 
-This app can use GitHub Actions for CI. The following workflows are configured:
+# Get device info from Growatt API
+device_info = get_growatt_sn_info("XZJ6CF806L")
+if device_info:
+    print(f"Model: {device_info['data']['model']}")
+    print(f"Warranty: {device_info['data']['warrantyTime']} years")
+```
 
-- CI: Installs this app and runs unit tests on every push to `develop` branch.
-- Linters: Runs [Frappe Semgrep Rules](https://github.com/frappe/semgrep-rules) and [pip-audit](https://pypi.org/project/pip-audit/) on every pull request.
+## Serial Number Formats
 
+| Type | Length | Format | Example |
+|------|--------|--------|---------|
+| Inverter | 10 chars | 3 prefix + 7 alphanumeric | `XZJ6CF806L` |
+| Battery | 16 chars | 3 prefix + 13 alphanumeric | `ABC1234567890123` |
+| EV Charger | 16 chars | 3 prefix + 13 alphanumeric | `XYZ1234567890123` |
 
-### License
+## API Response Structure
 
-mit
+```json
+{
+  "code": 200,
+  "msg": "ok",
+  "data": {
+    "deviceSN": "XZJ6CF806L",
+    "model": "MIN 10000TL-X",
+    "deliveryTime": "2022-06-27",
+    "warrantyTime": 10,
+    "outTime": "2032-06-27",
+    "orderNumber": "GBR21922E051"
+  }
+}
+```
+
+## Testing
+
+### Run All Tests
+```bash
+cd /workspace/development/frappe-bench
+bench --site dev.localhost run-tests --app frappe_agt
+```
+
+### Test with Real Serial Number
+```bash
+# Method 1: Shell script
+cd /workspace/development/frappe-bench/apps/frappe_agt
+./test_sn.sh XZJ6CF806L inverter
+
+# Method 2: Bench execute
+cd /workspace/development
+bench --site dev.localhost execute \
+  frappe_agt.tests.test_growatt_api_integration.run_manual_test_with_sn \
+  --args "['XZJ6CF806L', 'inverter']"
+
+# Method 3: Python console
+bench --site dev.localhost console
+>>> from frappe_agt.utils import get_growatt_sn_info
+>>> get_growatt_sn_info('XZJ6CF806L')
+```
+
+## Integration Examples
+
+### Validate in DocType Controller
+
+```python
+from frappe_agt.utils import validate_serial_number, get_growatt_sn_info
+
+def validate(self):
+    # Validate format
+    if not validate_serial_number(self.serial_no, type='inverter'):
+        frappe.throw("Invalid serial number format")
+    
+    # Fetch device info
+    device_info = get_growatt_sn_info(self.serial_no)
+    if device_info:
+        self.model = device_info['data']['model']
+        self.warranty_expires = device_info['data']['outTime']
+```
+
+### Bulk Validation
+
+```python
+@frappe.whitelist()
+def bulk_validate_serial_numbers(serial_numbers, device_type=None):
+    """Validate multiple serial numbers"""
+    if isinstance(serial_numbers, str):
+        serial_numbers = [sn.strip() for sn in serial_numbers.split(',')]
+    
+    results = {'valid': [], 'invalid': []}
+    for sn in serial_numbers:
+        if validate_serial_number(sn, type=device_type):
+            results['valid'].append(sn)
+        else:
+            results['invalid'].append(sn)
+    
+    return results
+```
+
+### Stock Entry Validation
+
+```python
+# Already implemented in frappe_agt/stock_entry.py
+def before_save(doc, method):
+    """Validate serial numbers in Stock Entry items"""
+    for item in doc.items:
+        if item.serial_no:
+            sns = [s.strip() for s in item.serial_no.split('\n') if s.strip()]
+            for sn in sns:
+                if not validate_serial_number(sn, type='inverter'):
+                    frappe.throw(f"Invalid serial number: {sn}")
+```
+
+## Files Structure
+
+```
+frappe_agt/
+├── utils/
+│   ├── __init__.py
+│   └── validation.py          # validate_serial_number(), get_growatt_sn_info()
+├── tests/
+│   ├── test_validation.py     # 15 unit tests
+│   ├── test_stock_entry.py    # Integration tests
+│   └── test_growatt_api_integration.py  # API tests
+├── scripts/
+│   ├── test_sn.sh             # Quick serial number testing
+│   ├── run_tests.sh           # Test runner
+│   ├── test_serial_number.py  # Python test script
+│   └── EXAMPLES.sh            # Usage examples
+├── stock_entry.py             # Stock Entry hooks
+└── api.py                     # API endpoints
+```
+
+## Functions Reference
+
+### `validate_serial_number(sn, type=None)`
+
+Validates serial number format.
+
+**Parameters:**
+- `sn` (str): Serial number to validate
+- `type` (str, optional): Device type ('inverter', 'battery', 'ev_charger')
+
+**Returns:** `bool` - True if valid, False otherwise
+
+### `get_growatt_sn_info(serial_no)`
+
+Fetches device information from Growatt API.
+
+**Parameters:**
+- `serial_no` (str): Serial number to lookup
+
+**Returns:** `dict` or `None` - Device information if found, None otherwise
+
+## API Endpoint
+
+- **URL:** `https://br.growatt.com/support/locate`
+- **Method:** POST
+- **Payload:** `{"deviceSN": "SERIAL_NUMBER"}`
+
+## Troubleshooting
+
+**Network Issues:**
+- Ensure internet connectivity to `br.growatt.com`
+- If in dev container without internet, test from host machine
+
+**Invalid Format:**
+- Check serial number matches expected format (10 or 16 characters)
+- Use `validate_serial_number()` to check format first
+
+**Device Not Found:**
+- API returns `None` if device doesn't exist in Growatt database
+- Valid format doesn't guarantee device exists
+
+## Development
+
+- All unit tests passing (15 tests)
+- Integration tests available in `tests/test_growatt_api_integration.py`
+- Enable integration tests: `export ENABLE_GROWATT_API_TESTS=1`
+
+For detailed testing instructions, see [TESTING.md](TESTING.md)

@@ -136,13 +136,11 @@ app_include_js = "assets/frappe_agt/js/app.bundle.js"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Stock Entry": {
+		"before_save": "frappe_agt.stock_entry.before_save"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
