@@ -79,6 +79,31 @@ bench --site dev.localhost console
 
 ## Integration Examples
 
+### Stock Entry Auto-Fill from Serial Numbers
+
+The system automatically fills item codes in Stock Entry based on serial numbers:
+
+**How it works:**
+1. When you enter serial numbers in Stock Entry items without setting item_code
+2. System validates the serial number format
+3. Checks if the serial number already exists in the system
+4. If not found, queries the Growatt API for device model
+5. Searches for matching items based on model name
+6. Auto-fills if single match, or shows selection dialog if multiple matches
+
+**Usage:**
+```python
+# In Stock Entry form:
+# - Add serial number to item row
+# - Leave item_code empty
+# - System auto-fills on save or use "Auto-fill Items" button
+```
+
+**Client-side features:**
+- "Auto-fill Items from Serial Numbers" button in Tools menu
+- Interactive dialog for selecting from multiple matching items
+- Real-time auto-fill when serial number is entered
+
 ### Validate in DocType Controller
 
 ```python
@@ -113,20 +138,6 @@ def bulk_validate_serial_numbers(serial_numbers, device_type=None):
             results['invalid'].append(sn)
     
     return results
-```
-
-### Stock Entry Validation
-
-```python
-# Already implemented in frappe_agt/stock_entry.py
-def before_save(doc, method):
-    """Validate serial numbers in Stock Entry items"""
-    for item in doc.items:
-        if item.serial_no:
-            sns = [s.strip() for s in item.serial_no.split('\n') if s.strip()]
-            for sn in sns:
-                if not validate_serial_number(sn, type='inverter'):
-                    frappe.throw(f"Invalid serial number: {sn}")
 ```
 
 ## Files Structure

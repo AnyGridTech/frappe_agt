@@ -52,6 +52,97 @@ def get_growatt_sn_info(deviceSN: str) -> Dict[str, Any]:
         frappe.log_error(title="Growatt SN Info Error", message=str(e))
         frappe.throw(_("Erro ao consultar SN Growatt: {0}").format(str(e)))
 
+
+@frappe.whitelist()
+def get_item_for_serial_number(serial_number: str) -> Dict[str, Any]:
+    """
+    Get item suggestions for a serial number.
+    Used by Stock Entry client script for item selection.
+    
+    Args:
+        serial_number: The serial number to lookup
+        
+    Returns:
+        dict: Contains 'items' list and 'model' name
+    """
+    from frappe_agt.utils import get_growatt_sn_info as utils_get_sn_info
+    from frappe_agt.stock_entry import find_items_by_model
+    
+    # Check if Serial No already exists
+    existing = frappe.db.get_value(
+        "Serial No",
+        {"name": serial_number},
+        ["item_code", "item_name"],
+        as_dict=True
+    )
+    
+    if existing and existing.item_code:
+        item = frappe.get_doc("Item", existing.item_code)
+        return {
+            "items": [{
+                "item_code": item.item_code,
+                "item_name": item.item_name
+            }],
+            "model": item.item_name
+        }
+    
+    # Fetch from Growatt API
+    device_info = utils_get_sn_info(serial_number)
+    
+    if not device_info or not device_info.get("data"):
+        return {"items": [], "model": None}
+    
+    model = device_info["data"].get("model")
+    if not model:
+        return {"items": [], "model": None}
+    
+    # Find matching items
+    items = find_items_by_model(model)
+    
+    return {
+        "items": items,
+        "model": model
+    }
+
+
+@frappe.whitelist()
+def batch_get_item_code_by_name(item_names: Union[str, List[str]]) -> Dict[str, Any]:
+    """
+    Batch lookup item codes by item names.
+    
+    Args:
+        item_names: List of item names or JSON string
+        
+    Returns:
+        dict: Mapping of item_name to item_code(s)
+    """
+    if isinstance(item_names, str):
+        import json
+        item_names = json.loads(item_names)
+    
+    results = {}
+    
+    for item_name in item_names:
+        if not item_name or not item_name.strip():
+            results[item_name] = []
+            continue
+        
+        # Search for items matching the name
+        items = frappe.get_all(
+            "Item",
+            filters=[
+                ["Item", "disabled", "=", 0],
+                ["Item", "is_stock_item", "=", 1],
+                ["Item", "item_name", "=", item_name.strip()]
+            ],
+            fields=["item_code", "item_name"],
+            limit=10
+        )
+        
+        results[item_name] = items
+    
+    return results
+
 ###############################################################
 # import_movidesk_and_create_entries
 ###############################################################
