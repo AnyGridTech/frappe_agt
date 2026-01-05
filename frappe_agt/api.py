@@ -156,7 +156,6 @@ def backend_get_all(doctype_name: str, fields: Optional[List[str]] = None, filte
 # Example call via JS:
 # frappe.call({ method: "check_cep", args: { cep: "01001000" } }).then(r => console.log(r.message));
 
-@frappe.whitelist(allow_guest=True)
 def fetch_cep_data_v1(digits):
     try:
         response = frappe.make_get_request(f"https://brasilapi.com.br/api/cep/v1/{digits}")
@@ -166,7 +165,6 @@ def fetch_cep_data_v1(digits):
     except Exception:
         return None
 
-@frappe.whitelist(allow_guest=True)
 def fetch_cep_data_v2(digits):
     try:
         response = frappe.make_get_request(f"https://brasilapi.com.br/api/cep/v2/{digits}")
@@ -203,7 +201,6 @@ def check_cep(cep: str) -> Dict[str, Any]:
 # Example call via JS:
 # frappe.call({ method: "check_cnpj", args: { cnpj: "12345678000195" } }).then(r => console.log(r.message));
 
-@frappe.whitelist(allow_guest=True)
 def fetch_cnpj_data_v1(digits):
     try:
         response = frappe.make_get_request(f"https://brasilapi.com.br/api/cnpj/v1/{digits}")
@@ -241,7 +238,6 @@ def check_cnpj(cnpj: str) -> Dict[str, Any]:
 # Example call via JS:
 # frappe.call({ method: "check_ibge", args: { uf: "SP" } }).then(r => console.log(r.message));
 
-@frappe.whitelist(allow_guest=True)
 def fetch_ibge_data(uf):
     try:
         response = frappe.make_get_request(
@@ -457,7 +453,6 @@ def validate_child_row_deletion(doctype: str, docname: str, child_table_field: s
 ###############################################################
 # validate_child_row_deletion_in_doc
 ###############################################################
-@frappe.whitelist(allow_guest=True)
 def validate_child_row_deletion_in_doc(doc: Any, child_table_field: str) -> bool:
     """
     Versão que recebe o documento diretamente (para usar no validate do DocType).
