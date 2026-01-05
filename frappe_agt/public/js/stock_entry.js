@@ -55,16 +55,30 @@ frappe.ui.form.on('Stock Entry Detail', {
 function normalize_item_name(item_name) {
 	if (!item_name) return '';
 	
-	return item_name
+	// Remove MPPT part before normalization (e.g., "(8 MPPT)")
+	let cleaned = item_name.replace(/\s*\(\d+\s*MPPT\)/gi, '');
+	
+	return cleaned
 		.toLowerCase()
 		.replace(/[-_]/g, ' ')  // Replace hyphens and underscores with space
 		.replace(/\s+/g, '');  // Remove ALL spaces for aggressive matching
+}
+
+function extract_mppt_from_name(item_name) {
+	if (!item_name) return null;
+	
+	// Extract MPPT value from name like "MAX 60K TL3-X L2 (8 MPPT)"
+	let match = item_name.match(/\((\d+)\s*MPPT\)/i);
+	return match ? parseInt(match[1]) : null;
 }
 
 function auto_fill_items_from_serial_numbers(frm) {
 	let start_time = new Date();
 	console.log('[AGT] ========== Starting auto-fill process ==========');
 	console.log('[AGT] Start time:', start_time.toLocaleTimeString());
+	
+	// Show loading screen
+	frappe.dom.freeze(__('Processing serial numbers, please wait...'));
 	
 	frappe.show_alert({
 		message: __('Processing serial numbers...'),
@@ -133,6 +147,18 @@ function auto_fill_items_from_serial_numbers(frm) {
 			// Check if we have item_name and it's in results
 			if (row.item_name && item_name_map[row.item_name]) {
 				let items = item_name_map[row.item_name];
+				
+				// Extract MPPT from item_name if present
+				let expected_mppt = extract_mppt_from_name(row.item_name);
+				
+				// Filter by MPPT if present
+				if (expected_mppt !== null) {
+					let mppt_matches = items.filter(item => item.mppt === expected_mppt);
+					if (mppt_matches.length > 0) {
+						items = mppt_matches;
+					}
+					// If no MPPT match, keep all items for user selection
+				}
 				
 				if (items.length === 1) {
 					stats.batch_lookup++;
@@ -217,6 +243,9 @@ function auto_fill_items_from_serial_numbers(frm) {
 			console.log('[AGT] End time:', end_time.toLocaleTimeString());
 			console.log('[AGT] ========== Process completed ==========');
 			
+			// Hide loading screen
+			frappe.dom.unfreeze();
+			
 			// Show combined selection dialog if needed
 			if (items_needing_selection.length > 0) {
 				console.log('[AGT] Showing combined selection dialog for', items_needing_selection.length, 'items');
@@ -229,6 +258,7 @@ function auto_fill_items_from_serial_numbers(frm) {
 				indicator: 'green'
 			});
 		}).catch(function(error) {
+			frappe.dom.unfreeze();
 			console.error('[AGT] Error auto-filling items:', error);
 			frappe.show_alert({
 				message: __('Error auto-filling some items'),
@@ -426,11 +456,12 @@ function show_item_selection_dialog(frm, row, serial_number, items, model) {
 
 function generate_items_table(items) {
 	let html = '<table class="table table-bordered table-sm" style="margin-top: 10px;">';
-	html += '<thead><tr><th>Item Code</th><th>Item Name</th></tr></thead>';
+	html += '<thead><tr><th>Item Code</th><th>Item Name</th><th>MPPT</th></tr></thead>';
 	html += '<tbody>';
 	
 	items.forEach(function(item) {
-		html += `<tr><td>${item.item_code}</td><td>${item.item_name || ''}</td></tr>`;
+		let mppt = item.mppt !== undefined ? item.mppt : '0';
+		html += `<tr><td>${item.item_code}</td><td>${item.item_name || ''}</td><td>${mppt}</td></tr>`;
 	});
 	
 	html += '</tbody></table>';
