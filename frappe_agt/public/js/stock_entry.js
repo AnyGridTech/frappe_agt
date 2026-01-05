@@ -79,6 +79,9 @@ function auto_fill_items_from_serial_numbers(frm) {
 		not_found: 0
 	};
 	
+	// Track items needing manual selection
+	let items_needing_selection = [];
+	
 	// Step 1: Batch lookup items by item_name (for CSV imports)
 	let rows_with_item_name = [];
 	let item_names = [];
@@ -133,11 +136,17 @@ function auto_fill_items_from_serial_numbers(frm) {
 				
 				if (items.length === 1) {
 					stats.batch_lookup++;
-					frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code);
+					// Set directly without triggering validations
+					row.item_code = items[0].item_code;
 				} else if (items.length > 1) {
 					stats.multiple_matches++;
 					let sn = row.serial_no.split('\n')[0].trim();
-					show_item_selection_dialog(frm, row, sn, items, row.item_name);
+					items_needing_selection.push({
+						row: row,
+						sn: sn,
+						items: items,
+						model: row.item_name
+					});
 				} else {
 					// Not found by name, try API
 					api_rows.push(row);
@@ -169,17 +178,10 @@ function auto_fill_items_from_serial_numbers(frm) {
 				
 				index++;
 				
-				return process_single_api_row(frm, row, stats)
+				return process_single_api_row(frm, row, stats, items_needing_selection)
 					.then(function() {
-						// Small delay to let field updates process
-						return new Promise(function(resolve) {
-							setTimeout(function() {
-								frm.refresh_field('items');
-								resolve();
-							}, 100);
-						});
+						return process_next();
 					})
-					.then(process_next)
 					.catch(function(error) {
 						console.error('[AGT] Error processing row:', error);
 						return process_next();
@@ -195,6 +197,8 @@ function auto_fill_items_from_serial_numbers(frm) {
 			let api_duration = ((api_end - api_start) / 1000).toFixed(2);
 			console.log('[AGT] Growatt API lookups completed in', api_duration, 'seconds');
 			
+			// Refresh table once at the end - this triggers validations for all items at once
+			console.log('[AGT] Refreshing table and triggering validations...');
 			frm.refresh_field('items');
 			
 			let end_time = new Date();
@@ -213,6 +217,12 @@ function auto_fill_items_from_serial_numbers(frm) {
 			console.log('[AGT] End time:', end_time.toLocaleTimeString());
 			console.log('[AGT] ========== Process completed ==========');
 			
+			// Show combined selection dialog if needed
+			if (items_needing_selection.length > 0) {
+				console.log('[AGT] Showing combined selection dialog for', items_needing_selection.length, 'items');
+				show_combined_item_selection_dialog(frm, items_needing_selection);
+			}
+			
 			frappe.show_alert({
 				message: __('Items auto-filled: {0} by name, {1} by API, {2} manual ({3}s)', 
 					[stats.batch_lookup, stats.api_lookup, stats.multiple_matches, total_duration]),
@@ -228,7 +238,7 @@ function auto_fill_items_from_serial_numbers(frm) {
 	});
 }
 
-function process_single_api_row(frm, row, stats) {
+function process_single_api_row(frm, row, stats, items_needing_selection) {
 	return new Promise(function(resolve) {
 		if (row.item_code) {
 			resolve();
@@ -270,13 +280,18 @@ function process_single_api_row(frm, row, stats) {
 					
 					if (items.length === 1) {
 						if (stats) stats.api_lookup++;
-						// Set value without waiting for validation chain
-						frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code);
+						// Set directly without triggering validations
+						row.item_code = items[0].item_code;
 						console.log('[AGT] Item code set for SN:', sn, '- Item:', items[0].item_code);
 						resolve();
 					} else {
 						if (stats) stats.multiple_matches++;
-						show_item_selection_dialog(frm, row, sn, items, r.message.model);
+						items_needing_selection.push({
+							row: row,
+							sn: sn,
+							items: items,
+							model: r.message.model
+						});
 						resolve();
 					}
 				} else {
@@ -305,14 +320,72 @@ function process_single_api_row(frm, row, stats) {
 	});
 }
 
-function auto_fill_item_for_row(frm, row, stats) {
+function auto_fill_item_for_row(frm, row, stats, items_needing_selection) {
 	// This is kept for backward compatibility with items_add trigger
-	return process_single_api_row(frm, row, stats);
+	return process_single_api_row(frm, row, stats, items_needing_selection || []);
 }
 
 function fetch_from_api_and_fill(frm, row, sn, stats, resolve, reject) {
 	// Deprecated - kept for backward compatibility
-	process_single_api_row(frm, row, stats).then(resolve).catch(resolve);
+	process_single_api_row(frm, row, stats, []).then(resolve).catch(resolve);
+}
+
+function show_combined_item_selection_dialog(frm, items_needing_selection) {
+	let fields = [
+		{
+			fieldtype: 'HTML',
+			options: `<p><strong>${items_needing_selection.length} items</strong> require manual selection. Please select the correct item for each serial number below:</p>`
+		},
+		{
+			fieldtype: 'Section Break'
+		}
+	];
+	
+	// Add a select field for each item
+	items_needing_selection.forEach(function(item_data, index) {
+		fields.push({
+			fieldtype: 'Section Break',
+			label: `Serial Number: ${item_data.sn}`
+		});
+		
+		fields.push({
+			fieldtype: 'HTML',
+			options: `<p><strong>Model:</strong> ${item_data.model || 'Unknown'}</p>${generate_items_table(item_data.items)}`
+		});
+		
+		fields.push({
+			fieldname: `item_${index}`,
+			label: __('Select Item'),
+			fieldtype: 'Select',
+			options: item_data.items.map(item => item.item_code),
+			reqd: 1,
+			default: item_data.items[0].item_code
+		});
+	});
+	
+	let dialog = new frappe.ui.Dialog({
+		title: __('Select Items for Multiple Serial Numbers'),
+		fields: fields,
+		size: 'large',
+		primary_action_label: __('Apply All Selections'),
+		primary_action: function(values) {
+			// Apply all selections
+			items_needing_selection.forEach(function(item_data, index) {
+				let selected_item = values[`item_${index}`];
+				item_data.row.item_code = selected_item;
+			});
+			
+			dialog.hide();
+			frm.refresh_field('items');
+			
+			frappe.show_alert({
+				message: __('All items selected successfully'),
+				indicator: 'green'
+			});
+		}
+	});
+	
+	dialog.show();
 }
 
 function show_item_selection_dialog(frm, row, serial_number, items, model) {
