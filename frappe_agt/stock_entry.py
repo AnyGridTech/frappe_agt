@@ -11,18 +11,6 @@ def before_save(doc, method):
 		doc: The Stock Entry document instance
 		method: The method name (before_save)
 	"""
-	for row in doc.items:
-		if not row.serial_no:
-			continue
-			
-		# Parse serial numbers (newline-separated)
-		serial_numbers = [sn.strip() for sn in row.serial_no.split('\n') if sn.strip()]
-		
-		for sn in serial_numbers:
-			# Validate serial number format
-			if not validate_serial_number(sn):
-				frappe.throw(f"Invalid serial number format: {sn}")
-
 
 def get_item_code_for_serial_number(serial_number):
 	"""
@@ -90,23 +78,35 @@ def find_items_by_model(model):
 	"""
 	Find items matching the model name.
 	Only returns items that are stock items (maintain_stock = 1).
+	Extracts MPPT from model name if present (e.g., "MAX 60K TL3-X L2 (8 MPPT)").
 	
 	Args:
 		model: Model name from Growatt API (e.g., "MIN 10000TL-X")
 		
 	Returns:
-		list: List of matching items with name and item_name
+		list: List of matching items with name, item_name, and mppt
 	"""
+	import re
+	
+	# Extract MPPT value from model name if present (e.g., "MAX 60K TL3-X L2 (8 MPPT)")
+	mppt_value = None
+	clean_model = model
+	mppt_match = re.search(r'\((\d+)\s*MPPT\)', model, re.IGNORECASE)
+	if mppt_match:
+		mppt_value = int(mppt_match.group(1))
+		# Remove the MPPT part from model name for matching
+		clean_model = re.sub(r'\s*\(\d+\s*MPPT\)', '', model, flags=re.IGNORECASE).strip()
+	
 	# Search in item_name and item_code - only stock items
 	items = frappe.get_all(
 		"Item",
 		filters=[
 			["Item", "disabled", "=", 0],
 			["Item", "is_stock_item", "=", 1],
-			["Item", "item_name", "like", f"%{model}%"]
+			["Item", "item_name", "like", f"%{clean_model}%"]
 		],
-		fields=["name", "item_name", "item_code"],
-		limit=10
+		fields=["name", "item_name", "item_code", "mppt"],
+		limit=50  # Increase limit for MPPT filtering
 	)
 	
 	# Also search by item_code if no results
@@ -116,10 +116,18 @@ def find_items_by_model(model):
 			filters=[
 				["Item", "disabled", "=", 0],
 				["Item", "is_stock_item", "=", 1],
-				["Item", "item_code", "like", f"%{model}%"]
+				["Item", "item_code", "like", f"%{clean_model}%"]
 			],
-			fields=["name", "item_name", "item_code"],
-			limit=10
+			fields=["name", "item_name", "item_code", "mppt"],
+			limit=50
 		)
 	
-	return items
+	# Filter by MPPT if a value was found in the model name
+	if mppt_value is not None and items:
+		# First try exact MPPT match
+		matching_mppt = [item for item in items if item.get('mppt') == mppt_value]
+		if matching_mppt:
+			return matching_mppt[:10]  # Return up to 10 exact matches
+		# If no exact match, return all items (user will select)
+	
+	return items[:10]  # Return up to 10 items

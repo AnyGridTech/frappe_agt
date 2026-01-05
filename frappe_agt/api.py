@@ -130,7 +130,7 @@ def batch_get_item_code_by_name(item_names: Union[str, List[str]]) -> Dict[str, 
             ["Item", "disabled", "=", 0],
             ["Item", "is_stock_item", "=", 1]
         ],
-        fields=["item_code", "item_name"],
+        fields=["item_code", "item_name", "mppt"],
         limit_page_length=0  # Get all items
     )
     
