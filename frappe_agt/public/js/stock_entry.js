@@ -52,100 +52,172 @@ frappe.ui.form.on('Stock Entry Detail', {
 	}
 });
 
+function normalize_item_name(item_name) {
+	if (!item_name) return '';
+	
+	return item_name
+		.toLowerCase()
+		.replace(/[-_]/g, ' ')  // Replace hyphens and underscores with space
+		.replace(/\s+/g, '');  // Remove ALL spaces for aggressive matching
+}
+
 function auto_fill_items_from_serial_numbers(frm) {
-	console.log('[AGT] Starting auto-fill process...');
+	let start_time = new Date();
+	console.log('[AGT] ========== Starting auto-fill process ==========');
+	console.log('[AGT] Start time:', start_time.toLocaleTimeString());
 	
 	frappe.show_alert({
 		message: __('Processing serial numbers...'),
 		indicator: 'blue'
 	});
 	
+	// Statistics tracking
+	let stats = {
+		batch_lookup: 0,
+		api_lookup: 0,
+		multiple_matches: 0,
+		not_found: 0
+	};
+	
 	// Step 1: Batch lookup items by item_name (for CSV imports)
 	let rows_with_item_name = [];
 	let item_names = [];
 	
 	frm.doc.items.forEach(function(row) {
-		console.log('[AGT] Checking row:', row.idx, 'SN:', row.serial_no, 'Item Code:', row.item_code, 'Item Name:', row.item_name);
 		if (row.item_name && !row.item_code && row.serial_no) {
 			rows_with_item_name.push(row);
-			if (!item_names.includes(row.item_name)) {
+			let normalized = normalize_item_name(row.item_name);
+			// Store both original and normalized, avoid duplicates
+			if (!item_names.some(name => normalize_item_name(name) === normalized)) {
 				item_names.push(row.item_name);
 			}
 		}
 	});
 	
-	console.log('[AGT] Found', item_names.length, 'unique item names to lookup:', item_names);
+	console.log('[AGT] Found', item_names.length, 'unique item names for lookup');
 	
-	let batch_promise = Promise.resolve({});
+	let name_lookup_promise = Promise.resolve({});
 	
 	if (item_names.length > 0) {
-		console.log('[AGT] Calling batch_get_item_code_by_name...');
-		batch_promise = frappe.call({
+		let lookup_start = new Date();
+		console.log('[AGT] Starting item name lookup at', lookup_start.toLocaleTimeString());
+		
+		name_lookup_promise = frappe.call({
 			method: 'frappe_agt.api.batch_get_item_code_by_name',
 			args: {
 				item_names: item_names
 			}
 		}).then(function(r) {
-			console.log('[AGT] Batch lookup response:', r.message);
+			let lookup_end = new Date();
+			let lookup_duration = ((lookup_end - lookup_start) / 1000).toFixed(2);
+			console.log('[AGT] Item name lookup completed in', lookup_duration, 'seconds');
 			return r.message || {};
 		}).catch(function(error) {
-			console.error('[AGT] Batch lookup error:', error);
+			console.error('[AGT] Item name lookup error:', error);
 			return {};
 		});
 	}
 	
 	// Step 2: Process all rows
-	batch_promise.then(function(item_name_map) {
-		console.log('[AGT] Processing rows with item_name_map:', item_name_map);
-		let promises = [];
+	name_lookup_promise.then(function(item_name_map) {
+		console.log('[AGT] Starting row processing...');
+		let api_start = new Date();
+		let api_rows = []; // Rows that need API lookup
 		
 		frm.doc.items.forEach(function(row) {
-			if (!row.serial_no) return;
+			if (!row.serial_no || row.item_code) return;
 			
-			// Check if we have item_name and it's in batch results
+			// Check if we have item_name and it's in results
 			if (row.item_name && item_name_map[row.item_name]) {
 				let items = item_name_map[row.item_name];
-				console.log('[AGT] Row', row.idx, 'found', items.length, 'items for name:', row.item_name);
 				
-				if (items.length === 1 && !row.item_code) {
-					console.log('[AGT] Auto-filling row', row.idx, 'with item_code:', items[0].item_code);
-					let promise = new Promise(function(resolve) {
-						frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code)
-							.then(function() {
-								console.log('[AGT] Successfully set item_code for row', row.idx);
-								resolve();
-							});
-					});
-					promises.push(promise);
-				} else if (items.length > 1 && !row.item_code) {
-					console.log('[AGT] Multiple items found for row', row.idx, '- showing dialog');
-					// Multiple matches - show dialog
+				if (items.length === 1) {
+					stats.batch_lookup++;
+					frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code);
+				} else if (items.length > 1) {
+					stats.multiple_matches++;
 					let sn = row.serial_no.split('\n')[0].trim();
 					show_item_selection_dialog(frm, row, sn, items, row.item_name);
-				} else if (items.length === 0) {
-					console.log('[AGT] No items found by name for row', row.idx, '- trying API');
+				} else {
 					// Not found by name, try API
-					promises.push(auto_fill_item_for_row(frm, row));
+					api_rows.push(row);
 				}
 			} else {
-				console.log('[AGT] Row', row.idx, 'using API lookup');
 				// No item_name, use API
-				promises.push(auto_fill_item_for_row(frm, row));
+				api_rows.push(row);
 			}
 		});
 		
-		console.log('[AGT] Waiting for', promises.length, 'promises to complete...');
+		console.log('[AGT] Found', api_rows.length, 'items requiring Growatt API lookup');
 		
-		Promise.all(promises).then(function() {
-			// Wait a bit for all set_value operations to complete
-			setTimeout(function() {
-				console.log('[AGT] All promises resolved, refreshing grid...');
-				frm.refresh_field('items');
-				frappe.show_alert({
-					message: __('Items auto-filled successfully'),
-					indicator: 'green'
-				});
-			}, 300);
+		// Process API calls sequentially
+		function process_api_sequential(rows) {
+			if (rows.length === 0) {
+				return Promise.resolve();
+			}
+			
+			let index = 0;
+			
+			function process_next() {
+				if (index >= rows.length) {
+					return Promise.resolve();
+				}
+				
+				let row = rows[index];
+				let current = index + 1;
+				console.log('[AGT] Processing item', current, 'of', rows.length);
+				
+				index++;
+				
+				return process_single_api_row(frm, row, stats)
+					.then(function() {
+						// Small delay to let field updates process
+						return new Promise(function(resolve) {
+							setTimeout(function() {
+								frm.refresh_field('items');
+								resolve();
+							}, 100);
+						});
+					})
+					.then(process_next)
+					.catch(function(error) {
+						console.error('[AGT] Error processing row:', error);
+						return process_next();
+					});
+			}
+			
+			return process_next();
+		}
+		
+		// Process API calls
+		process_api_sequential(api_rows).then(function() {
+			let api_end = new Date();
+			let api_duration = ((api_end - api_start) / 1000).toFixed(2);
+			console.log('[AGT] Growatt API lookups completed in', api_duration, 'seconds');
+			
+			frm.refresh_field('items');
+			
+			let end_time = new Date();
+			let total_duration = ((end_time - start_time) / 1000).toFixed(2);
+			
+			// Log summary
+			console.log('[AGT] ========== Auto-fill Summary ==========');
+			console.log('[AGT] Results:', {
+				'Name Lookup': stats.batch_lookup,
+				'API Lookup': stats.api_lookup,
+				'Multiple Matches': stats.multiple_matches,
+				'Not Found': stats.not_found,
+				'Total Items': stats.batch_lookup + stats.api_lookup + stats.multiple_matches + stats.not_found
+			});
+			console.log('[AGT] Total execution time:', total_duration, 'seconds');
+			console.log('[AGT] End time:', end_time.toLocaleTimeString());
+			console.log('[AGT] ========== Process completed ==========');
+			
+			frappe.show_alert({
+				message: __('Items auto-filled: {0} by name, {1} by API, {2} manual ({3}s)', 
+					[stats.batch_lookup, stats.api_lookup, stats.multiple_matches, total_duration]),
+				indicator: 'green'
+			});
 		}).catch(function(error) {
 			console.error('[AGT] Error auto-filling items:', error);
 			frappe.show_alert({
@@ -156,123 +228,91 @@ function auto_fill_items_from_serial_numbers(frm) {
 	});
 }
 
-function auto_fill_item_for_row(frm, row) {
-	return new Promise(function(resolve, reject) {
-		console.log('[AGT] auto_fill_item_for_row called for row', row.idx);
-		
-		// Skip if already has item_code
+function process_single_api_row(frm, row, stats) {
+	return new Promise(function(resolve) {
 		if (row.item_code) {
-			console.log('[AGT] Row', row.idx, 'already has item_code, skipping');
 			resolve();
 			return;
 		}
 		
-		// Get first serial number from the list
 		let serial_numbers = row.serial_no.split('\n').filter(sn => sn.trim());
-		
 		if (serial_numbers.length === 0) {
-			console.log('[AGT] Row', row.idx, 'has no serial numbers');
 			resolve();
 			return;
 		}
 		
 		let sn = serial_numbers[0].trim();
-		console.log('[AGT] Row', row.idx, 'processing SN:', sn);
+		let resolved = false; // Flag to prevent multiple resolves
 		
-		// If item_name exists, try to find by name first
-		if (row.item_name && row.item_name.trim()) {
-			console.log('[AGT] Row', row.idx, 'trying to lookup by item_name:', row.item_name);
-			frappe.call({
-				method: 'frappe_agt.api.batch_get_item_code_by_name',
-				args: {
-					item_names: [row.item_name]
-				},
-				callback: function(r) {
-					console.log('[AGT] Row', row.idx, 'batch lookup response:', r.message);
-					if (r.message && r.message[row.item_name]) {
-						let items = r.message[row.item_name];
-						
-						if (items.length === 1) {
-							console.log('[AGT] Row', row.idx, 'found single item, setting:', items[0].item_code);
-							frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code)
-								.then(function() {
-									console.log('[AGT] Row', row.idx, 'item_code set successfully');
-									resolve();
-								});
-						} else if (items.length > 1) {
-							console.log('[AGT] Row', row.idx, 'found multiple items, showing dialog');
-							show_item_selection_dialog(frm, row, sn, items, row.item_name);
-							resolve();
-						} else {
-							console.log('[AGT] Row', row.idx, 'no items found by name, trying API');
-							// Not found by name, try API
-							fetch_from_api_and_fill(frm, row, sn, resolve, reject);
-						}
+		console.log('[AGT] Consulting Growatt API for SN:', sn);
+		
+		let timeout_id = setTimeout(function() {
+			if (resolved) return;
+			resolved = true;
+			console.log('[AGT] API timeout for SN:', sn);
+			if (stats) stats.not_found++;
+			resolve();
+		}, 30000);
+		
+		frappe.call({
+			method: 'frappe_agt.api.get_item_for_serial_number',
+			args: {
+				serial_number: sn
+			},
+			callback: function(r) {
+				if (resolved) return;
+				resolved = true;
+				clearTimeout(timeout_id);
+				console.log('[AGT] API response for SN', sn, '- Items found:', r.message?.items?.length || 0);
+				
+				if (r.message && r.message.items && r.message.items.length > 0) {
+					let items = r.message.items;
+					
+					if (items.length === 1) {
+						if (stats) stats.api_lookup++;
+						// Set value without waiting for validation chain
+						frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code);
+						console.log('[AGT] Item code set for SN:', sn, '- Item:', items[0].item_code);
+						resolve();
 					} else {
-						console.log('[AGT] Row', row.idx, 'batch lookup failed, trying API');
-						// Try API
-						fetch_from_api_and_fill(frm, row, sn, resolve, reject);
+						if (stats) stats.multiple_matches++;
+						show_item_selection_dialog(frm, row, sn, items, r.message.model);
+						resolve();
 					}
-				},
-				error: function(error) {
-					console.error('[AGT] Row', row.idx, 'batch lookup error:', error);
-					// Fallback to API
-					fetch_from_api_and_fill(frm, row, sn, resolve, reject);
+				} else {
+					if (stats) stats.not_found++;
+					console.log('[AGT] No items found for SN:', sn, '- Model:', r.message?.model);
+					resolve();
 				}
-			});
-		} else {
-			console.log('[AGT] Row', row.idx, 'no item_name, going directly to API');
-			// No item_name, go directly to API
-			fetch_from_api_and_fill(frm, row, sn, resolve, reject);
-		}
+			},
+			error: function(error) {
+				if (resolved) return;
+				resolved = true;
+				clearTimeout(timeout_id);
+				console.error('[AGT] API error for SN', sn, ':', error);
+				if (stats) stats.not_found++;
+				resolve();
+			}
+		}).catch(function(err) {
+			// Catch any promise rejection from frappe.call
+			if (resolved) return;
+			resolved = true;
+			clearTimeout(timeout_id);
+			console.error('[AGT] Call error for SN', sn, ':', err);
+			if (stats) stats.not_found++;
+			resolve();
+		});
 	});
 }
 
-function fetch_from_api_and_fill(frm, row, sn, resolve, reject) {
-	console.log('[AGT] fetch_from_api_and_fill called for SN:', sn);
-	
-	frappe.call({
-		method: 'frappe_agt.api.get_item_for_serial_number',
-		args: {
-			serial_number: sn
-		},
-		callback: function(r) {
-			console.log('[AGT] API response for SN', sn, ':', r.message);
-			if (r.message && r.message.items) {
-				let items = r.message.items;
-				
-				if (items.length === 1) {
-					console.log('[AGT] API found single item:', items[0].item_code);
-					// Auto-fill single match
-					frappe.model.set_value(row.doctype, row.name, 'item_code', items[0].item_code)
-						.then(function() {
-							console.log('[AGT] API item_code set successfully');
-							resolve();
-						});
-				} else if (items.length > 1) {
-					console.log('[AGT] API found multiple items, showing dialog');
-					// Show selection dialog for multiple matches
-					show_item_selection_dialog(frm, row, sn, items, r.message.model);
-					resolve();
-				} else {
-					console.log('[AGT] API found no items for SN:', sn);
-					frappe.msgprint({
-						title: __('No Items Found'),
-						message: __('No items found for serial number {0} (Model: {1})', [sn, r.message.model || 'Unknown']),
-						indicator: 'orange'
-					});
-					resolve();
-				}
-			} else {
-				console.log('[AGT] API returned no data for SN:', sn);
-				resolve();
-			}
-		},
-		error: function(error) {
-			console.error('[AGT] API error for SN', sn, ':', error);
-			reject();
-		}
-	});
+function auto_fill_item_for_row(frm, row, stats) {
+	// This is kept for backward compatibility with items_add trigger
+	return process_single_api_row(frm, row, stats);
+}
+
+function fetch_from_api_and_fill(frm, row, sn, stats, resolve, reject) {
+	// Deprecated - kept for backward compatibility
+	process_single_api_row(frm, row, stats).then(resolve).catch(resolve);
 }
 
 function show_item_selection_dialog(frm, row, serial_number, items, model) {

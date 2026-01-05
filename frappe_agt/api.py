@@ -109,6 +109,7 @@ def get_item_for_serial_number(serial_number: str) -> Dict[str, Any]:
 def batch_get_item_code_by_name(item_names: Union[str, List[str]]) -> Dict[str, Any]:
     """
     Batch lookup item codes by item names.
+    Supports fuzzy matching with normalized strings.
     
     Args:
         item_names: List of item names or JSON string
@@ -122,26 +123,66 @@ def batch_get_item_code_by_name(item_names: Union[str, List[str]]) -> Dict[str, 
     
     results = {}
     
+    # Fetch all active stock items once for efficiency
+    all_items = frappe.get_all(
+        "Item",
+        filters=[
+            ["Item", "disabled", "=", 0],
+            ["Item", "is_stock_item", "=", 1]
+        ],
+        fields=["item_code", "item_name"],
+        limit_page_length=0  # Get all items
+    )
+    
+    # Create normalized lookup map
+    normalized_items = {}
+    for item in all_items:
+        norm_key = normalize_string(item.item_name or "")
+        if norm_key:
+            if norm_key not in normalized_items:
+                normalized_items[norm_key] = []
+            normalized_items[norm_key].append(item)
+    
+    # Match each requested item name
     for item_name in item_names:
         if not item_name or not item_name.strip():
             results[item_name] = []
             continue
         
-        # Search for items matching the name
-        items = frappe.get_all(
-            "Item",
-            filters=[
-                ["Item", "disabled", "=", 0],
-                ["Item", "is_stock_item", "=", 1],
-                ["Item", "item_name", "=", item_name.strip()]
-            ],
-            fields=["item_code", "item_name"],
-            limit=10
-        )
+        original_name = item_name.strip()
+        normalized_name = normalize_string(original_name)
         
-        results[item_name] = items
+        # Try exact match first (case-sensitive)
+        exact_matches = [item for item in all_items if item.item_name == original_name]
+        
+        if exact_matches:
+            results[item_name] = exact_matches
+        elif normalized_name in normalized_items:
+            # Fuzzy match via normalized comparison
+            results[item_name] = normalized_items[normalized_name]
+        else:
+            results[item_name] = []
     
     return results
+
+
+def normalize_string(text: str) -> str:
+    """
+    Normalize string for fuzzy matching.
+    Removes extra spaces, converts to lowercase, replaces special chars.
+    """
+    if not text:
+        return ""
+    
+    import re
+    # Convert to lowercase first
+    text = text.lower()
+    # Replace hyphens and underscores with spaces
+    text = text.replace('-', ' ').replace('_', ' ')
+    # Remove ALL spaces for aggressive matching
+    text = re.sub(r'\s+', '', text.strip())
+    
+    return text
 
 ###############################################################
 # import_movidesk_and_create_entries
