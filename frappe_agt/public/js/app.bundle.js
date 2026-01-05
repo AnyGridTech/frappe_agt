@@ -1505,7 +1505,7 @@
         return;
       }
       const data = await fetchCepData(digits);
-      if (!data || data.message === "CEP n\xE3o encontrado") {
+      if (!data) {
         updateUI("red", "CEP n\xE3o encontrado");
         return;
       }
