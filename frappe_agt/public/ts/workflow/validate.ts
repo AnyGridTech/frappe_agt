@@ -80,15 +80,15 @@ agt.workflow.validate = async (action_extended?: WorkflowActionExtended) => {
     }, 2 * 1000);
 
     const missing_fields_msg: string = !missing_fields_html.length ? "" : `
-    <p>${__(`⚠️ Preencha os campos abaixo:`)}</p>
+    <p>${__(`⚠️ Please fill in the fields below:`)}</p>
     <ul>${missing_fields_html}</ul>`;
 
     const dependency_fields_msg: string = !depends_on_html.length ? "" : `
-    <p>${__("⚠️ As dependencias abaixo falharam:")}</p>
+    <p>${__("⚠️ The dependencies below have failed:")}</p>
     <ul>${depends_on_html}</ul>`;
 
     frappe.throw({
-      title: __("Atenção!"),
+      title: __("Attention!"),
       message: missing_fields_msg + dependency_fields_msg,
     });
   }

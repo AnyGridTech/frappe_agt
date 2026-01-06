@@ -28,7 +28,7 @@ agt.workflow.pre_action = async (): Promise<void> => {
         // Converte o erro para string para evitar problemas de tipo
         const errorMessage = e instanceof Error ? e.message : String(e);
         frappe.throw({
-          title: __("Erro"),
+          title: __("Error"),
           message: errorMessage
         });
         // Quebra a execução após o primeiro erro

@@ -96,7 +96,7 @@ agt.utils.brazil.cep.validate = async function (
 
     // When it has 8 digits -> query
     const data = await fetchCepData(digits);
-    if (!data || data.message === 'CEP não encontrado') {
+    if (!data) {
       updateUI('red', 'CEP não encontrado');
       return;
     }

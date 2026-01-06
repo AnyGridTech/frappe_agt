@@ -1505,7 +1505,7 @@
         return;
       }
       const data = await fetchCepData(digits);
-      if (!data || data.message === "CEP n\xE3o encontrado") {
+      if (!data) {
         updateUI("red", "CEP n\xE3o encontrado");
         return;
       }
@@ -2392,6 +2392,76 @@
       }
     });
   };
+  agt.utils.dialog.show_loading_modal = function(title, message) {
+    const dialog = new frappe.ui.Dialog({
+      title: __(title),
+      size: "large",
+      fields: [
+        {
+          fieldtype: "HTML",
+          fieldname: "loading_message",
+          label: "",
+          options: `<div style="padding: 40px; text-align: center;">
+          <p style="font-size: 18px; line-height: 1.8; font-weight: 500; color: #000; margin-bottom: 30px;">
+            ${__(message)}
+          </p>
+          <div style="margin-top: 30px;">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; border-width: 0.4rem;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>`
+        }
+      ],
+      static: true
+    });
+    dialog["$wrapper"].find(".modal-header .close").remove();
+    dialog["$wrapper"].find(".modal").attr("data-backdrop", "static");
+    dialog["$wrapper"].find(".modal").attr("data-keyboard", "false");
+    dialog.show();
+    return dialog;
+  };
+  agt.utils.dialog.show_confirmation_modal = function(title, message, primaryLabel, secondaryLabel, onPrimary, onSecondary) {
+    if ($(`.modal.show .modal-title:contains("${title}")`).length > 0) {
+      return;
+    }
+    const dialog = new frappe.ui.Dialog({
+      title: __(title),
+      fields: [
+        {
+          fieldtype: "HTML",
+          fieldname: "message",
+          label: "",
+          options: `<p>${__(message)}</p>`
+        }
+      ],
+      primary_action_label: __(primaryLabel),
+      secondary_action_label: __(secondaryLabel),
+      primary_action: async function() {
+        dialog.hide();
+        if (onPrimary) {
+          await onPrimary();
+        }
+      },
+      secondary_action: async function() {
+        dialog.hide();
+        if (onSecondary) {
+          await onSecondary();
+        }
+      }
+    });
+    dialog.show();
+    return dialog;
+  };
+  agt.utils.dialog.prevent_tab_close = function() {
+    const beforeUnloadHandler = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+    };
+  };
 
   // public/ts/utils/doc.ts
   frappe.provide("agt.utils.doc");
@@ -3072,13 +3142,13 @@
         frappe.dom.unfreeze();
       }, 2 * 1e3);
       const missing_fields_msg = !missing_fields_html.length ? "" : `
-    <p>${__(`\u26A0\uFE0F Preencha os campos abaixo:`)}</p>
+    <p>${__(`\u26A0\uFE0F Please fill in the fields below:`)}</p>
     <ul>${missing_fields_html}</ul>`;
       const dependency_fields_msg = !depends_on_html.length ? "" : `
-    <p>${__("\u26A0\uFE0F As dependencias abaixo falharam:")}</p>
+    <p>${__("\u26A0\uFE0F The dependencies below have failed:")}</p>
     <ul>${depends_on_html}</ul>`;
       frappe.throw({
-        title: __("Aten\xE7\xE3o!"),
+        title: __("Attention!"),
         message: missing_fields_msg + dependency_fields_msg
       });
     }
@@ -3098,7 +3168,7 @@
           console.error("Preaction error", e);
           const errorMessage = e instanceof Error ? e.message : String(e);
           frappe.throw({
-            title: __("Erro"),
+            title: __("Error"),
             message: errorMessage
           });
           break;
