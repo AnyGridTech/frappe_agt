@@ -102,3 +102,143 @@ agt.utils.dialog.refresh_dialog_stacking = function() {
     }
   });
 };
+
+/**
+ * Shows a non-dismissible loading modal with a spinner
+ * Useful for blocking user interaction during critical operations
+ * 
+ * @param title - The title of the modal
+ * @param message - The message to display
+ * @returns The dialog instance
+ * 
+ * @example
+ * const loadingModal = agt.utils.dialog.show_loading_modal(
+ *   'Processing',
+ *   'Please wait while we process your request...'
+ * );
+ * // ... perform operation ...
+ * loadingModal.hide();
+ */
+agt.utils.dialog.show_loading_modal = function(title: string, message: string): any {
+  const dialog = new frappe.ui.Dialog({
+    title: __(title),
+    size: 'large',
+    fields: [
+      {
+        fieldtype: 'HTML',
+        fieldname: 'loading_message',
+        label: '',
+        options: `<div style="padding: 40px; text-align: center;">
+          <p style="font-size: 18px; line-height: 1.8; font-weight: 500; color: #000; margin-bottom: 30px;">
+            ${__(message)}
+          </p>
+          <div style="margin-top: 30px;">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; border-width: 0.4rem;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>`
+      }
+    ],
+    static: true
+  });
+
+  // Remove close button and ESC key functionality
+  dialog['$wrapper'].find('.modal-header .close').remove();
+  dialog['$wrapper'].find('.modal').attr('data-backdrop', 'static');
+  dialog['$wrapper'].find('.modal').attr('data-keyboard', 'false');
+  
+  dialog.show();
+  
+  return dialog;
+};
+
+/**
+ * Shows a confirmation modal with primary and secondary actions
+ * 
+ * @param title - The title of the modal
+ * @param message - The message to display
+ * @param primaryLabel - Label for the primary action button
+ * @param secondaryLabel - Label for the secondary action button
+ * @param onPrimary - Callback function for primary action
+ * @param onSecondary - Optional callback function for secondary action
+ * @returns The dialog instance
+ * 
+ * @example
+ * agt.utils.dialog.show_confirmation_modal(
+ *   'Confirm Action',
+ *   'Are you sure you want to proceed?',
+ *   'Yes, Continue',
+ *   'No, Cancel',
+ *   async () => {
+ *     console.log('User confirmed');
+ *     // perform action
+ *   }
+ * );
+ */
+agt.utils.dialog.show_confirmation_modal = function(
+  title: string,
+  message: string,
+  primaryLabel: string,
+  secondaryLabel: string,
+  onPrimary: () => void | Promise<void>,
+  onSecondary?: () => void | Promise<void>
+): any {
+  // Check if a confirmation dialog with the same title is already open
+  if ($(`.modal.show .modal-title:contains("${title}")`).length > 0) {
+    return;
+  }
+
+  const dialog = new frappe.ui.Dialog({
+    title: __(title),
+    fields: [
+      {
+        fieldtype: 'HTML',
+        fieldname: 'message',
+        label: '',
+        options: `<p>${__(message)}</p>`
+      }
+    ],
+    primary_action_label: __(primaryLabel),
+    secondary_action_label: __(secondaryLabel),
+    primary_action: async function () {
+      dialog.hide();
+      if (onPrimary) {
+        await onPrimary();
+      }
+    },
+    secondary_action: async function () {
+      dialog.hide();
+      if (onSecondary) {
+        await onSecondary();
+      }
+    }
+  });
+  
+  dialog.show();
+  
+  return dialog;
+};
+
+/**
+ * Creates a beforeunload handler to prevent browser tab close
+ * Returns a function to remove the handler when no longer needed
+ * 
+ * @returns Function to remove the handler
+ * 
+ * @example
+ * const removeHandler = agt.utils.dialog.prevent_tab_close();
+ * // ... perform critical operation ...
+ * removeHandler(); // Allow tab close again
+ */
+agt.utils.dialog.prevent_tab_close = function(): () => void {
+  const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+  };
+
+  window.addEventListener('beforeunload', beforeUnloadHandler);
+
+  return () => {
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+  };
+};
