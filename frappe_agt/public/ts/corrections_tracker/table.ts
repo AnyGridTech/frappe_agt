@@ -12,9 +12,17 @@ agt.corrections_tracker.table = {
       return;
     }
 
-    // Função auxiliar para obter meta e verificar workflow_state
-    const getDoctypeMeta = async (doctype: string) => {
-      await frappe.model.with_doctype(doctype);
+    // Pré-carregar todos os metadados de uma vez (paralelamente)
+    const metaPromises = doctypes.map(doctype => 
+      frappe.model.with_doctype(doctype).catch((e: any) => {
+        console.error(`Error loading meta for ${doctype}:`, e);
+        return null;
+      })
+    );
+    await Promise.all(metaPromises);
+
+    // Função auxiliar para obter meta e verificar workflow_state (agora síncrona, meta já carregado)
+    const getDoctypeMeta = (doctype: string) => {
       const meta = frappe.get_meta
         ? frappe.get_meta(doctype)
         : ((frappe as any).meta && (frappe as any).meta[doctype]);
@@ -24,7 +32,7 @@ agt.corrections_tracker.table = {
 
     // Função auxiliar para buscar docs relacionados
     const fetchRelatedDocs = async (doctype: string, field: string, parent_doc_name: string, frm: FrappeForm) => {
-      const { hasWorkflowState } = await getDoctypeMeta(doctype);
+      const { hasWorkflowState } = getDoctypeMeta(doctype);
       const fieldsToFetch = hasWorkflowState ? ['name', 'workflow_state'] : ['name'];
       const docs = await frappe.db.get_list(doctype, {
         filters: { [field]: parent_doc_name },
@@ -58,17 +66,16 @@ agt.corrections_tracker.table = {
       });
     };
 
-    let allRelatedDocs: Array<{ child_tracker_docname: string, child_tracker_workflow_state: string, child_tracker_doctype: string }> = [];
-
-    for (const doctype of doctypes) {
-      try {
-        const relatedDocs = await fetchRelatedDocs(doctype, field, parent_doc_name, frm);
-        allRelatedDocs = allRelatedDocs.concat(relatedDocs);
-      } catch (error) {
+    // Buscar todos os documentos relacionados em paralelo
+    const allDocsPromises = doctypes.map(doctype => 
+      fetchRelatedDocs(doctype, field, parent_doc_name, frm).catch((error: any) => {
         console.error(`Error fetching ${doctype}:`, error);
-        continue;
-      }
-    }
+        return [];
+      })
+    );
+    
+    const allDocsArrays = await Promise.all(allDocsPromises);
+    const allRelatedDocs = allDocsArrays.flat();
 
     const currentTable = (frm.doc['child_tracker_table'] || []) as Array<{ child_tracker_docname: string, child_tracker_workflow_state: string, child_tracker_doctype: string }>;
     const needsUpdate = !isChildTrackerSynced(currentTable, allRelatedDocs);
