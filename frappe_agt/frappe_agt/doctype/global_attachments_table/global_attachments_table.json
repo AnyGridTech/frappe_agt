@@ -18,8 +18,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Anexo",
-   "reqd": 1
+   "label": "Anexo"
   }
  ],
  "grid_page_length": 50,

@@ -3,11 +3,11 @@ import { FrappeForm } from "@anygridtech/frappe-types/client/frappe/core";
 frappe.provide('agt.corrections_tracker_table');
 
 agt.corrections_tracker.table = {
-  async mirror_child_tracker_table(frm: FrappeForm, doctypes: string[], field: string): Promise<void> {
-    const parent_doc_name = frm.doc.name;
+  async mirror_child_tracker_table(form: FrappeForm, doctypes: string[], field: string): Promise<void> {
+    const parent_doc_name = form.doc.name;
     if (!parent_doc_name) return;
 
-    if (!frm.fields_dict?.['child_tracker_table']) {
+    if (!form.fields_dict?.['child_tracker_table']) {
       console.warn(`Campo 'child_tracker_table' não encontrado no formulário`);
       return;
     }
@@ -31,7 +31,7 @@ agt.corrections_tracker.table = {
     };
 
     // Função auxiliar para buscar docs relacionados
-    const fetchRelatedDocs = async (doctype: string, field: string, parent_doc_name: string, frm: FrappeForm) => {
+    const fetchRelatedDocs = async (doctype: string, field: string, parent_doc_name: string, form: FrappeForm) => {
       const { hasWorkflowState } = getDoctypeMeta(doctype);
       const fieldsToFetch = hasWorkflowState ? ['name', 'workflow_state'] : ['name'];
       const docs = await frappe.db.get_list(doctype, {
@@ -39,7 +39,7 @@ agt.corrections_tracker.table = {
         fields: fieldsToFetch
       });
       return docs
-        .filter((doc: any) => doc.name !== frm.doc.name)
+        .filter((doc: any) => doc.name !== form.doc.name)
         .map((doc: any) => ({
           child_tracker_docname: doc.name,
           child_tracker_workflow_state: hasWorkflowState ? (doc.workflow_state || '---') : '---',
@@ -68,7 +68,7 @@ agt.corrections_tracker.table = {
 
     // Buscar todos os documentos relacionados em paralelo
     const allDocsPromises = doctypes.map(doctype => 
-      fetchRelatedDocs(doctype, field, parent_doc_name, frm).catch((error: any) => {
+      fetchRelatedDocs(doctype, field, parent_doc_name, form).catch((error: any) => {
         console.error(`Error fetching ${doctype}:`, error);
         return [];
       })
@@ -77,7 +77,7 @@ agt.corrections_tracker.table = {
     const allDocsArrays = await Promise.all(allDocsPromises);
     const allRelatedDocs = allDocsArrays.flat();
 
-    const currentTable = (frm.doc['child_tracker_table'] || []) as Array<{ child_tracker_docname: string, child_tracker_workflow_state: string, child_tracker_doctype: string }>;
+    const currentTable = (form.doc['child_tracker_table'] || []) as Array<{ child_tracker_docname: string, child_tracker_workflow_state: string, child_tracker_doctype: string }>;
     const needsUpdate = !isChildTrackerSynced(currentTable, allRelatedDocs);
 
     if (!needsUpdate) {
@@ -85,9 +85,9 @@ agt.corrections_tracker.table = {
       return;
     }
 
-    frm.doc['child_tracker_table'] = allRelatedDocs;
-    frm.dirty();
-    frm.refresh_field('child_tracker_table');
-    await frm.save();
+    form.doc['child_tracker_table'] = allRelatedDocs;
+    form.dirty();
+    form.refresh_field('child_tracker_table');
+    await form.save();
   }
 };

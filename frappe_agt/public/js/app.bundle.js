@@ -381,10 +381,10 @@
   // public/ts/corrections_tracker/table.ts
   frappe.provide("agt.corrections_tracker_table");
   agt.corrections_tracker.table = {
-    async mirror_child_tracker_table(frm, doctypes, field) {
-      const parent_doc_name = frm.doc.name;
+    async mirror_child_tracker_table(form, doctypes, field) {
+      const parent_doc_name = form.doc.name;
       if (!parent_doc_name) return;
-      if (!frm.fields_dict?.["child_tracker_table"]) {
+      if (!form.fields_dict?.["child_tracker_table"]) {
         console.warn(`Campo 'child_tracker_table' n\xE3o encontrado no formul\xE1rio`);
         return;
       }
@@ -400,14 +400,14 @@
         const hasWorkflowState = !!(meta && Array.isArray(meta.fields) && meta.fields.some((f) => f.fieldname === "workflow_state"));
         return { meta, hasWorkflowState };
       };
-      const fetchRelatedDocs = async (doctype, field2, parent_doc_name2, frm2) => {
+      const fetchRelatedDocs = async (doctype, field2, parent_doc_name2, form2) => {
         const { hasWorkflowState } = getDoctypeMeta(doctype);
         const fieldsToFetch = hasWorkflowState ? ["name", "workflow_state"] : ["name"];
         const docs = await frappe.db.get_list(doctype, {
           filters: { [field2]: parent_doc_name2 },
           fields: fieldsToFetch
         });
-        return docs.filter((doc) => doc.name !== frm2.doc.name).map((doc) => ({
+        return docs.filter((doc) => doc.name !== form2.doc.name).map((doc) => ({
           child_tracker_docname: doc.name,
           child_tracker_workflow_state: hasWorkflowState ? doc.workflow_state || "---" : "---",
           child_tracker_doctype: doctype
@@ -426,23 +426,23 @@
         });
       };
       const allDocsPromises = doctypes.map(
-        (doctype) => fetchRelatedDocs(doctype, field, parent_doc_name, frm).catch((error) => {
+        (doctype) => fetchRelatedDocs(doctype, field, parent_doc_name, form).catch((error) => {
           console.error(`Error fetching ${doctype}:`, error);
           return [];
         })
       );
       const allDocsArrays = await Promise.all(allDocsPromises);
       const allRelatedDocs = allDocsArrays.flat();
-      const currentTable = frm.doc["child_tracker_table"] || [];
+      const currentTable = form.doc["child_tracker_table"] || [];
       const needsUpdate = !isChildTrackerSynced(currentTable, allRelatedDocs);
       if (!needsUpdate) {
         console.log(`Tabela 'child_tracker_table' j\xE1 est\xE1 sincronizada.`);
         return;
       }
-      frm.doc["child_tracker_table"] = allRelatedDocs;
-      frm.dirty();
-      frm.refresh_field("child_tracker_table");
-      await frm.save();
+      form.doc["child_tracker_table"] = allRelatedDocs;
+      form.dirty();
+      form.refresh_field("child_tracker_table");
+      await form.save();
     }
   };
 
