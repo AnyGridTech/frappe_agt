@@ -388,14 +388,20 @@
         console.warn(`Campo 'child_tracker_table' n\xE3o encontrado no formul\xE1rio`);
         return;
       }
-      const getDoctypeMeta = async (doctype) => {
-        await frappe.model.with_doctype(doctype);
+      const metaPromises = doctypes.map(
+        (doctype) => frappe.model.with_doctype(doctype).catch((e) => {
+          console.error(`Error loading meta for ${doctype}:`, e);
+          return null;
+        })
+      );
+      await Promise.all(metaPromises);
+      const getDoctypeMeta = (doctype) => {
         const meta = frappe.get_meta ? frappe.get_meta(doctype) : frappe.meta && frappe.meta[doctype];
         const hasWorkflowState = !!(meta && Array.isArray(meta.fields) && meta.fields.some((f) => f.fieldname === "workflow_state"));
         return { meta, hasWorkflowState };
       };
       const fetchRelatedDocs = async (doctype, field2, parent_doc_name2, frm2) => {
-        const { hasWorkflowState } = await getDoctypeMeta(doctype);
+        const { hasWorkflowState } = getDoctypeMeta(doctype);
         const fieldsToFetch = hasWorkflowState ? ["name", "workflow_state"] : ["name"];
         const docs = await frappe.db.get_list(doctype, {
           filters: { [field2]: parent_doc_name2 },
@@ -419,16 +425,14 @@
           return currentItem && currentItem.child_tracker_workflow_state !== remoteItem.child_tracker_workflow_state;
         });
       };
-      let allRelatedDocs = [];
-      for (const doctype of doctypes) {
-        try {
-          const relatedDocs = await fetchRelatedDocs(doctype, field, parent_doc_name, frm);
-          allRelatedDocs = allRelatedDocs.concat(relatedDocs);
-        } catch (error) {
+      const allDocsPromises = doctypes.map(
+        (doctype) => fetchRelatedDocs(doctype, field, parent_doc_name, frm).catch((error) => {
           console.error(`Error fetching ${doctype}:`, error);
-          continue;
-        }
-      }
+          return [];
+        })
+      );
+      const allDocsArrays = await Promise.all(allDocsPromises);
+      const allRelatedDocs = allDocsArrays.flat();
       const currentTable = frm.doc["child_tracker_table"] || [];
       const needsUpdate = !isChildTrackerSynced(currentTable, allRelatedDocs);
       if (!needsUpdate) {
